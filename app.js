@@ -7,6 +7,9 @@ var logger = require("morgan");
 var employersRouter = require("./routes/employers/index");
 var usersRouter = require("./routes/users/index");
 
+//dotenv
+require("dotenv").config();
+
 //connect to database
 var mongoose = require("mongoose");
 
