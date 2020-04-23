@@ -10,7 +10,7 @@ module.exports = {
     var token = req.headers["authorization"] || "";
     if (token) {
       try {
-        var payload = await jwt.verify(token, process.env.SECRET);
+        var payload = jwt.verify(token, process.env.SECRET);
         req.user = payload;
         req.user.token = token;
         next();

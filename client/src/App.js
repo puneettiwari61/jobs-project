@@ -5,12 +5,12 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import LoginPage from "./components/LogIn/Login";
 import SignupPage from "./components/SignUp/SignUp";
 
-
-
 function App() {
   return (
     <>
-      <LandingPage />
+      {/* <LandingPage /> */}
+      <LoginPage />
+      {/* <SignupPage /> */}
     </>
   );
 }

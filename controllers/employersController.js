@@ -1,10 +1,39 @@
+var Employer = require("../models/employers");
+var auth = require("../routes/auth");
+
 module.exports = {
   signUp: async (req, res) => {
     try {
-      console.log(req.body, "coming from employers signup controller");
-      res.send("employers signup api");
+      var employer = await Employer.create(req.body);
+      var token = await auth.generateJWT(employer);
+      res.json({ success: true, employer, token });
     } catch (err) {
       console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  login: async (req, res) => {
+    try {
+      var employer = await Employer.findOne({ email: req.body.email });
+      if (!employer)
+        return res.json({ success: false, msg: "incorrect credentials" });
+      if (!employer.verifyPassword(req.body.password)) {
+        return res.json({ success: false, msg: "incorrect password" });
+      }
+      var token = await auth.generateJWT(employer);
+      res.json({ success: true, employer, token });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getCurrentUser: async (req, res) => {
+    try {
+      var employer = await Employer.findById(req.user.userID);
+      res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
     }
   }
 };
