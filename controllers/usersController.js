@@ -3,9 +3,9 @@ var auth = require("../routes/auth");
 module.exports = {
   signUp: async (req, res) => {
     try {
-      console.log(req.body, "coming from users signup controller");
       var user = await User.create(req.body);
-      res.json({ success: true, user });
+      var token = await auth.generateJWT(user);
+      res.json({ success: true, user, token });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
@@ -13,7 +13,6 @@ module.exports = {
   },
   login: async (req, res) => {
     try {
-      console.log(req.body, "coming from users signup controller");
       var user = await User.findOne({ email: req.body.email });
       if (!user)
         return res.json({ success: false, msg: "incorrect credentials" });
@@ -22,6 +21,15 @@ module.exports = {
       }
       var token = await auth.generateJWT(user);
       res.json({ success: true, user, token });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getUser: async (req, res) => {
+    try {
+      var user = await User.findById(req.user.userID);
+      res.json({ success: true, user });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

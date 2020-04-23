@@ -20,16 +20,5 @@ module.exports = {
     } else {
       res.json({ msg: "Token required " });
     }
-  },
-  isMentor: async (req, res, next) => {
-    try {
-      if (req.user && req.user.isMentor) {
-        next();
-      } else {
-        res.json({ succes: false, msg: "not authorzed" });
-      }
-    } catch (error) {
-      res.json(error);
-    }
   }
 };
