@@ -6,8 +6,14 @@ import CandidatesLogin from "./components/LogIn/CandidatesLogin";
 import EmployersSignUp from "./components/SignUpEmp/EmployersSignUp";
 import EmployersLogin from "./components/LogInEmp/EmployersLogin";
 import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  fetchLoggedUser,
+  logoutUserFunc,
+  loginUserFunc,
+  fetchOnMount
+} from "./store/actions";
 import "./App.css";
-import Axios from "axios";
 
 function PublicRoutes(props) {
   return (
@@ -51,63 +57,34 @@ function PrivateRoutes(props) {
 }
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      userLogged: false,
-      user: null
-    };
-  }
-
   componentDidMount() {
-    if (localStorage.jobUser) {
-      let userType = JSON.parse(localStorage.jobUser).type;
-      Axios.get(`/api/v1/${userType}s/me`, {
-        headers: { authorization: JSON.parse(localStorage.jobUser).token }
-      })
-        .then(res => {
-          console.log(res.data[userType], "user identified");
-          this.setState({ user: res.data[userType], userLogged: true });
-          console.log(this.state);
-        })
-        .catch(err => console.log(err, "invalid user"));
-    }
+    this.props.dispatch(fetchOnMount());
   }
 
   logoutFunction = () => {
-    this.setState({ user: null, userLogged: false });
+    this.props.dispatch(logoutUserFunc({ user: null, userLogged: false }));
   };
 
   loginFunction = () => {
-    this.setState({ userLogged: true });
+    this.props.dispatch(loginUserFunc({ userLogged: true }));
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.userLogged !== this.state.userLogged) {
-      if (localStorage.jobUser) {
-        let userType = JSON.parse(localStorage.jobUser).type;
-        Axios.get(`/api/v1/${userType}s/me`, {
-          headers: { authorization: JSON.parse(localStorage.jobUser).token }
-        })
-          .then(res => {
-            console.log(res.data[userType], "user identified in cdu");
-            this.setState({ user: res.data[userType], userLogged: true });
-            console.log(this.state);
-          })
-          .catch(err => console.log(err, "invalid user"));
-      }
+    if (prevProps.userLogged !== this.props.userLogged) {
+      this.props.dispatch(fetchOnMount());
     }
   }
 
   render() {
+    console.log(this.props, "hey");
     return (
       <>
         <Header
-          user={this.state.user && this.state.user}
+          user={this.props.user && this.props.user}
           logoutFunction={this.logoutFunction}
         />
-        {this.state.user ? (
-          <PrivateRoutes user={this.state.user} />
+        {this.props.user ? (
+          <PrivateRoutes user={this.props.user} />
         ) : (
           <PublicRoutes loginFunction={this.loginFunction} />
         )}
@@ -116,4 +93,9 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapToProps({ userInfo }) {
+  let { user, userLogged } = userInfo;
+  return { user, userLogged };
+}
+
+export default connect(mapToProps)(App);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import "./landingpage.scss";
+import { connect } from "react-redux";
 
 class LandingPage extends Component {
   constructor() {
@@ -16,4 +17,9 @@ class LandingPage extends Component {
   }
 }
 
-export default withRouter(LandingPage);
+function mapToProps({ userInfo }) {
+  let { user, userLogged } = userInfo;
+  return { user, userLogged };
+}
+
+export default connect(mapToProps)(withRouter(LandingPage));
