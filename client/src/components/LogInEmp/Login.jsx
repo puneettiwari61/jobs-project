@@ -5,7 +5,7 @@ class Login extends Component {
   render() {
     return <>
     <div class="login-box">
-	<h2>Login</h2>
+	<h2>Employer Login</h2>
 	<form action="">
 		<div class="user-box">
 			<input type="email" name="email" required=""/>
