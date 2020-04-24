@@ -7,7 +7,7 @@ class SignUp extends Component {
 			<>
 				<div class="login-box sign_up">
 					<form>
-						<h2>SignUp</h2>
+						<h2>SignUp Employer</h2>
 						<div class="user-box">
 							<input type="email" name="email" required="" />
 							<label>Email</label>
@@ -29,16 +29,12 @@ class SignUp extends Component {
 							<label>Contact</label>
 						</div>
 						<div class="user-box">
-							<input type="city" name="city" required="" />
-							<label>City</label>
-						</div>
-						<div class="user-box">
-							<input type="zip" name="zip" required="" />
-							<label>Zip</label>
-						</div>
-						<div class="user-box">
 							<input type="date" name="dob" required="" />
 							<label>DOB</label>
+						</div>
+						<div class="user-box">
+							<input type="url" name="profile_image" required="" />
+							<label>Profile Image URL</label>
 						</div>
 
 						<div class="form-radio">
