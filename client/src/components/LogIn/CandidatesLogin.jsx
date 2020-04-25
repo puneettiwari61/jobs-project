@@ -16,6 +16,7 @@ class CandidatesLogin extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  // TODO: remove ajax calls from here and move to actions.
   handleSubmit = e => {
     console.log(this.state);
     Axios.post("/api/v1/candidates/login", { ...this.state })

@@ -1,4 +1,5 @@
 import { getUser, logoutUser, loginUser } from "./types";
+// TODO: Axios should be axios.
 import Axios from "axios";
 import { store } from "./index";
 export let fetchLoggedUser = payload => {
@@ -23,6 +24,7 @@ export let fetchOnMount = () => {
         .then(res => {
           console.log(res.data[userType], "user identified");
           store.dispatch(
+            // TODO: is, has
             fetchLoggedUser({ user: res.data[userType], userLogged: true })
           );
         })

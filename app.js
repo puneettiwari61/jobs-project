@@ -3,10 +3,10 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var mongoose = require("mongoose");
 
 var employersRouter = require("./routes/employers/index");
 var candidatesRouter = require("./routes/candidates/index");
-var mongoose = require("mongoose");
 
 //dotenv
 require("dotenv").config();
@@ -23,17 +23,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/v1/employers", employersRouter);
-app.use("/api/v1/candidates", candidatesRouter);
-
 //connect to database
 mongoose.connect(
-  "mongodb://localhost/jobs",
+  "mongodb://localhost/cap12-jobs",
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     console.log(err ? err : "db connected");
   }
 );
+
+app.use("/api/v1/employers", employersRouter);
+app.use("/api/v1/candidates", candidatesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
