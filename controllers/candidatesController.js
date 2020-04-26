@@ -1,5 +1,5 @@
 var Candidate = require("../models/candidates");
-var auth = require("../routes/auth");
+var auth = require("../modules/auth");
 module.exports = {
   signUp: async (req, res) => {
     try {
@@ -29,7 +29,7 @@ module.exports = {
   getCurrentUser: async (req, res) => {
     try {
       console.log(req.user, "cc");
-      var candidate = await Candidate.findById(req.user.userID);
+      var candidate = await Candidate.findById(req.user.userId);
       console.log(candidate);
       res.json({ success: true, candidate });
     } catch (err) {
