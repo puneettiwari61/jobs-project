@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-import "./login.scss";
+import { connect } from "react-redux";
 
-class CandidatesLogin extends Component {
+import "./login.scss";
+import { loginEmployerFunc } from "../../store/actions";
+
+class EmployersLogin extends Component {
   constructor() {
     super();
     this.state = {
@@ -16,18 +19,18 @@ class CandidatesLogin extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // TODO: remove ajax calls from here and move to actions.
   handleSubmit = e => {
     console.log(this.state);
-    Axios.post("/api/v1/candidates/login", { ...this.state })
+    Axios.post("/api/v1/employers/login", { ...this.state })
       .then(res => {
         if (res.data.success === true) {
           console.log(res, "login successful");
           localStorage.setItem(
             "jobUser",
-            JSON.stringify({ token: res.data.token, type: "candidate" })
+            JSON.stringify({ token: res.data.token, type: "employer" })
           );
-          this.props.loginFunction();
+          // this.props.loginFunction();
+          this.props.dispatch(loginEmployerFunc({ isEmployerLogged: true }));
           this.props.history.push("/");
         }
       })
@@ -37,10 +40,10 @@ class CandidatesLogin extends Component {
   render() {
     return (
       <>
-        <div class="login-box">
-          <h2>Login</h2>
+        <div className="login-box">
+          <h2>Employer Login</h2>
           <form>
-            <div class="user-box">
+            <div className="user-box">
               <input
                 type="email"
                 name="email"
@@ -67,7 +70,7 @@ class CandidatesLogin extends Component {
               Login
             </a>
             <br />
-            <a onClick={() => this.props.history.push("/candidates/signup")}>
+            <a onClick={() => this.props.history.push("/employers/signup")}>
               <span></span>
               <span></span>
               <span></span>
@@ -81,4 +84,13 @@ class CandidatesLogin extends Component {
   }
 }
 
-export default withRouter(CandidatesLogin);
+function mapToProps({ candidate, employer }) {
+  if (employer.isEmployerLogged) {
+    let { employerData, isEmployerLogged } = employer;
+    return { employerData, isEmployerLogged };
+  } else {
+    let { candidateData, isCandidateLogged } = candidate;
+    return { candidateData, isCandidateLogged };
+  }
+}
+export default connect(mapToProps)(withRouter(EmployersLogin));

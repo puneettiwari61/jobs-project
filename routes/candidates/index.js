@@ -1,8 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var candidates = require("../../controllers/candidatesController");
-var auth = require("../auth");
-
+var auth = require("../../modules/auth");
 /* Signup User. */
 router.post("/signup", candidates.signUp);
 

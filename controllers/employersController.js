@@ -1,9 +1,9 @@
 var Employer = require("../models/employers");
-var auth = require("../routes/auth");
+var auth = require("../modules/auth");
 
 module.exports = {
   signUp: async (req, res) => {
-    // TODO: Proper validation. 
+    // TODO: Proper validation.
     try {
       var employer = await Employer.create(req.body);
       var token = await auth.generateJWT(employer);
@@ -30,7 +30,7 @@ module.exports = {
   },
   getCurrentUser: async (req, res) => {
     try {
-      var employer = await Employer.findById(req.user.userID);
+      var employer = await Employer.findById(req.user.userId);
       res.json({ success: true, employer });
     } catch (err) {
       console.log(err);

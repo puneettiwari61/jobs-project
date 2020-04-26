@@ -1,17 +1,39 @@
-import { getUser, logoutUser, loginUser } from "./types";
+import {
+  GET_CANDIDATE,
+  LOGOUT_CANDIDATE,
+  LOGIN_CANDIDATE,
+  GET_EMPLOYER,
+  LOGOUT_EMPLOYER,
+  LOGIN_EMPLOYER
+} from "./types";
 // TODO: Axios should be axios.
 import Axios from "axios";
 import { store } from "./index";
-export let fetchLoggedUser = payload => {
-  return { type: getUser, payload };
+
+export let fetchLoggedCandidate = payload => {
+  return { type: GET_CANDIDATE, payload };
 };
 
-export let logoutUserFunc = payload => {
-  return { type: logoutUser, payload };
+export let logoutCandidateFunc = payload => {
+  return { type: LOGOUT_CANDIDATE, payload };
 };
 
-export let loginUserFunc = payload => {
-  return { type: loginUser, payload };
+export let loginCandidateFunc = payload => {
+  return { type: LOGIN_CANDIDATE, payload };
+};
+
+export let fetchLoggedEmployer = payload => {
+  console.log(payload, "from actions pf ftchloogedempluyer");
+  return { type: GET_EMPLOYER, payload };
+};
+
+export let logoutEmployerFunc = payload => {
+  return { type: LOGOUT_EMPLOYER, payload };
+};
+
+export let loginEmployerFunc = payload => {
+  console.log(payload, "from employer func login");
+  return { type: LOGIN_EMPLOYER, payload };
 };
 
 export let fetchOnMount = () => {
@@ -23,10 +45,22 @@ export let fetchOnMount = () => {
       })
         .then(res => {
           console.log(res.data[userType], "user identified");
-          store.dispatch(
-            // TODO: is, has
-            fetchLoggedUser({ user: res.data[userType], userLogged: true })
-          );
+          if (userType === "candidate") {
+            store.dispatch(
+              // TODO: is, has
+              fetchLoggedCandidate({
+                candidateData: res.data[userType],
+                isCandidateLogged: true
+              })
+            );
+          } else if (userType === "employer") {
+            store.dispatch(
+              fetchLoggedEmployer({
+                employerData: res.data[userType],
+                isEmployerLogged: true
+              })
+            );
+          }
         })
         .catch(err => console.log(err, "invalid user"));
     }

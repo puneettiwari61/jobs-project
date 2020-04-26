@@ -14,6 +14,7 @@ class Header extends Component {
   };
 
   render() {
+    console.log(this.props, "from header");
     return (
       <>
         <div class="container">
@@ -34,9 +35,13 @@ class Header extends Component {
 
               <h2>
                 <span style={{ fontSize: "1rem" }}>
-                  {this.props.user && this.props.user.email}
+                  {this.props.candidateData
+                    ? this.props.candidateData.email
+                    : this.props.employerData
+                    ? this.props.employerData.email
+                    : ""}
                 </span>
-                {this.props.user ? (
+                {this.props.candidateData || this.props.employerData ? (
                   <span
                     style={{ fontSize: "1.4rem" }}
                     onClick={this.handleLogout}
