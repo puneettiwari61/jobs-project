@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import userReducer from "./reducers/userReducer";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
+import candidateReducer from "./reducers/candidateReducer";
+import employerReducer from "./reducers/employerReducer";
 
 const rootReducer = combineReducers({
-  userInfo: userReducer
+  candidate: candidateReducer,
+  employer: employerReducer
 });
 
 export let store = createStore(rootReducer, applyMiddleware(thunk));

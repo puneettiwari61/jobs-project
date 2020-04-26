@@ -10,10 +10,10 @@ class EmployersSignUp extends Component {
     this.state = {
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
-      contactnumber: "",
-      profile_image: "",
+      firstName: "",
+      lastName: "",
+      contactNumber: "",
+      profileImage: "",
       dob: "",
       gender: ""
     };
@@ -33,6 +33,7 @@ class EmployersSignUp extends Component {
           JSON.stringify({ token: res.data.token, type: "employer" })
         );
         this.props.loginFunction();
+        this.props.history("/");
       })
       .catch(err => console.log(err, "signup failed"));
   };
@@ -66,30 +67,31 @@ class EmployersSignUp extends Component {
             <div className="user-box">
               <input
                 type="text"
-                name="firstname"
+                name="firstName"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.firstname}
+                value={this.state.firstName}
               />
               <label>First Name</label>
             </div>
             <div className="user-box">
               <input
                 type="text"
-                name="lastname"
+                name="lastName"
                 required=""
+                N
                 onChange={this.handleChange}
-                value={this.state.lastname}
+                value={this.state.lastName}
               />
-              <label>Last Name</label>
+              N <label>Last Name</label>
             </div>
             <div className="user-box">
               <input
                 type="tel"
-                name="contactnumber"
+                name="contactNumber"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.contactnumber}
+                value={this.state.contactNumber}
               />
               <label>Contact</label>
             </div>
@@ -106,10 +108,10 @@ class EmployersSignUp extends Component {
             <div className="user-box">
               <input
                 type="url"
-                name="profile_image"
+                name="profileImage"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.profile_image}
+                value={this.state.profileImage}
               />
               <label>Profile Image URL</label>
             </div>

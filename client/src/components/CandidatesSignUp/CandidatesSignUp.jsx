@@ -9,9 +9,9 @@ class CandidatesSignUp extends Component {
     this.state = {
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
-      contactnumber: "",
+      firstName: "",
+      lastName: "",
+      contactNumber: "",
       city: "",
       zip: "",
       dob: "",
@@ -33,6 +33,7 @@ class CandidatesSignUp extends Component {
           JSON.stringify({ token: res.data.token, type: "candidate" })
         );
         this.props.loginFunction();
+        this.props.history.push("/");
       })
       .catch(err => console.log(err, "signup failed"));
   };
@@ -66,30 +67,30 @@ class CandidatesSignUp extends Component {
             <div className="user-box">
               <input
                 type="text"
-                name="firstname"
+                name="firstName"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.firstname}
+                value={this.state.firstName}
               />
               <label>First Name</label>
             </div>
             <div className="user-box">
               <input
                 type="text"
-                name="lastname"
+                name="lastName"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.lastname}
+                value={this.state.lastName}
               />
               <label>Last Name</label>
             </div>
             <div className="user-box">
               <input
                 type="tel"
-                name="contactnumber"
+                name="contactNumber"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.contactnumber}
+                value={this.state.contactNumber}
               />
               <label>Contact</label>
             </div>
