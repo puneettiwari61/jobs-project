@@ -41,10 +41,48 @@ var candidateSchema = new Schema(
       type: Number
       // required: true
     },
-    portfolio: {
-      type: Schema.Types.ObjectId,
-      ref: "Candidateportfolio"
-    }
+    image: {
+      type: String,
+      required: false
+    },
+    github: {
+      type: String,
+      required: false
+    },
+    spokenLanguages: [
+      {
+        type: String,
+        required: false
+      }
+    ],
+    resume: {
+      type: String
+    },
+    ratings: {
+      type: Number
+    },
+    school: {
+      type: String
+      // required: true
+    },
+    degree: {
+      type: String
+      // required: true
+    },
+    grade: {
+      type: String
+      // required: true
+    },
+    description: {
+      type: String
+      // required: true
+    },
+    certifications: [
+      {
+        type: String
+        // required: true
+      }
+    ]
   },
   { timestamps: true }
 );

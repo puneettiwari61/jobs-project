@@ -9,7 +9,7 @@ class CandidatesPortfolio extends Component {
     this.state = {
       skills: "",
       image: "",
-      language: "",
+      spokenLanguages: "",
       resume: "",
       github: ""
     };
@@ -21,17 +21,18 @@ class CandidatesPortfolio extends Component {
 
   handleSubmit = e => {
     console.log(this.state);
-    Axios.post("/api/v1/candidates/signup", { ...this.state })
+    Axios.post(
+      "/api/v1/candidates/portfolio",
+      { ...this.state },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
       .then(res => {
-        console.log(res, "signup successful");
-        localStorage.setItem(
-          "jobUser",
-          JSON.stringify({ token: res.data.token, type: "candidate" })
-        );
-        this.props.loginFunction();
-        this.props.history.push("/");
+        console.log(res, "portfolio successful");
+        this.props.history.push("/candidates/education");
       })
-      .catch(err => console.log(err, "signup failed"));
+      .catch(err => console.log(err, "portfolio failed"));
   };
 
   render() {
@@ -80,7 +81,7 @@ class CandidatesPortfolio extends Component {
                 required=""
                 placeholder="e.g. English,Hindi"
                 onChange={this.handleChange}
-                value={this.state.language}
+                value={this.state.spokenLanguages}
               />
               <label>Language</label>
             </div>
@@ -95,7 +96,7 @@ class CandidatesPortfolio extends Component {
               />
               <label>Resume</label>
             </div>
-            
+
             <a onClick={this.handleSubmit}>
               <span></span>
               <span></span>

@@ -34,15 +34,6 @@ function PublicRoutes(props) {
         <Route path="/candidates/login">
           <CandidatesLogin loginFunction={props.loginFunction} />
         </Route>
-        <Route path="/candidates/profile">
-          <CandidatesPortfolio loginFunction={props.loginFunction} />
-        </Route>
-        <Route path="/candidates/education">
-          <CandidatesEducation loginFunction={props.loginFunction} />
-        </Route>
-        <Route path="/candidates/experience">
-          <CandidatesExperience loginFunction={props.loginFunction} />
-        </Route>
         <Route path="/employers/login">
           <EmployersLogin loginFunction={props.loginFunction} />
         </Route>
@@ -69,6 +60,15 @@ function PrivateRoutes(props) {
             candidateData={props.candidateData}
             employerData={props.employerData}
           />
+        </Route>
+        <Route path="/candidates/profile">
+          <CandidatesPortfolio />
+        </Route>
+        <Route path="/candidates/education">
+          <CandidatesEducation />
+        </Route>
+        <Route path="/candidates/experience">
+          <CandidatesExperience />
         </Route>
         <Route path="*">
           <h1>Page Not found</h1>
