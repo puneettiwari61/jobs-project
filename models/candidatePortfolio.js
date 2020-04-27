@@ -17,6 +17,10 @@ var candidatePortfolioSchema = new Schema(
       type: String,
       required: false
     },
+    github: {
+      type: String,
+      required: false
+    },
     spokenLanguages: [
       {
         type: String,
