@@ -5,6 +5,9 @@ import CandidatesSignUp from "./components/CandidatesSignUp/CandidatesSignUp";
 import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
+import CandidatesPortfolio from "./components/CandidatesOnboarding/CandidatesPortfolio";
+import CandidatesEducation from "./components/CandidatesOnboarding/CandidatesEducation";
+import CandidatesExperience from "./components/CandidatesOnboarding/CandidatesExperience";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -30,6 +33,15 @@ function PublicRoutes(props) {
         </Route>
         <Route path="/candidates/login">
           <CandidatesLogin loginFunction={props.loginFunction} />
+        </Route>
+        <Route path="/candidates/profile">
+          <CandidatesPortfolio loginFunction={props.loginFunction} />
+        </Route>
+        <Route path="/candidates/education">
+          <CandidatesEducation loginFunction={props.loginFunction} />
+        </Route>
+        <Route path="/candidates/experience">
+          <CandidatesExperience loginFunction={props.loginFunction} />
         </Route>
         <Route path="/employers/login">
           <EmployersLogin loginFunction={props.loginFunction} />
