@@ -21,17 +21,18 @@ class CandidatesEducation extends Component {
 
   handleSubmit = e => {
     console.log(this.state);
-    Axios.post("/api/v1/candidates/signup", { ...this.state })
+    Axios.post(
+      "/api/v1/candidates/education",
+      { ...this.state },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
       .then(res => {
-        console.log(res, "signup successful");
-        localStorage.setItem(
-          "jobUser",
-          JSON.stringify({ token: res.data.token, type: "candidate" })
-        );
-        this.props.loginFunction();
-        this.props.history.push("/");
+        console.log(res, "education successful");
+        this.props.history.push("/candidates/experience");
       })
-      .catch(err => console.log(err, "signup failed"));
+      .catch(err => console.log(err, "education failed"));
   };
 
   render() {
@@ -97,7 +98,8 @@ class CandidatesEducation extends Component {
               <span></span>
               <span></span>
               Add
-            </a><br/>
+            </a>
+            <br />
             <a onClick={this.handleSubmit}>
               <span></span>
               <span></span>
