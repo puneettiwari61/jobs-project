@@ -84,7 +84,7 @@ var candidateSchema = new Schema(
 		//     type: String
 		//   }
 		// ]
-    experience: [
+		experience: [
 			{
 				companyName: String,
 				location: String,
@@ -92,7 +92,7 @@ var candidateSchema = new Schema(
 				leavigDate: String,
 			},
 		],
-		
+
 		// company: {
 		//   type: String,
 		//   required: true
@@ -113,10 +113,12 @@ var candidateSchema = new Schema(
 		//   type: String,
 		//   required: true
 		// }
-		skills: {
-			type: Schema.Types.ObjectId,
-			ref: 'candidateSkills',
-		},
+		skills: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'Skill',
+			},
+		],
 	},
 	{ timestamps: true }
 );
