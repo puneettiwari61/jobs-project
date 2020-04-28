@@ -10,7 +10,7 @@ export default function employerReducer(
     case LOGOUT_EMPLOYER:
       return action.payload;
     case LOGIN_EMPLOYER:
-      return action.payload;
+      return {...state, ...action.payload};
     default:
       return state;
   }

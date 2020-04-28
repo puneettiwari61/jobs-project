@@ -10,7 +10,7 @@ export default function candidateReducer(
     case LOGOUT_CANDIDATE:
       return action.payload;
     case LOGIN_CANDIDATE:
-      return action.payload;
+      return {...state, ...action.payload};
     default:
       return state;
   }
