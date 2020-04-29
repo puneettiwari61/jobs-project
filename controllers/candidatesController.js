@@ -28,9 +28,25 @@ module.exports = {
   },
   getCurrentUser: async (req, res) => {
     try {
-      console.log(req.user, "cc");
       var candidate = await Candidate.findById(req.user.userId);
       console.log(candidate);
+      res.json({ success: true, candidate });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      req.body.spokenLanguages = req.body.spokenLanguages.split(",");
+      var candidate = await Candidate.findByIdAndUpdate(
+        req.user.userId,
+        req.body,
+        {
+          new: true
+        }
+      );
+      console.log(candidate, "from update profile");
       res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);

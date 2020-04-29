@@ -2,16 +2,19 @@ import React, { Component } from "react";
 import "./Portfolio.scss";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchOnMount } from "../../store/actions";
 
 class CandidatesEducation extends Component {
   constructor() {
     super();
     this.state = {
-      school: "",
-      degree: "",
+      schoolOrCollege: "",
+      classOrDegree: "",
       grade: "",
-      description: "",
-      certification: ""
+      branch: "",
+      from: "",
+      to: ""
     };
   }
 
@@ -19,7 +22,7 @@ class CandidatesEducation extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = e => {
+  handleAdd = e => {
     console.log(this.state);
     Axios.post(
       "/api/v1/candidates/education",
@@ -30,9 +33,25 @@ class CandidatesEducation extends Component {
     )
       .then(res => {
         console.log(res, "education successful");
-        this.props.history.push("/candidates/experience");
+        this.props.dispatch(fetchOnMount());
+        this.setState({
+          schoolOrCollege: "",
+          classOrDegree: "",
+          grade: "",
+          branch: "",
+          from: "",
+          to: ""
+        });
       })
       .catch(err => console.log(err, "education failed"));
+  };
+
+  handleSubmit = () => {
+    this.props.history.push("/candidates/experience");
+  };
+
+  handleBack = () => {
+    this.props.history.goBack();
   };
 
   render() {
@@ -44,28 +63,31 @@ class CandidatesEducation extends Component {
             <div className="user-box">
               <input
                 type="text"
-                name="school"
+                name="schoolOrCollege"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.school}
+                value={this.state.schoolOrCollege}
+                placeholder="School or College Name"
               />
-              <label>School</label>
+              <label>School/College</label>
             </div>
             <div className="user-box">
               <input
                 type="text"
-                name="degree"
+                name="classOrDegree"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.degree}
+                value={this.state.classOrDegree}
+                placeholder="School or College Name"
               />
-              <label>Degree</label>
+              <label>Class/Degree</label>
             </div>
             <div className="user-box">
               <input
                 type="text"
                 name="grade"
                 required=""
+                placeholder="percentage, CGPA, or grade"
                 onChange={this.handleChange}
                 value={this.state.grade}
               />
@@ -74,25 +96,36 @@ class CandidatesEducation extends Component {
             <div className="user-box">
               <input
                 type="text"
-                name="description"
                 required=""
+                name="branch"
                 onChange={this.handleChange}
-                value={this.state.description}
+                value={this.state.branch}
               />
-              <label>Description</label>
+              <label>Branch</label>
             </div>
             <div className="user-box">
               <input
                 type="text"
-                name="certification"
+                name="from"
                 required=""
-                placeholder="e.g. AWS,JAVA"
+                placeholder="year of starting"
                 onChange={this.handleChange}
-                value={this.state.certification}
+                value={this.state.from}
               />
-              <label>Certification</label>
+              <label>From</label>
             </div>
-            <a onClick={this.handleSubmit}>
+            <div className="user-box">
+              <input
+                type="text"
+                name="to"
+                required=""
+                placeholder="year of passing"
+                onChange={this.handleChange}
+                value={this.state.to}
+              />
+              <label>To</label>
+            </div>
+            <a onClick={this.handleAdd}>
               <span></span>
               <span></span>
               <span></span>
@@ -100,7 +133,7 @@ class CandidatesEducation extends Component {
               Add
             </a>
             <br />
-            <a onClick={this.handleSubmit}>
+            <a onClick={this.handleBack}>
               <span></span>
               <span></span>
               <span></span>
@@ -121,4 +154,9 @@ class CandidatesEducation extends Component {
   }
 }
 
-export default withRouter(CandidatesEducation);
+function mapToProps({ candidate }) {
+  let { candidateData, isCandidateLogged } = candidate;
+  return { candidateData, isCandidateLogged };
+}
+
+export default connect(mapToProps)(withRouter(CandidatesEducation));

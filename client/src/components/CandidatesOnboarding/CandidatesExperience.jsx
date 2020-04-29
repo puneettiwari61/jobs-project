@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import "./Portfolio.scss";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchOnMount } from "../../store/actions";
 
-class CandidatesExperience extends Component {
+class CandidatesEducation extends Component {
   constructor() {
     super();
     this.state = {
-      title: "",
-      company: "",
+      companyName: "",
+      designation: "",
       location: "",
       description: "",
       joiningDate: "",
@@ -20,52 +22,72 @@ class CandidatesExperience extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = e => {
+  handleAdd = e => {
     console.log(this.state);
-    Axios.post("/api/v1/candidates/signup", { ...this.state })
+    Axios.post(
+      "/api/v1/candidates/experience",
+      { ...this.state },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
       .then(res => {
-        console.log(res, "signup successful");
-        localStorage.setItem(
-          "jobUser",
-          JSON.stringify({ token: res.data.token, type: "candidate" })
-        );
-        this.props.loginFunction();
-        this.props.history.push("/");
+        console.log(res, "experience successful");
+        this.props.dispatch(fetchOnMount());
+        this.setState({
+          companyName: "",
+          designation: "",
+          location: "",
+          description: "",
+          joiningDate: "",
+          leavingDate: ""
+        });
       })
-      .catch(err => console.log(err, "signup failed"));
+      .catch(err => console.log(err, "experience failed"));
+  };
+
+  // handleSubmit = () => {
+  //   this.props.history.push("/candidates/experience");
+  // };
+
+  handleBack = () => {
+    this.props.history.goBack();
   };
 
   render() {
     return (
       <>
-        <div className="login-box experience">
+        <div className="login-box education">
           <form>
-            <h2>Experience</h2>
+            <h2>Experience(If any)</h2>
             <div className="user-box">
               <input
                 type="text"
-                name="title"
+                name="companyName"
                 required=""
                 onChange={this.handleChange}
-                value={this.state.title}
-              />
-              <label>Title</label>
-            </div>
-            <div className="user-box">
-              <input
-                type="text"
-                name="company"
-                required=""
-                onChange={this.handleChange}
-                value={this.state.company}
+                value={this.state.companyName}
+                placeholder="e.g. TCS"
               />
               <label>Company</label>
             </div>
             <div className="user-box">
               <input
                 type="text"
+                name="designation"
+                required=""
+                onChange={this.handleChange}
+                value={this.state.designation}
+                placeholder="e.g. junior developer"
+              />
+              <label>Designation</label>
+            </div>
+            <div className="user-box">
+              <input
+                type="text"
                 name="location"
                 required=""
+                placeholder="e.g. Delhi"
                 onChange={this.handleChange}
                 value={this.state.location}
               />
@@ -74,42 +96,46 @@ class CandidatesExperience extends Component {
             <div className="user-box">
               <input
                 type="text"
-                name="description"
                 required=""
+                name="description"
+                placeholder="your role and work..."
                 onChange={this.handleChange}
                 value={this.state.description}
               />
-              <label>Description</label>
+              <label>Desciption</label>
             </div>
-            
             <div className="user-box">
               <input
                 type="date"
                 name="joiningDate"
                 required=""
+                placeholder="joining date..."
                 onChange={this.handleChange}
                 value={this.state.joiningDate}
               />
-              <label>Join Date</label>
+              <label>Joining Date</label>
             </div>
             <div className="user-box">
               <input
                 type="date"
                 name="leavingDate"
                 required=""
+                placeholder="year of passing"
+                placeholder="leaving date..."
                 onChange={this.handleChange}
                 value={this.state.leavingDate}
               />
-              <label>Leave Date</label>
+              <label>Leaving Date</label>
             </div>
-            <a onClick={this.handleSubmit}>
+            <a onClick={this.handleAdd}>
               <span></span>
               <span></span>
               <span></span>
               <span></span>
               Add
-            </a><br/>
-            <a onClick={this.handleSubmit}>
+            </a>
+            <br />
+            <a onClick={this.handleBack}>
               <span></span>
               <span></span>
               <span></span>
@@ -130,4 +156,9 @@ class CandidatesExperience extends Component {
   }
 }
 
-export default withRouter(CandidatesExperience);
+function mapToProps({ candidate }) {
+  let { candidateData, isCandidateLogged } = candidate;
+  return { candidateData, isCandidateLogged };
+}
+
+export default connect(mapToProps)(withRouter(CandidatesEducation));

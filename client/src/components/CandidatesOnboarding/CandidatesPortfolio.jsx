@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import "./Portfolio.scss";
+import { connect } from "react-redux";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
+
+import "./Portfolio.scss";
+import { fetchOnMount } from "../../store/actions";
 
 class CandidatesPortfolio extends Component {
   constructor() {
     super();
     this.state = {
-      skills: "",
+      // skills: "",
       image: "",
       spokenLanguages: "",
       resume: "",
@@ -15,14 +18,27 @@ class CandidatesPortfolio extends Component {
     };
   }
 
+  componentDidMount() {
+    let { image, spokenLanguages, resume, github } =
+      this.props.candidateData && this.props.candidateData;
+    spokenLanguages = spokenLanguages.join();
+    this.setState({ image, spokenLanguages, resume, github });
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (
+  //     prevState !== this.props.isCandidateLogged  ) {
+  //     this.props.dispatch(fetchOnMount());
+  //   }
+  // }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = e => {
-    console.log(this.state);
     Axios.post(
-      "/api/v1/candidates/portfolio",
+      "/api/v1/candidates/profile",
       { ...this.state },
       {
         headers: { authorization: JSON.parse(localStorage.jobUser).token }
@@ -30,6 +46,7 @@ class CandidatesPortfolio extends Component {
     )
       .then(res => {
         console.log(res, "portfolio successful");
+        this.props.dispatch(fetchOnMount());
         this.props.history.push("/candidates/education");
       })
       .catch(err => console.log(err, "portfolio failed"));
@@ -41,7 +58,7 @@ class CandidatesPortfolio extends Component {
         <div className="login-box profile">
           <form>
             <h2>Your Profile</h2>
-            <div className="user-box">
+            {/* <div className="user-box">
               <input
                 type="email"
                 name="skills"
@@ -51,7 +68,7 @@ class CandidatesPortfolio extends Component {
                 value={this.state.skills}
               />
               <label>Skills</label>
-            </div>
+            </div> */}
             <div className="user-box">
               <input
                 type="url"
@@ -111,4 +128,9 @@ class CandidatesPortfolio extends Component {
   }
 }
 
-export default withRouter(CandidatesPortfolio);
+function mapToProps({ candidate }) {
+  let { candidateData, isCandidateLogged } = candidate;
+  return { candidateData, isCandidateLogged };
+}
+
+export default connect(mapToProps)(withRouter(CandidatesPortfolio));

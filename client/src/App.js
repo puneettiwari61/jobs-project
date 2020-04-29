@@ -8,6 +8,8 @@ import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesPortfolio from "./components/CandidatesOnboarding/CandidatesPortfolio";
 import CandidatesEducation from "./components/CandidatesOnboarding/CandidatesEducation";
 import CandidatesExperience from "./components/CandidatesOnboarding/CandidatesExperience";
+import CandidatesSkills from "./components/CandidatesOnboarding/CandidatesSkills";
+
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -69,6 +71,9 @@ function PrivateRoutes(props) {
         </Route>
         <Route path="/candidates/experience">
           <CandidatesExperience />
+        </Route>
+        <Route path="/candidates/skills">
+          <CandidatesSkills />
         </Route>
         <Route path="*">
           <h1>Page Not found</h1>
