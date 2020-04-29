@@ -29,7 +29,6 @@ module.exports = {
   getCurrentUser: async (req, res) => {
     try {
       var candidate = await Candidate.findById(req.user.userId);
-      console.log(candidate);
       res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);

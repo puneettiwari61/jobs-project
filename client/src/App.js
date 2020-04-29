@@ -108,14 +108,14 @@ class App extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.isCandidateLogged !== this.props.isCandidateLogged ||
-      prevProps.isEmployerLogged !== this.props.isEmployerLogged
-    ) {
-      this.props.dispatch(fetchOnMount());
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (
+  //     prevProps.isCandidateLogged !== this.props.isCandidateLogged ||
+  //     prevProps.isEmployerLogged !== this.props.isEmployerLogged
+  //   ) {
+  //     this.props.dispatch(fetchOnMount());
+  //   }
+  // }
 
   render() {
     console.log(this.props, "from app.js Props");
@@ -148,5 +148,9 @@ function mapToProps({ candidate, employer }) {
     return { candidateData, isCandidateLogged };
   }
 }
+
+// function mapToProps(state) {
+//   return state;
+// }
 
 export default connect(mapToProps)(App);

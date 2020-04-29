@@ -30,7 +30,12 @@ class CandidatesLogin extends Component {
             JSON.stringify({ token: res.data.token, type: "candidate" })
           );
           // this.props.loginFunction();
-          this.props.dispatch(loginCandidateFunc({ isCandidateLogged: true }));
+          this.props.dispatch(
+            loginCandidateFunc({
+              isCandidateLogged: true,
+              candidateData: res.data.candidate
+            })
+          );
           this.props.history.push("/");
         }
       })

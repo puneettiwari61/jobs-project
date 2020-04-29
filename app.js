@@ -5,9 +5,10 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
+var skillsData = require("./modules/skillsData.json");
 var employersRouter = require("./routes/employers/index");
 var candidatesRouter = require("./routes/candidates/index");
-
+var Skill = require("./models/skills");
 //dotenv
 require("dotenv").config();
 
@@ -28,7 +29,21 @@ mongoose.connect(
   "mongodb://localhost/cap12-jobs",
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
-    console.log(err ? err : "db connected");
+    console.log(err ? err : "db connected ");
+    if (!err) {
+      var skillsArray = skillsData.skills.map(s => {
+        return { name: s };
+      });
+      Skill.find({}, (err, findSkills) => {
+        if (err) return console.log(err);
+        if (findSkills.length === 0) {
+          Skill.insertMany(skillsArray, (error, skills) => {
+            if (error) return console.log(error);
+            console.log(skills);
+          });
+        }
+      });
+    }
   }
 );
 
