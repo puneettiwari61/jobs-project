@@ -3,7 +3,7 @@ import "./Portfolio.scss";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchOnMount } from "../../store/actions";
+import { updateLoggedCandidate } from "../../store/actions";
 
 class CandidatesEducation extends Component {
   constructor() {
@@ -33,7 +33,6 @@ class CandidatesEducation extends Component {
     )
       .then(res => {
         console.log(res, "experience successful");
-        this.props.dispatch(fetchOnMount());
         this.setState({
           companyName: "",
           designation: "",
@@ -42,13 +41,16 @@ class CandidatesEducation extends Component {
           joiningDate: "",
           leavingDate: ""
         });
+        this.props.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
       })
       .catch(err => console.log(err, "experience failed"));
   };
 
-  // handleSubmit = () => {
-  //   this.props.history.push("/candidates/experience");
-  // };
+  handleSubmit = () => {
+    this.props.history.push("/candidates/skills");
+  };
 
   handleBack = () => {
     this.props.history.goBack();

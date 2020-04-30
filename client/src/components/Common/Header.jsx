@@ -10,7 +10,7 @@ class Header extends Component {
 
   handleLogout = () => {
     localStorage.clear();
-    this.props.logoutFunction();
+    this.props.handleLogout();
   };
 
   render() {
@@ -35,13 +35,13 @@ class Header extends Component {
 
               <h2>
                 <span style={{ fontSize: "1rem" }}>
-                  {this.props.candidateData
-                    ? this.props.candidateData.email
-                    : this.props.employerData
-                    ? this.props.employerData.email
+                  {this.props.currentCandidate
+                    ? this.props.currentCandidate.email
+                    : this.props.currentEmployer
+                    ? this.props.currentEmployer.email
                     : ""}
                 </span>
-                {this.props.candidateData || this.props.employerData ? (
+                {this.props.currentCandidate || this.props.currentEmployer ? (
                   <span
                     style={{ fontSize: "1.4rem" }}
                     onClick={this.handleLogout}

@@ -13,31 +13,31 @@ import CandidatesSkills from "./components/CandidatesOnboarding/CandidatesSkills
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  fetchOnMount,
-  logoutCandidateFunc,
-  loginCandidateFunc,
-  loginEmployerFunc,
-  logoutEmployerFunc
+  logoutCandidate,
+  loginCandidate,
+  loginEmployer,
+  logoutEmployer,
+  identifyLoggedUser
 } from "./store/actions";
 import "./App.css";
 
 function PublicRoutes(props) {
   return (
     <>
-      <Header logoutFunction={props.logoutFunction} />
+      <Header />
       <Switch>
         <Route path="/" exact component={LandingPage} />
         <Route path="/candidates/signup">
-          <CandidatesSignUp loginFunction={props.loginFunction} />
+          <CandidatesSignUp />
         </Route>
         <Route path="/employers/signup">
-          <EmployersSignUp loginFunction={props.loginFunction} />
+          <EmployersSignUp />
         </Route>
         <Route path="/candidates/login">
-          <CandidatesLogin loginFunction={props.loginFunction} />
+          <CandidatesLogin />
         </Route>
         <Route path="/employers/login">
-          <EmployersLogin loginFunction={props.loginFunction} />
+          <EmployersLogin />
         </Route>
         />
         <Route path="*">
@@ -51,17 +51,10 @@ function PublicRoutes(props) {
 function PrivateRoutes(props) {
   return (
     <>
-      <Header
-        candidateData={props.candidateData}
-        logoutFunction={props.logoutFunction}
-        employerData={props.employerData}
-      />
+      <Header {...props} />
       <Switch>
         <Route path="/" exact>
-          <LandingPage
-            candidateData={props.candidateData}
-            employerData={props.employerData}
-          />
+          <LandingPage />
         </Route>
         <Route path="/candidates/profile">
           <CandidatesPortfolio />
@@ -85,53 +78,57 @@ function PrivateRoutes(props) {
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.dispatch(fetchOnMount());
+    this.props.dispatch(identifyLoggedUser());
   }
 
-  logoutFunction = () => {
-    if (this.props.candidateData) {
+  handleLogout = () => {
+    if (this.props.candidate.currentCandidate) {
       this.props.dispatch(
-        logoutCandidateFunc({ candidateData: null, isCandidateLogged: false })
+        logoutCandidate({
+          currentCandidate: null,
+          isAuthInProgress: false,
+          isAuthDone: false
+        })
       );
-    } else if (this.props.employerData) {
+    } else if (this.props.employer.currentEmployer) {
       this.props.dispatch(
-        logoutEmployerFunc({ employerData: null, isEmployerLogged: false })
+        logoutEmployer({
+          currentEmployer: null,
+          isAuthInProgress: false,
+          isAuthDone: false
+        })
       );
     }
   };
 
   loginFunction = () => {
     if (this.props.candidateData) {
-      this.props.dispatch(loginCandidateFunc({ isCandidateLogged: true }));
+      this.props.dispatch(
+        loginCandidate({
+          currentEmployer: null,
+          isAuthInProgress: false,
+          isAuthDone: false
+        })
+      );
     } else if (this.props.employerData) {
-      this.props.dispatch(loginEmployerFunc({ isEmployerLogged: true }));
+      this.props.dispatch(loginEmployer({ isEmployerLogged: true }));
     }
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     prevProps.isCandidateLogged !== this.props.isCandidateLogged ||
-  //     prevProps.isEmployerLogged !== this.props.isEmployerLogged
-  //   ) {
-  //     this.props.dispatch(fetchOnMount());
-  //   }
-  // }
-
   render() {
-    console.log(this.props, "from app.js Props");
+    let employer = this.props.employer;
+    let candidate = this.props.candidate;
+
     return (
       <>
-        {this.props.candidateData || this.props.employerData ? (
+        {candidate.currentCandidate || employer.currentEmployer ? (
           <PrivateRoutes
-            candidateData={this.props.candidateData}
-            logoutFunction={this.logoutFunction}
-            employerData={this.props.employerData}
+            currentCandidate={candidate.currentCandidate}
+            handleLogout={this.handleLogout}
+            currentEmployer={employer.currentEmployer}
           />
         ) : (
-          <PublicRoutes
-            loginFunction={this.loginFunction}
-            logoutFunction={this.logoutFunction}
-          />
+          <PublicRoutes />
         )}
       </>
     );
@@ -139,18 +136,7 @@ class App extends React.Component {
 }
 
 function mapToProps({ candidate, employer }) {
-  console.log(employer, "from mp");
-  if (employer.isEmployerLogged) {
-    let { employerData, isEmployerLogged } = employer;
-    return { employerData, isEmployerLogged };
-  } else {
-    let { candidateData, isCandidateLogged } = candidate;
-    return { candidateData, isCandidateLogged };
-  }
+  return { candidate, employer };
 }
-
-// function mapToProps(state) {
-//   return state;
-// }
 
 export default connect(mapToProps)(App);

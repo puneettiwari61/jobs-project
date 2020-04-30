@@ -1,42 +1,46 @@
 import {
-  GET_CANDIDATE,
+  IDENTIFY_CANDIDATE,
+  IDENTIFY_EMPLOYER,
   LOGOUT_CANDIDATE,
   LOGIN_CANDIDATE,
-  GET_EMPLOYER,
   LOGOUT_EMPLOYER,
-  LOGIN_EMPLOYER
+  LOGIN_EMPLOYER,
+  UPDATE_LOGGED_CANDIDATE
 } from "./types";
 // TODO: Axios should be axios.
 import Axios from "axios";
 import { store } from "./index";
 
 export let fetchLoggedCandidate = payload => {
-  return { type: GET_CANDIDATE, payload };
+  return { type: IDENTIFY_CANDIDATE, payload };
 };
 
-export let logoutCandidateFunc = payload => {
+export let logoutCandidate = payload => {
   return { type: LOGOUT_CANDIDATE, payload };
 };
 
-export let loginCandidateFunc = payload => {
+export let loginCandidate = payload => {
   return { type: LOGIN_CANDIDATE, payload };
 };
 
-export let fetchLoggedEmployer = payload => {
-  console.log(payload, "from actions pf ftchloogedempluyer");
-  return { type: GET_EMPLOYER, payload };
+export let updateLoggedCandidate = payload => {
+  return { type: UPDATE_LOGGED_CANDIDATE, payload };
 };
 
-export let logoutEmployerFunc = payload => {
+export let fetchLoggedEmployer = payload => {
+  return { type: IDENTIFY_EMPLOYER, payload };
+};
+
+export let logoutEmployer = payload => {
   return { type: LOGOUT_EMPLOYER, payload };
 };
 
-export let loginEmployerFunc = payload => {
+export let loginEmployer = payload => {
   console.log(payload, "from employer func login");
   return { type: LOGIN_EMPLOYER, payload };
 };
 
-export let fetchOnMount = () => {
+export let identifyLoggedUser = () => {
   return function() {
     if (localStorage.jobUser) {
       let userType = JSON.parse(localStorage.jobUser).type;
@@ -49,15 +53,17 @@ export let fetchOnMount = () => {
             store.dispatch(
               // TODO: is, has
               fetchLoggedCandidate({
-                candidateData: res.data[userType],
-                isCandidateLogged: true
+                currentCandidate: res.data[userType],
+                isAuthInProgress: false,
+                isAuthDone: true
               })
             );
           } else if (userType === "employer") {
             store.dispatch(
               fetchLoggedEmployer({
-                employerData: res.data[userType],
-                isEmployerLogged: true
+                currentEmployer: res.data[userType],
+                isAuthInProgress: false,
+                isAuthDone: true
               })
             );
           }

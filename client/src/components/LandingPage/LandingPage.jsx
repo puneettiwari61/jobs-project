@@ -9,15 +9,16 @@ class LandingPage extends Component {
     this.state = { active: true };
   }
   render() {
-    console.log(this.props, "from landing oage");
+    let employer = this.props.employer;
+    let candidate = this.props.candidate;
     return (
       <div className="landing_page">
         <h1>
           Welcome
-          {this.props.candidateData
-            ? this.props.candidateData.firstName
-            : this.props.employerData
-            ? this.props.employerData.firstName
+          {candidate.currentCandidate
+            ? candidate.currentCandidate.firstName
+            : employer.currentEmployer
+            ? employer.currentEmployer.firstName
             : ""}
         </h1>
       </div>
@@ -26,13 +27,6 @@ class LandingPage extends Component {
 }
 
 function mapToProps({ candidate, employer }) {
-  console.log(employer, "from mp");
-  if (employer.isEmployerLogged) {
-    let { employerData, isEmployerLogged } = employer;
-    return { employerData, isEmployerLogged };
-  } else {
-    let { candidateData, isCandidateLogged } = candidate;
-    return { candidateData, isCandidateLogged };
-  }
+  return { candidate, employer };
 }
 export default connect(mapToProps)(withRouter(LandingPage));

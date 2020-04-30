@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./login.scss";
-import { loginEmployerFunc } from "../../store/actions";
+import { loginEmployer } from "../../store/actions";
 
 class EmployersLogin extends Component {
   constructor() {
@@ -30,7 +30,13 @@ class EmployersLogin extends Component {
             JSON.stringify({ token: res.data.token, type: "employer" })
           );
           // this.props.loginFunction();
-          this.props.dispatch(loginEmployerFunc({ isEmployerLogged: true }));
+          this.props.dispatch(
+            loginEmployer({
+              currentEmployer: res.data.employer,
+              isAuthInProgress: false,
+              isAuthDone: true
+            })
+          );
           this.props.history.push("/");
         }
       })
@@ -85,12 +91,6 @@ class EmployersLogin extends Component {
 }
 
 function mapToProps({ candidate, employer }) {
-  if (employer.isEmployerLogged) {
-    let { employerData, isEmployerLogged } = employer;
-    return { employerData, isEmployerLogged };
-  } else {
-    let { candidateData, isCandidateLogged } = candidate;
-    return { candidateData, isCandidateLogged };
-  }
+  return { candidate, employer };
 }
 export default connect(mapToProps)(withRouter(EmployersLogin));
