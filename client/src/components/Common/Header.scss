@@ -1,11 +1,4 @@
-body {
-	background-color: #efefef;
-	font-family: 'Roboto', sans-serif;
-	color: rgba(0, 0, 0, 0.87);
-	position: relative;
-	padding: 0;
-	margin: 0;
-}
+
 .logo {
     margin-left: 5rem;
     margin-top: 1rem;
@@ -16,7 +9,6 @@ nav {
 	width: 100%;
 	max-height: 100px;
 	color: white;
-	background-color: black;
 	-webkit-transition-duration: 0.5s;
 	transition-duration: 0.5s;
 	-webkit-transition-timing-function: swing;
@@ -99,7 +91,7 @@ nav ul li:last-child {
 	height: 4px;
 	top: 25px;
 	width: 15px;
-	background-color: white;
+	background-color: black;
 }
 .navToggle .icon-left:before {
 	-webkit-transition-duration: 0.5s;
@@ -107,7 +99,7 @@ nav ul li:last-child {
 	position: absolute;
 	width: 15px;
 	height: 4px;
-	background-color: white;
+	background-color: black;
 	content: '';
 	top: -10px;
 }
@@ -117,7 +109,7 @@ nav ul li:last-child {
 	position: absolute;
 	width: 15px;
 	height: 4px;
-	background-color: white;
+	background-color: black;
 	content: '';
 	top: 10px;
 }
@@ -128,7 +120,7 @@ nav ul li:last-child {
 	height: 4px;
 	top: 25px;
 	width: 15px;
-	background-color: white;
+	background-color: black;
 	left: 15px;
 }
 .navToggle .icon-right:before {
@@ -137,7 +129,7 @@ nav ul li:last-child {
 	position: absolute;
 	width: 15px;
 	height: 4px;
-	background-color: white;
+	background-color: black;
 	content: '';
 	top: -10px;
 }
@@ -147,7 +139,7 @@ nav ul li:last-child {
 	position: absolute;
 	width: 15px;
 	height: 4px;
-	background-color: white;
+	background-color: black;
 	content: '';
 	top: 10px;
 }

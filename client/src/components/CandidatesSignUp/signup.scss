@@ -132,7 +132,7 @@ fieldset {
   border-color: transparent;
   line-height: 1.9;
   width: 100%;
-  color: #03E9F4;
+  color: rgb(33, 150, 243);
   -webkit-transition: all 0.28s ease;
   transition: all 0.28s ease;
   box-shadow: none;
@@ -164,7 +164,7 @@ fieldset {
 .form-group textarea.form-file ~ .control-label,
 .form-group textarea.has-value ~ .control-label {
   font-size: 0.8rem;
-  color: #03E9F4;
+  color: rgb(33, 150, 243);
   top: -1rem;
   left: 0;
 }
@@ -195,7 +195,7 @@ fieldset {
   cursor: pointer;
   padding-left: 2rem;
   text-align: left;
-  color:#03E9F4;
+  color:rgb(33, 150, 243);
   display: inline-block;
 
 }
