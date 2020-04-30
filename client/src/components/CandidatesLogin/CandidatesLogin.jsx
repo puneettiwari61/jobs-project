@@ -3,7 +3,7 @@ import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import "./login.scss";
-import { loginCandidateFunc } from "../../store/actions";
+import { loginCandidate } from "../../store/actions";
 
 class CandidatesLogin extends Component {
   constructor() {
@@ -29,11 +29,11 @@ class CandidatesLogin extends Component {
             "jobUser",
             JSON.stringify({ token: res.data.token, type: "candidate" })
           );
-          // this.props.loginFunction();
           this.props.dispatch(
-            loginCandidateFunc({
-              isCandidateLogged: true,
-              candidateData: res.data.candidate
+            loginCandidate({
+              currentCandidate: res.data.candidate,
+              isAuthInProgress: false,
+              isAuthDone: true
             })
           );
           this.props.history.push("/");
@@ -90,13 +90,7 @@ class CandidatesLogin extends Component {
 }
 
 function mapToProps({ candidate, employer }) {
-  if (employer.isEmployerLogged) {
-    let { employerData, isEmployerLogged } = employer;
-    return { employerData, isEmployerLogged };
-  } else {
-    let { candidateData, isCandidateLogged } = candidate;
-    return { candidateData, isCandidateLogged };
-  }
+  return { candidate, employer };
 }
 
 export default connect(mapToProps)(withRouter(CandidatesLogin));

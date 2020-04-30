@@ -3,7 +3,7 @@ import "./Portfolio.scss";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchOnMount } from "../../store/actions";
+import { updateLoggedCandidate } from "../../store/actions";
 
 class CandidatesEducation extends Component {
   constructor() {
@@ -33,7 +33,9 @@ class CandidatesEducation extends Component {
     )
       .then(res => {
         console.log(res, "education successful");
-        this.props.dispatch(fetchOnMount());
+        this.props.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
         this.setState({
           schoolOrCollege: "",
           classOrDegree: "",
@@ -155,8 +157,7 @@ class CandidatesEducation extends Component {
 }
 
 function mapToProps({ candidate }) {
-  let { candidateData, isCandidateLogged } = candidate;
-  return { candidateData, isCandidateLogged };
+  return { candidate };
 }
 
 export default connect(mapToProps)(withRouter(CandidatesEducation));

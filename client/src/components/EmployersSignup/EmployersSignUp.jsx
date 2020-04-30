@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-
+import { connect } from "react-redux";
+import { loginEmployer } from "../../store/actions";
 import "./signup.scss";
 
 class EmployersSignUp extends Component {
@@ -32,8 +33,14 @@ class EmployersSignUp extends Component {
           "jobUser",
           JSON.stringify({ token: res.data.token, type: "employer" })
         );
-        this.props.loginFunction();
-        this.props.history("/");
+        this.props.dispatch(
+          loginEmployer({
+            currentEmployer: null,
+            isAuthInProgress: false,
+            isAuthDone: false
+          })
+        );
+        this.props.history.push("/");
       })
       .catch(err => console.log(err, "signup failed"));
   };
@@ -171,4 +178,8 @@ class EmployersSignUp extends Component {
   }
 }
 
-export default withRouter(EmployersSignUp);
+function mapToProps({ candidate, employer }) {
+  return { candidate, employer };
+}
+
+export default connect(mapToProps)(withRouter(EmployersSignUp));

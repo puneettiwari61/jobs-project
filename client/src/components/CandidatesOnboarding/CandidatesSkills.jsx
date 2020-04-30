@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import Skills from "./skillsData.json";
 import "./Portfolio.scss";
-import { fetchOnMount } from "../../store/actions";
 
 class CandidatesSkills extends Component {
   constructor() {
@@ -14,15 +13,6 @@ class CandidatesSkills extends Component {
       skills: null
     };
   }
-
-  componentDidMount() {}
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     prevState !== this.props.isCandidateLogged  ) {
-  //     this.props.dispatch(fetchOnMount());
-  //   }
-  // }
 
   handleSubmit = e => {
     let skillsArray = this.state.skills.map(a => a.value);
@@ -36,8 +26,6 @@ class CandidatesSkills extends Component {
     )
       .then(res => {
         console.log(res.data, "skills successful");
-        // this.props.dispatch(fetchOnMount());
-        // this.props.history.push("/candidates/education");
       })
       .catch(err => console.log(err, "skills failed"));
   };
@@ -49,20 +37,8 @@ class CandidatesSkills extends Component {
         <div className="login-box profile">
           <form>
             <h2>Skills</h2>
-            {/* <div className="user-box">
-              <input
-                type="email"
-                name="skills"
-                required=""
-                placeholder="e.g. JS,PHP"
-                onChange={this.handleChange}
-                value={this.state.skills}
-              />
-              <label>Skills</label>
-            </div> */}
 
             <Select
-              // defaultValue={[colourOptions[2], colourOptions[3]]}
               isMulti
               name="skills"
               options={Skills.skills.map(a => {

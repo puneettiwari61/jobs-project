@@ -4,13 +4,12 @@ import Axios from "axios";
 import { withRouter } from "react-router-dom";
 
 import "./Portfolio.scss";
-import { fetchOnMount } from "../../store/actions";
+import { updateLoggedCandidate } from "../../store/actions";
 
 class CandidatesPortfolio extends Component {
   constructor() {
     super();
     this.state = {
-      // skills: "",
       image: "",
       spokenLanguages: "",
       resume: "",
@@ -19,18 +18,15 @@ class CandidatesPortfolio extends Component {
   }
 
   componentDidMount() {
-    let { image, spokenLanguages, resume, github } =
-      this.props.candidateData && this.props.candidateData;
+    let {
+      image,
+      spokenLanguages,
+      resume,
+      github
+    } = this.props.candidate.currentCandidate;
     spokenLanguages = spokenLanguages.join();
     this.setState({ image, spokenLanguages, resume, github });
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     prevState !== this.props.isCandidateLogged  ) {
-  //     this.props.dispatch(fetchOnMount());
-  //   }
-  // }
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -46,7 +42,9 @@ class CandidatesPortfolio extends Component {
     )
       .then(res => {
         console.log(res, "portfolio successful");
-        this.props.dispatch(fetchOnMount());
+        this.props.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
         this.props.history.push("/candidates/education");
       })
       .catch(err => console.log(err, "portfolio failed"));
@@ -58,17 +56,6 @@ class CandidatesPortfolio extends Component {
         <div className="login-box profile">
           <form>
             <h2>Your Profile</h2>
-            {/* <div className="user-box">
-              <input
-                type="email"
-                name="skills"
-                required=""
-                placeholder="e.g. JS,PHP"
-                onChange={this.handleChange}
-                value={this.state.skills}
-              />
-              <label>Skills</label>
-            </div> */}
             <div className="user-box">
               <input
                 type="url"
@@ -129,8 +116,7 @@ class CandidatesPortfolio extends Component {
 }
 
 function mapToProps({ candidate }) {
-  let { candidateData, isCandidateLogged } = candidate;
-  return { candidateData, isCandidateLogged };
+  return { candidate };
 }
 
 export default connect(mapToProps)(withRouter(CandidatesPortfolio));
