@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import Skills from "./skillsData.json";
 import "./Portfolio.scss";
+import { Button } from "@material-ui/core";
 
 class CandidatesSkills extends Component {
   constructor() {
@@ -14,7 +15,7 @@ class CandidatesSkills extends Component {
     };
   }
 
-  handleSubmit = e => {
+  handleAdd = e => {
     let skillsArray = this.state.skills.map(a => a.value);
     console.log(skillsArray);
     Axios.post(
@@ -34,35 +35,30 @@ class CandidatesSkills extends Component {
     console.log(this.state);
     return (
       <>
-        <div className="login-box profile">
-          <form>
-            <h2>Skills</h2>
-
-            <Select
-              isMulti
-              name="skills"
-              options={Skills.skills.map(a => {
-                return {
-                  value: `${a}`,
-                  label: `${a}`
-                  // color: "#00B8D9",
-                  // isFixed: true
-                };
-              })}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              onChange={e => this.setState({ skills: e })}
-            />
-
-            <a onClick={this.handleSubmit}>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Next
-            </a>
-          </form>
-        </div>
+        <Select
+          // defaultValue={[colourOptions[2], colourOptions[3]]}
+          isMulti
+          name="skills"
+          options={Skills.skills.map(a => {
+            return {
+              value: `${a}`,
+              label: `${a}`
+              // color: "#00B8D9",
+              // isFixed: true
+            };
+          })}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={e => this.setState({ skills: e })}
+        />
+        <Button
+          variant="contained"
+          size="medium"
+          onClick={this.handleAdd}
+          style={{ marginTop: "1rem" }}
+        >
+          ADD
+        </Button>
       </>
     );
   }
