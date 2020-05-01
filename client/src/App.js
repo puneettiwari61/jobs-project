@@ -5,7 +5,7 @@ import CandidatesSignUp from "./components/CandidatesSignUp/CandidatesSignUp";
 import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
-import CandidatesPortfolio from "./components/CandidatesOnboarding/CandidatesPortfolio";
+import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
 import CandidatesEducation from "./components/CandidatesOnboarding/CandidatesEducation";
 import CandidatesExperience from "./components/CandidatesOnboarding/CandidatesExperience";
 import CandidatesSkills from "./components/CandidatesOnboarding/CandidatesSkills";
@@ -57,7 +57,7 @@ function PrivateRoutes(props) {
           <LandingPage />
         </Route>
         <Route path="/candidates/profile">
-          <CandidatesPortfolio />
+          <CandidatesProfile />
         </Route>
         <Route path="/candidates/education">
           <CandidatesEducation />
@@ -82,6 +82,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
+    localStorage.clear();
     if (this.props.candidate.currentCandidate) {
       this.props.dispatch(
         logoutCandidate({

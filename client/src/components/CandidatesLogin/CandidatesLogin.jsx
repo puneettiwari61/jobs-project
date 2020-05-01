@@ -2,8 +2,50 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import "./login.scss";
+// import "./login.scss";
 import { loginCandidate } from "../../store/actions";
+import PropTypes from "prop-types";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+
+import { withStyles } from "@material-ui/styles";
+import { Paper } from "@material-ui/core";
+
+const styles = theme => ({
+  paper: {
+    marginTop: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  },
+  paperComponent: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    maxWidth: 500
+  },
+  box: {
+    marginTop: theme.spacing(15)
+  }
+});
 
 class CandidatesLogin extends Component {
   constructor() {
@@ -20,6 +62,7 @@ class CandidatesLogin extends Component {
 
   // TODO: remove ajax calls from here and move to actions.
   handleSubmit = e => {
+    e.preventDefault();
     console.log(this.state);
     Axios.post("/api/v1/candidates/login", { ...this.state })
       .then(res => {
@@ -43,48 +86,82 @@ class CandidatesLogin extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <>
-        <div class="login-box">
-          <h2>Login</h2>
-          <form>
-            <div class="user-box">
-              <input
-                type="email"
-                name="email"
-                required=""
-                onChange={this.handleChange}
-                value={this.state.email}
-              />
-              <label>Email</label>
-            </div>
-            <div class="user-box">
-              <input
-                type="password"
-                name="password"
-                onChange={this.handleChange}
-                value={this.state.password}
-              />
-              <label for="">Password</label>
-            </div>
-            <a onClick={this.handleSubmit}>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Login
-            </a>
-            <br />
-            <a onClick={() => this.props.history.push("/candidates/signup")}>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              New to Steve's Jobs?
-            </a>
-          </form>
-        </div>
-      </>
+      <Container component="main" className={classes.box}>
+        <Box>
+          <Paper className={classes.paperComponent}>
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <form className={classes.form} noValidate>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    size="small"
+                    onChange={this.handleChange}
+                    value={this.state.email}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    size="small"
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={this.handleSubmit}
+                  >
+                    Sign In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link href="#" variant="body2">
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link
+                        onClick={() =>
+                          this.props.history.push("/candidates/signup")
+                        }
+                      >
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </form>
+              </div>
+            </Container>
+          </Paper>
+        </Box>
+      </Container>
     );
   }
 }
@@ -93,4 +170,9 @@ function mapToProps({ candidate, employer }) {
   return { candidate, employer };
 }
 
-export default connect(mapToProps)(withRouter(CandidatesLogin));
+export default connect(mapToProps)(
+  withRouter(withStyles(styles)(CandidatesLogin))
+);
+CandidatesLogin.propTypes = {
+  classes: PropTypes.object.isRequired
+};
