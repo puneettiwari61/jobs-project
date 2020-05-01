@@ -46,9 +46,9 @@ class CandidatesSkills extends Component {
     console.log(this.state);
     return (
       <>
-        <div className="login-box profile">
+        {/* <div className="login-box profile">
           <form>
-            <h2>Skills</h2>
+            <h2>Skills</h2> */}
             {/* <div className="user-box">
               <input
                 type="email"
@@ -78,7 +78,7 @@ class CandidatesSkills extends Component {
               onChange={e => this.setState({ skills: e })}
             />
 
-            <a onClick={this.handleSubmit}>
+            {/* <a onClick={this.handleSubmit}>
               <span></span>
               <span></span>
               <span></span>
@@ -86,7 +86,7 @@ class CandidatesSkills extends Component {
               Next
             </a>
           </form>
-        </div>
+        </div> */}
       </>
     );
   }

@@ -5,10 +5,7 @@ import CandidatesSignUp from "./components/CandidatesSignUp/CandidatesSignUp";
 import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
-import CandidatesPortfolio from "./components/CandidatesOnboarding/CandidatesPortfolio";
-import CandidatesEducation from "./components/CandidatesOnboarding/CandidatesEducation";
-import CandidatesExperience from "./components/CandidatesOnboarding/CandidatesExperience";
-import CandidatesSkills from "./components/CandidatesOnboarding/CandidatesSkills";
+import CandidateProfile from "./components/CandidatesOnboarding/CandidateProfile"
 
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -64,9 +61,9 @@ function PrivateRoutes(props) {
           />
         </Route>
         <Route path="/candidates/profile">
-          <CandidatesPortfolio />
+          <CandidateProfile />
         </Route>
-        <Route path="/candidates/education">
+        {/* <Route path="/candidates/education">
           <CandidatesEducation />
         </Route>
         <Route path="/candidates/experience">
@@ -74,7 +71,7 @@ function PrivateRoutes(props) {
         </Route>
         <Route path="/candidates/skills">
           <CandidatesSkills />
-        </Route>
+        </Route> */}
         <Route path="*">
           <h1>Page Not found</h1>
         </Route>

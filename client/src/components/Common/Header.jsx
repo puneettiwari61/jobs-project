@@ -16,8 +16,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
 	grow: {
 		flexGrow: 1,
 	},
@@ -80,177 +82,179 @@ const useStyles = makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
-}));
+});
 
-export default function Header(props) {
-	const classes = useStyles();
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-	const isMenuOpen = Boolean(anchorEl);
-	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-	const handleProfileMenuOpen = (event) => {
-		setAnchorEl(event.currentTarget);
+class Header extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			active: true,
+			anchorEl: null,
+			mobileMoreAnchorEl: null,
+			isMenuOpen:null,
+			isMobileMenuOpen:null
+		};
+	}
+	isMenuOpen=() =>{
+		this.setState({ isMenuOpen: !Boolean(this.state.anchorEl) });
+	};
+ 	isMobileMenuOpen=() =>{
+		this.setState({ isMobileMenuOpen: !Boolean(this.state.mobileMoreAnchorEl) });
+	 };
+	handleProfileMenuOpen = (event) => {
+		this.setState({ anchorEl: event.currentTarget })
+		this.isMenuOpen();
+		
 	};
 
-	const handleMobileMenuClose = () => {
-		setMobileMoreAnchorEl(null);
+	handleMobileMenuClose = () => {
+		this.setState({ isMobileMenuOpen: null });
 	};
 
-	const handleMenuClose = () => {
-		setAnchorEl(null);
-		handleMobileMenuClose();
+	handleMenuClose = () => {
+		this.setState({ anchorEl: null,isMenuOpen: !Boolean(this.state.anchorEl) });
+		this.handleMobileMenuClose();
 	};
 
-	const handleMobileMenuOpen = (event) => {
-		setMobileMoreAnchorEl(event.currentTarget);
+	handleMobileMenuOpen = (event) => {
+
+		this.setState({ mobileMoreAnchorEl: event.currentTarget });
+		this.isMobileMenuOpen();
 	};
 
-	const menuId = 'primary-search-account-menu';
-	const renderMenu = (
-		<Menu
-			anchorEl={anchorEl}
-			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-			id={menuId}
-			keepMounted
-			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-			open={isMenuOpen}
-			onClose={handleMenuClose}
-		>
-			<MenuItem onClick={handleMenuClose}>
-				<Link to="/candidates/login">Login </Link>
-			</MenuItem>
+	render() {
+		const { classes } = this.props;
+		const mobileMenuId = 'primary-search-account-menu-mobile';
+		const menuId = 'primary-search-account-menu';
+		const renderMenu = (
+			<Menu
+				anchorEl={this.state.anchorEl}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+				id={menuId}
+				keepMounted
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+				open={this.state.isMenuOpen}
+				onClose={this.handleMenuClose}
+			>
+				<MenuItem onClick={this.handleMenuClose}>
+					<Link to="/candidates/login">Login </Link>
+				</MenuItem>
 
-			<MenuItem onClick={handleMenuClose}>
-				<Link to="/employers/login"> Emmployer </Link>
-			</MenuItem>
-		</Menu>
-	);
+				<MenuItem onClick={this.handleMenuClose}>
+					<Link to="/employers/login"> Emmployer </Link>
+				</MenuItem>
+			</Menu>
+		);
 
-	const mobileMenuId = 'primary-search-account-menu-mobile';
-	const renderMobileMenu = (
-		<Menu
-			anchorEl={mobileMoreAnchorEl}
-			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-			id={mobileMenuId}
-			keepMounted
-			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-			open={isMobileMenuOpen}
-			onClose={handleMobileMenuClose}
-		>
-			<MenuItem>
-				<IconButton aria-label="show 4 new mails" color="inherit">
-					<Badge badgeContent={4} color="secondary">
-						<MailIcon />
-					</Badge>
-				</IconButton>
-				<p>Messages</p>
-			</MenuItem>
-			<MenuItem>
-				<IconButton aria-label="show 11 new notifications" color="inherit">
-					<Badge badgeContent={11} color="secondary">
-						<NotificationsIcon />
-					</Badge>
-				</IconButton>
-				<p>Notifications</p>
-			</MenuItem>
-			<MenuItem onClick={handleProfileMenuOpen}>
-				<IconButton
-					aria-label="account of current user"
-					aria-controls="primary-search-account-menu"
-					aria-haspopup="true"
-					color="inherit"
-				>
-					<AccountCircle />
-				</IconButton>
-				<p>Profile</p>
-			</MenuItem>
-		</Menu>
-	);
+		const renderMobileMenu = (
+			<Menu
+				anchorEl={this.state.mobileMoreAnchorEl}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+				id={mobileMenuId}
+				keepMounted
+				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+				open={this.state.isMobileMenuOpen}
+				onClose={this.handleMobileMenuClose}
+			>
+				<MenuItem>
+					<IconButton aria-label="show 4 new mails" color="inherit">
+						<Badge badgeContent={4} color="secondary">
+							<MailIcon />
+						</Badge>
+					</IconButton>
+					<p>Messages</p>
+				</MenuItem>
+				<MenuItem>
+					<IconButton aria-label="show 11 new notifications" color="inherit">
+						<Badge badgeContent={11} color="secondary">
+							<NotificationsIcon />
+						</Badge>
+					</IconButton>
+					<p>Notifications</p>
+				</MenuItem>
+				<MenuItem onClick={this.handleProfileMenuOpen}>
+					<IconButton
+						aria-label="account of current user"
+						aria-controls="primary-search-account-menu"
+						aria-haspopup="true"
+						color="inherit"
+					>
+						<AccountCircle />
+					</IconButton>
+					<p>Profile</p>
+				</MenuItem>
+			</Menu>
+		);
 
-	return (
-		<div className={classes.grow}>
-			<AppBar position="static">
-				<Toolbar>
-					<Typography className={classes.title} variant="h6" noWrap>
-						Steve's Jobs
-					</Typography>
-					<div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchIcon />
+		function handleLogout() {
+			localStorage.clear();
+			this.props.logoutFunction();
+		}
+		return (
+			<div className={classes.grow}>
+				<AppBar position="static">
+					<Toolbar>
+						<Typography className={classes.title} variant="h6" noWrap>
+							Steve's Jobs
+						</Typography>
+						<div className={classes.search}>
+							<div className={classes.searchIcon}>
+								<SearchIcon />
+							</div>
+							<InputBase
+								placeholder="Search…"
+								classes={{
+									root: classes.inputRoot,
+									input: classes.inputInput,
+								}}
+								inputProps={{ 'aria-label': 'search' }}
+							/>
 						</div>
-						<InputBase
-							placeholder="Search…"
-							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput,
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</div>
-					<div className={classes.grow} />
-					<div className={classes.sectionDesktop}>
-						{/* <IconButton aria-label="show 4 new mails" color="inherit">
-							<Badge badgeContent={4} color="secondary">
-								<MailIcon />
-							</Badge>
-						</IconButton>
-						<IconButton aria-label="show 17 new notifications" color="inherit">
-							<Badge badgeContent={17} color="secondary">
-								<NotificationsIcon />
-							</Badge>
-						</IconButton> */}
+						<div className={classes.grow} />
+						<div className={classes.sectionDesktop}>
+							<IconButton
+								edge="start"
+								className={classes.menuButton}
+								color="inherit"
+								aria-label="open drawer"
+								edge="end"
+								
+							>
+								<AccountCircle />
+							</IconButton>
 
-						<IconButton
-							edge="start"
-							className={classes.menuButton}
-							color="inherit"
-							aria-label="open drawer"
-							edge="end"
-						>
-							<AccountCircle />
-						</IconButton>
-
-						<IconButton
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit"
-						>
-							<MenuIcon />
-						</IconButton>
-					</div>
-					<div className={classes.sectionMobile}>
-						<IconButton
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit"
-						>
-							<MoreIcon />
-						</IconButton>
-					</div>
-				</Toolbar>
-			</AppBar>
-			{renderMobileMenu}
-			{renderMenu}
-		</div>
-	);
+							<IconButton
+								aria-label="account of current user"
+								aria-controls={menuId}
+								aria-haspopup="true"
+								onClick={this.handleProfileMenuOpen}
+								color="inherit"
+							>
+								<MenuIcon />
+							</IconButton>
+						</div>
+						<div className={classes.sectionMobile}>
+							<IconButton
+								aria-label="show more"
+								aria-controls={mobileMenuId}
+								aria-haspopup="true"
+								onClick={this.handleMobileMenuOpen}
+								color="inherit"
+							>
+								<MoreIcon />
+							</IconButton>
+						</div>
+					</Toolbar>
+				</AppBar>
+				{renderMobileMenu}
+				{renderMenu}
+			</div>
+		);
+	}
 }
 
 // class Header extends Component {
-//   constructor() {
-//     super();
-//     this.state = { active: true };
-//   }
-
-//   handleLogout = () => {
-//     localStorage.clear();
-//     this.props.logoutFunction();
-//   };
+//
 
 //   render() {
 //     console.log(this.props, "from header");
@@ -339,4 +343,7 @@ export default function Header(props) {
 //   }
 // }
 
-// export default Header;
+export default withStyles(styles)(Header);
+Header.propTypes = {
+	classes: PropTypes.object.isRequired,
+};
