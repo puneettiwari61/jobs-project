@@ -72,7 +72,7 @@ const styles = theme => ({
     }
   },
   appBar: {
-    padding: "1rem 0"
+    padding: ".5rem 0"
     // marginBottom: "2rem"
   }
 });

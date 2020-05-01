@@ -7,9 +7,27 @@ import { updateLoggedCandidate } from "../../store/actions";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
+import { Button, Chip } from "@material-ui/core";
+import { withStyles } from '@material-ui/styles';
+import PropTypes from 'prop-types';
+import FaceIcon from '@material-ui/icons/Face';
 
-class CandidatesEducation extends Component {
+const styles = (theme) => ({
+	root: {
+		display: 'flex',
+		justifyContent: 'center',
+		flexDirection: 'row-reverse',
+		flexWrap: 'wrap',
+		listStyle: 'none',
+		padding: theme.spacing(0.5),
+		margin: 0,
+	},
+	chip: {
+		margin: theme.spacing(0.3),
+	},
+});
+
+class CandidatesExperience extends Component {
   constructor() {
     super();
     this.state = {
@@ -53,6 +71,7 @@ class CandidatesEducation extends Component {
   };
 
   render() {
+		const { classes } = this.props;
     return (
       <React.Fragment>
         <Grid container spacing={3}>
@@ -137,6 +156,18 @@ class CandidatesEducation extends Component {
           <Button variant="contained" size="medium" onClick={this.handleAdd}>
             ADD
           </Button>
+          {this.props.candidate.currentCandidate.experience.map((a) => {
+						return (
+							<Chip
+								clickable
+								icon={<FaceIcon />}
+								onClick=""
+                className={classes.chip}
+                onDelete="Function"
+								label={a.companyName}
+							/>
+						);
+					})}
         </Grid>
       </React.Fragment>
     );
@@ -144,12 +175,13 @@ class CandidatesEducation extends Component {
 }
 
 function mapToProps({ candidate }) {
-  let { candidateData, isCandidateLogged } = candidate;
-  return { candidateData, isCandidateLogged };
+	return { candidate };
 }
 
-export default connect(mapToProps)(withRouter(CandidatesEducation));
-
+export default connect(mapToProps)(withRouter(withStyles(styles)(CandidatesExperience)));
+CandidatesExperience.propTypes = {
+	classes: PropTypes.object.isRequired,
+};
 // return (
 //   <>
 //     <div className="login-box education">
