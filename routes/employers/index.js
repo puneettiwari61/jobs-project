@@ -5,7 +5,7 @@ var auth = require("../../modules/auth");
 var middlewares = require("../../modules/middlewares");
 
 /* signup */
-router.post("/signup", employers.signUp);
+router.post("/signup", middlewares.validateEmployersSignup(), employers.signUp);
 
 /* login User. */
 router.post("/login", middlewares.validateLogin(), employers.login);
