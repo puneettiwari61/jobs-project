@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
+const mongooseLeanGetters = require("mongoose-lean-getters");
 
 var candidateSchema = new Schema(
   {
@@ -11,23 +12,24 @@ var candidateSchema = new Schema(
     },
     password: {
       type: String,
-      required: true
+      required: true,
+      min: 6
     },
     firstName: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     lastName: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     dob: {
       type: String
       // required:true
     },
     gender: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     contactNumber: {
       type: String,
@@ -116,5 +118,7 @@ candidateSchema.pre("save", function(next) {
 candidateSchema.methods.verifyPassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
+
+// candidateSchema.plugin(mongooseLeanGetters);
 
 module.exports = mongoose.model("Candidate", candidateSchema);

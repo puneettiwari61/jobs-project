@@ -12,9 +12,12 @@
     "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-validator": "^6.4.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.10",
+    "mongoose-lean-getters": "^0.1.2",
+    "mongoose-lean-virtuals": "^0.6.2",
     "morgan": "~1.9.1"
   }
 }

@@ -3,20 +3,10 @@ var router = express.Router();
 var auth = require("../../modules/auth");
 var Candidate = require("../../models/candidates");
 var Skill = require("../../models/skills");
+var candidatesController = require("../../controllers/candidatesController");
 
-//create portfolio
-router.post("/", async (req, res) => {
-  try {
-    var updateSkills = await Skill.updateMany(
-      { name: { $in: req.body.skills } },
-      { $addToSet: { candidates: req.user.userId } }
-    );
-    res.json({ success: true, updateSkills });
-  } catch (err) {
-    console.log(err);
-    res.json({ success: false });
-  }
-});
+//add skills
+router.post("/", candidatesController.addEducation);
 
 // var updateSkills = Skill.updateMany(
 //   { name: req.body.skills },
