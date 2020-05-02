@@ -6,6 +6,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 
 var skillsData = require("./modules/skillsData.json");
+const indexRouter = require("./routes/index");
 var employersRouter = require("./routes/employers/index");
 var candidatesRouter = require("./routes/candidates/index");
 var Skill = require("./models/skills");
@@ -23,6 +24,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Webpack Configuration
+if (process.env.NODE_ENV === "development") {
+  const webpack = require("webpack");
+  const webpackConfig = require("./webpack.config");
+  const compiler = webpack(webpackConfig);
+
+  app.use(
+    require("webpack-dev-middleware")(compiler, {
+      noInfo: true,
+      publicPath: webpackConfig.output.publicPath
+    })
+  );
+
+  app.use(require("webpack-hot-middleware")(compiler));
+}
 
 //connect to database
 mongoose.connect(
@@ -49,6 +66,7 @@ mongoose.connect(
 
 app.use("/api/v1/employers", employersRouter);
 app.use("/api/v1/candidates", candidatesRouter);
+app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

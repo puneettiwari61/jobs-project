@@ -99,7 +99,7 @@ class CandidatesLogin extends Component {
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                  Sign in
+                  Candidate Login
                 </Typography>
                 <form className={classes.form} noValidate>
                   <TextField
@@ -147,11 +147,7 @@ class CandidatesLogin extends Component {
                       </Link>
                     </Grid>
                     <Grid item>
-                      <Link
-                        onClick={() =>
-                          this.props.history.push("/candidates/signup")
-                        }
-                      >
+                      <Link href="/candidates/signup">
                         {"Don't have an account? Sign Up"}
                       </Link>
                     </Grid>

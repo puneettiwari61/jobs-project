@@ -1,16 +1,22 @@
 var express = require("express");
 var router = express.Router();
+const { check, validationResult } = require("express-validator");
 var candidatesController = require("../../controllers/candidatesController");
 var educationRouter = require("./education");
 var experienceRouter = require("./experience");
 var auth = require("../../modules/auth");
 var skillsRouter = require("./skills");
+var middlewares = require("../../modules/middlewares");
 
 /* Signup User. */
-router.post("/signup", candidatesController.signUp);
+router.post(
+  "/signup",
+  middlewares.validateCandidatesSignup(),
+  candidatesController.signUp
+);
 
 /* login User. */
-router.post("/login", candidatesController.login);
+router.post("/login", middlewares.validateLogin(), candidatesController.login);
 
 // Details of current logged in user
 router.get("/me", auth.verifyToken, candidatesController.getCurrentUser);

@@ -21,6 +21,9 @@ class LandingPage extends Component {
             ? employer.currentEmployer.firstName
             : ""}
         </h1>
+        <div style={{ textAlign: "center" }}>
+          <img src="/job.png" alt="" />
+        </div>
       </div>
     );
   }
