@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-// const { check, validationResult } = require("express-validator");
+
 var candidatesController = require("../../controllers/candidatesController");
 var educationRouter = require("./education");
 var experienceRouter = require("./experience");
