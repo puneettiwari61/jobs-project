@@ -87,7 +87,7 @@ class CandidatesSignUp extends Component {
     e.preventDefault();
     Axios.post("/api/v1/candidates/signup", { ...this.state })
       .then(res => {
-        console.log(res, "signup successful");
+        console.log(res, "signup successful",res.data.token);
         localStorage.setItem(
           "jobUser",
           JSON.stringify({ token: res.data.token, type: "candidate" })

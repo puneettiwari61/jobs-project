@@ -4,6 +4,7 @@ var auth = require("../modules/auth");
 module.exports = {
   signUp: async (req, res) => {
     // TODO: Proper validation.
+    // console.log(req.body)
     try {
       var employer = await Employer.create(req.body);
       var token = await auth.generateJWT(employer);

@@ -1,4 +1,3 @@
-// TODO: Convention types should be capitalized.
 
 export let IDENTIFY_CANDIDATE = "IDENTIFY_CANDIDATE";
 export let LOGOUT_CANDIDATE = "LOGOUT_CANDIDATE";

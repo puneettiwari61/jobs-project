@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import logger from "redux-logger";
 import thunk from "redux-thunk";
 import candidateReducer from "./reducers/candidateReducer";
 import employerReducer from "./reducers/employerReducer";
