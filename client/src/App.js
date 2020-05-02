@@ -20,6 +20,7 @@ import {
   identifyLoggedUser
 } from "./store/actions";
 import "./App.css";
+import AwesomeComponent from "./components/Loader/Lodaer";
 
 function PublicRoutes(props) {
   return (
@@ -41,7 +42,15 @@ function PublicRoutes(props) {
         </Route>
         />
         <Route path="*">
-          <h1>Page Not found</h1>
+          <h1
+            style={{
+              margin: "200px auto",
+              textAlign: "center",
+              color: "red"
+            }}
+          >
+            Page Not found
+          </h1>
         </Route>
       </Switch>
     </>
@@ -69,7 +78,15 @@ function PrivateRoutes(props) {
           <CandidatesSkills />
         </Route>
         <Route path="*">
-          <h1>Page Not found</h1>
+          <h1
+            style={{
+              margin: "200px auto",
+              textAlign: "center",
+              color: "red"
+            }}
+          >
+            Page Not found
+          </h1>
         </Route>
       </Switch>
     </>
@@ -122,7 +139,10 @@ class App extends React.Component {
 
     return (
       <>
-        {candidate.currentCandidate || employer.currentEmployer ? (
+        {this.props.candidate.isAuthInProgress ||
+        this.props.employer.isAuthInProgress ? (
+          <AwesomeComponent />
+        ) : candidate.currentCandidate || employer.currentEmployer ? (
           <PrivateRoutes
             currentCandidate={candidate.currentCandidate}
             handleLogout={this.handleLogout}
