@@ -233,7 +233,7 @@ class EmployersSignUp extends Component {
                     id="outlined-select-currency"
                     select
                     label="Gender"
-                    helperText="Please select your currency"
+                    helperText="Please select your gender"
                     variant="outlined"
                     type="radio"
                     name="gender"

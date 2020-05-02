@@ -2,7 +2,8 @@ import {
   IDENTIFY_CANDIDATE,
   LOGOUT_CANDIDATE,
   LOGIN_CANDIDATE,
-  UPDATE_LOGGED_CANDIDATE
+  UPDATE_LOGGED_CANDIDATE,
+  CANDIDATE_AUTH_IN_PROGRESS
 } from "../types";
 
 let initialState = {
@@ -21,6 +22,11 @@ export default function candidateReducer(state = initialState, action) {
       return { ...state, ...action.payload };
     case UPDATE_LOGGED_CANDIDATE:
       return { ...state, ...action.payload };
+    case CANDIDATE_AUTH_IN_PROGRESS:
+      return {
+        ...state,
+        ...action.payload
+      };
     default:
       return state;
   }

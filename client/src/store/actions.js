@@ -5,7 +5,9 @@ import {
   LOGIN_CANDIDATE,
   LOGOUT_EMPLOYER,
   LOGIN_EMPLOYER,
-  UPDATE_LOGGED_CANDIDATE
+  UPDATE_LOGGED_CANDIDATE,
+  CANDIDATE_AUTH_IN_PROGRESS,
+  EMPLOYER_AUTH_IN_PROGRESS
 } from "./types";
 // TODO: Axios should be axios.
 import Axios from "axios";
@@ -40,10 +42,23 @@ export let loginEmployer = payload => {
   return { type: LOGIN_EMPLOYER, payload };
 };
 
+export let candidateAuthProgress = payload => {
+  return { type: CANDIDATE_AUTH_IN_PROGRESS, payload };
+};
+
+export let employerAuthProgress = payload => {
+  return { type: EMPLOYER_AUTH_IN_PROGRESS, payload };
+};
+
 export let identifyLoggedUser = () => {
   return function() {
     if (localStorage.jobUser) {
       let userType = JSON.parse(localStorage.jobUser).type;
+      store.dispatch(
+        userType === "candidate"
+          ? candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+          : employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+      );
       Axios.get(`/api/v1/${userType}s/me`, {
         headers: { authorization: JSON.parse(localStorage.jobUser).token }
       })
@@ -75,6 +90,9 @@ export let identifyLoggedUser = () => {
 
 export let validateCandidatesLogin = payload => {
   return function() {
+    store.dispatch(
+      candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+    );
     Axios.post("/api/v1/candidates/login", { ...payload })
       .then(res => {
         if (res.data.success === true) {
@@ -119,6 +137,9 @@ export let candidatesSignup = payload => {
 
 export let validateEmployersLogin = payload => {
   return function() {
+    store.dispatch(
+      employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+    );
     Axios.post("/api/v1/employers/login", { ...payload })
       .then(res => {
         if (res.data.success === true) {
