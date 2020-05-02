@@ -1,5 +1,6 @@
 var Candidate = require("../models/candidates");
 var auth = require("../modules/auth");
+var Skill = require("../models/skills");
 const { check, validationResult } = require("express-validator");
 
 module.exports = {
@@ -93,6 +94,15 @@ module.exports = {
         { name: { $in: req.body.skills } },
         { $addToSet: { candidates: req.user.userId } }
       );
+
+      var findSkills = await Skill.find({
+        name: { $in: req.body.skills }
+      });
+      findSkills.forEach(async s => {
+        await Candidate.findByIdAndUpdate(req.user.userId, {
+          $addToSet: { skills: s._id }
+        });
+      });
       res.json({ success: true, updateSkills });
     } catch (err) {
       console.log(err);

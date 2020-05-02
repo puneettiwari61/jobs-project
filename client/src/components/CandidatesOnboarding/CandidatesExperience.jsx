@@ -7,9 +7,27 @@ import { updateLoggedCandidate } from "../../store/actions";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
+import { Button, Chip } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+import PropTypes from "prop-types";
+import FaceIcon from "@material-ui/icons/Face";
 
-class CandidatesEducation extends Component {
+const styles = theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    listStyle: "none",
+    padding: theme.spacing(0.5),
+    margin: 0
+  },
+  chip: {
+    margin: theme.spacing(0.3)
+  }
+});
+
+class CandidatesExperience extends Component {
   constructor() {
     super();
     this.state = {
@@ -53,6 +71,8 @@ class CandidatesEducation extends Component {
   };
 
   render() {
+    console.log(this.props.candidate.currentCandidate);
+    const { classes } = this.props;
     return (
       <React.Fragment>
         <Grid container spacing={3}>
@@ -99,7 +119,7 @@ class CandidatesEducation extends Component {
               name="description"
               label="Description"
               fullWidth
-              placeholder="about your work and rolw in the company.."
+              placeholder="about your work and role in the company.."
               onChange={this.handleChange}
               value={this.state.description}
             />
@@ -137,6 +157,18 @@ class CandidatesEducation extends Component {
           <Button variant="contained" size="medium" onClick={this.handleAdd}>
             ADD
           </Button>
+          {this.props.candidate.currentCandidate.experience.map(a => {
+            return (
+              <Chip
+                clickable
+                icon={<FaceIcon />}
+                onClick=""
+                className={classes.chip}
+                onDelete="Function"
+                label={a.companyName}
+              />
+            );
+          })}
         </Grid>
       </React.Fragment>
     );
@@ -144,107 +176,12 @@ class CandidatesEducation extends Component {
 }
 
 function mapToProps({ candidate }) {
-  let { candidateData, isCandidateLogged } = candidate;
-  return { candidateData, isCandidateLogged };
+  return { candidate };
 }
 
-export default connect(mapToProps)(withRouter(CandidatesEducation));
-
-// return (
-//   <>
-//     <div className="login-box education">
-//       <form>
-//         <h2>Experience(If any)</h2>
-//         <div className="user-box">
-//           <input
-//             type="text"
-//             name="companyName"
-//             required=""
-//             onChange={this.handleChange}
-//             value={this.state.companyName}
-//             placeholder="e.g. TCS"
-//           />
-//           <label>Company</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="text"
-//             name="designation"
-//             required=""
-//             onChange={this.handleChange}
-//             value={this.state.designation}
-//             placeholder="e.g. junior developer"
-//           />
-//           <label>Designation</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="text"
-//             name="location"
-//             required=""
-//             placeholder="e.g. Delhi"
-//             onChange={this.handleChange}
-//             value={this.state.location}
-//           />
-//           <label>Location</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="text"
-//             required=""
-//             name="description"
-//             placeholder="your role and work..."
-//             onChange={this.handleChange}
-//             value={this.state.description}
-//           />
-//           <label>Desciption</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="date"
-//             name="joiningDate"
-//             required=""
-//             placeholder="joining date..."
-//             onChange={this.handleChange}
-//             value={this.state.joiningDate}
-//           />
-//           <label>Joining Date</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="date"
-//             name="leavingDate"
-//             required=""
-//             placeholder="year of passing"
-//             placeholder="leaving date..."
-//             onChange={this.handleChange}
-//             value={this.state.leavingDate}
-//           />
-//           <label>Leaving Date</label>
-//         </div>
-//         <a onClick={this.handleAdd}>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           Add
-//         </a>
-//         <br />
-//         <a onClick={this.handleBack}>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           Back
-//         </a>
-//         <a onClick={this.handleSubmit}>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           Next
-//         </a>
-//       </form>
-//     </div>
-//   </>
-// );
+export default connect(mapToProps)(
+  withRouter(withStyles(styles)(CandidatesExperience))
+);
+CandidatesExperience.propTypes = {
+  classes: PropTypes.object.isRequired
+};

@@ -115,7 +115,7 @@ class CandidatesSignUp extends Component {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Candidate Signup
             </Typography>
             <form className={classes.form} noValidate>
               <Grid container spacing={2}>
@@ -189,7 +189,6 @@ class CandidatesSignUp extends Component {
                     fullWidth
                     id="city"
                     label="City"
-                    autoFocus
                     size="small"
                     type="city"
                     onChange={this.handleChange}
@@ -205,7 +204,6 @@ class CandidatesSignUp extends Component {
                     fullWidth
                     id="zip"
                     label="Zip"
-                    autoFocus
                     size="small"
                     type="zip"
                     onChange={this.handleChange}
@@ -280,7 +278,7 @@ class CandidatesSignUp extends Component {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/candidates/signup" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

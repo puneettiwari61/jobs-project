@@ -5,6 +5,6 @@ var Candidate = require("../../models/candidates");
 var candidatesController = require("../../controllers/candidatesController");
 
 //add experience
-router.post("/", candidatesController.addEducation);
+router.post("/", candidatesController.addExperience);
 
 module.exports = router;
