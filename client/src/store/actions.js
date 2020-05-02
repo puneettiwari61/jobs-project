@@ -72,3 +72,165 @@ export let identifyLoggedUser = () => {
     }
   };
 };
+
+export let validateCandidatesLogin = payload => {
+  return function() {
+    Axios.post("/api/v1/candidates/login", { ...payload })
+      .then(res => {
+        if (res.data.success === true) {
+          console.log(res, "login successful");
+          localStorage.setItem(
+            "jobUser",
+            JSON.stringify({ token: res.data.token, type: "candidate" })
+          );
+          store.dispatch(
+            loginCandidate({
+              currentCandidate: res.data.candidate,
+              isAuthInProgress: false,
+              isAuthDone: true
+            })
+          );
+        }
+      })
+      .catch(err => console.log(err, "login failed"));
+  };
+};
+
+export let candidatesSignup = payload => {
+  return function() {
+    Axios.post("/api/v1/candidates/signup", { ...payload })
+      .then(res => {
+        console.log(res, "signup successful");
+        localStorage.setItem(
+          "jobUser",
+          JSON.stringify({ token: res.data.token, type: "candidate" })
+        );
+        store.dispatch(
+          loginCandidate({
+            currentCandidate: res.data.candidate,
+            isAuthInProgress: false,
+            isAuthDone: true
+          })
+        );
+      })
+      .catch(err => console.log(err, "signup failed"));
+  };
+};
+
+export let validateEmployersLogin = payload => {
+  return function() {
+    Axios.post("/api/v1/employers/login", { ...payload })
+      .then(res => {
+        if (res.data.success === true) {
+          console.log(res, "login successful");
+          localStorage.setItem(
+            "jobUser",
+            JSON.stringify({ token: res.data.token, type: "employer" })
+          );
+          // this.props.loginFunction();
+          store.dispatch(
+            loginEmployer({
+              currentEmployer: res.data.employer,
+              isAuthInProgress: false,
+              isAuthDone: true
+            })
+          );
+        }
+      })
+      .catch(err => console.log(err, "login failed"));
+  };
+};
+
+export let employersSignup = payload => {
+  return function() {
+    Axios.post("/api/v1/employers/signup", { ...payload })
+      .then(res => {
+        console.log(res, "signup successful");
+        localStorage.setItem(
+          "jobUser",
+          JSON.stringify({ token: res.data.token, type: "employer" })
+        );
+        store.dispatch(
+          loginEmployer({
+            currentEmployer: null,
+            isAuthInProgress: false,
+            isAuthDone: false
+          })
+        );
+      })
+      .catch(err => console.log(err, "signup failed"));
+  };
+};
+
+export let saveCandidatesBasicInfo = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/candidates/profile",
+      { ...payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "portfolio successful");
+        store.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
+      })
+      .catch(err => console.log(err, "portfolio failed"));
+  };
+};
+
+export let addCandidatesEducation = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/candidates/education",
+      { ...payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "education successful");
+        store.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
+      })
+      .catch(err => console.log(err, "education failed"));
+  };
+};
+
+export let addCandidatesExperience = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/candidates/experience",
+      { ...payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "experience successful");
+        store.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
+      })
+      .catch(err => console.log(err, "experience failed"));
+  };
+};
+
+export let addCandidatesSkills = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/candidates/skills",
+      { ...payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res.data, "skills successful");
+      })
+      .catch(err => console.log(err, "skills failed"));
+  };
+};

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { loginEmployer } from "../../store/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,6 +15,8 @@ import Container from "@material-ui/core/Container";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
+
+import { employersSignup } from "../../store/actions";
 
 const genders = [
   {
@@ -82,23 +82,8 @@ class EmployersSignUp extends Component {
 
   handleSubmit = e => {
     console.log(this.state);
-    Axios.post("/api/v1/employers/signup", { ...this.state })
-      .then(res => {
-        console.log(res, "signup successful");
-        localStorage.setItem(
-          "jobUser",
-          JSON.stringify({ token: res.data.token, type: "employer" })
-        );
-        this.props.dispatch(
-          loginEmployer({
-            currentEmployer: null,
-            isAuthInProgress: false,
-            isAuthDone: false
-          })
-        );
-        this.props.history.push("/");
-      })
-      .catch(err => console.log(err, "signup failed"));
+    this.props.dispatch(employersSignup(this.state));
+    this.props.history.push("/");
   };
 
   render() {

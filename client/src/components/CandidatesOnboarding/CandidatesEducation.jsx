@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateLoggedCandidate } from "../../store/actions";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { Button, Chip } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import FaceIcon from "@material-ui/icons/Face";
+
+import { addCandidatesEducation } from "../../store/actions";
 
 const styles = theme => ({
   root: {
@@ -44,28 +44,15 @@ class CandidatesEducation extends Component {
 
   handleAdd = e => {
     console.log(this.state);
-    Axios.post(
-      "/api/v1/candidates/education",
-      { ...this.state },
-      {
-        headers: { authorization: JSON.parse(localStorage.jobUser).token }
-      }
-    )
-      .then(res => {
-        console.log(res, "education successful");
-        this.props.dispatch(
-          updateLoggedCandidate({ currentCandidate: res.data.candidate })
-        );
-        this.setState({
-          schoolOrCollege: "",
-          classOrDegree: "",
-          grade: "",
-          branch: "",
-          from: "",
-          to: ""
-        });
-      })
-      .catch(err => console.log(err, "education failed"));
+    this.props.dispatch(addCandidatesEducation(this.state));
+    this.setState({
+      schoolOrCollege: "",
+      classOrDegree: "",
+      grade: "",
+      branch: "",
+      from: "",
+      to: ""
+    });
   };
 
   render() {
