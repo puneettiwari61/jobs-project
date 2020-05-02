@@ -229,6 +229,22 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    autoComplete="fname"
+                    name="contactNumber"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="contactNumber"
+                    label="Profile Description"
+                    size="small"
+                    type="tel"
+                    onChange={this.handleChange}
+                    value={this.state.profileDescription}
+                    // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
                     size="small"
                     id="outlined-select-currency"
                     select

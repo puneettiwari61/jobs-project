@@ -31,27 +31,65 @@ var employerSchema = new Schema(
     },
     contactNumber: {
       type: Number,
-      required: false
+      // required: false
     },
     profileImage: {
       type: String
     },
-    portfolio: {
-      type: Schema.Types.ObjectId,
-      ref: "EmployerPortfolio"
-    }
+    profileDescription: {
+      type: String
+    },
+    city: {
+      type: String
+      // required: true
+    },
+    zip: {
+      type: Number
+      // required: true
+    },
+    company: [{
+      establishmentDate: {
+        type: Date,
+        // required: false
+      },
+      companyName: {
+        type: String
+      },
+      companyWebsiteUrl: {
+        type: String
+      },
+      companyLogo: {
+        type: String,
+        // required: true
+      },
+      founder: {
+        type: String
+      },
+      foundersView: {
+        type: String
+      },
+      aboutCompany: {
+        type: String
+      }
+    }],
+    skills: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Skill"
+      }
+    ]
   },
   { timestamps: true }
 );
 
-employerSchema.pre("save", function(next) {
+employerSchema.pre("save", function (next) {
   if (this.password && this.isModified("password")) {
     this.password = bcrypt.hashSync(this.password, 10);
     next();
   }
 });
 
-employerSchema.methods.verifyPassword = function(password) {
+employerSchema.methods.verifyPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
