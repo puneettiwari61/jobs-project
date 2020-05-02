@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-// import "./login.scss";
-import { loginCandidate } from "../../store/actions";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -15,9 +12,10 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
+
+import { validateCandidatesLogin } from "../../store/actions";
 
 const styles = theme => ({
   paper: {
@@ -64,25 +62,8 @@ class CandidatesLogin extends Component {
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-    Axios.post("/api/v1/candidates/login", { ...this.state })
-      .then(res => {
-        if (res.data.success === true) {
-          console.log(res, "login successful");
-          localStorage.setItem(
-            "jobUser",
-            JSON.stringify({ token: res.data.token, type: "candidate" })
-          );
-          this.props.dispatch(
-            loginCandidate({
-              currentCandidate: res.data.candidate,
-              isAuthInProgress: false,
-              isAuthDone: true
-            })
-          );
-          this.props.history.push("/");
-        }
-      })
-      .catch(err => console.log(err, "login failed"));
+    this.props.dispatch(validateCandidatesLogin(this.state));
+    this.props.history.push("/candidates/profile");
   };
 
   render() {
@@ -162,8 +143,8 @@ class CandidatesLogin extends Component {
   }
 }
 
-function mapToProps({ candidate, employer }) {
-  return { candidate, employer };
+function mapToProps({ candidate }) {
+  return { candidate };
 }
 
 export default connect(mapToProps)(

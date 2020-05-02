@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Axios from "axios";
 import { withRouter } from "react-router-dom";
-
-// import "./Portfolio.scss";
-import { updateLoggedCandidate } from "../../store/actions";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
+
+import { saveCandidatesBasicInfo } from "../../store/actions";
 
 const products = [
   { name: "Product 1", desc: "A nice thing", price: "$9.99" },
@@ -72,20 +69,7 @@ class CandidatesPortfolio extends Component {
   };
 
   handleSave = e => {
-    Axios.post(
-      "/api/v1/candidates/profile",
-      { ...this.state },
-      {
-        headers: { authorization: JSON.parse(localStorage.jobUser).token }
-      }
-    )
-      .then(res => {
-        console.log(res, "portfolio successful");
-        this.props.dispatch(
-          updateLoggedCandidate({ currentCandidate: res.data.candidate })
-        );
-      })
-      .catch(err => console.log(err, "portfolio failed"));
+    this.props.dispatch(saveCandidatesBasicInfo(this.state));
   };
 
   render() {
@@ -158,65 +142,3 @@ CandidatesPortfolio.propTypes = {
 export default connect(mapToProps)(
   withRouter(withStyles(styles)(CandidatesPortfolio))
 );
-
-// return (
-//   <>
-//     <div className="login-box profile">
-//       <form>
-//         <h2>Your Profile</h2>
-//         <div className="user-box">
-//           <input
-//             type="url"
-//             name="image"
-//             required=""
-//             placeholder="url"
-//             onChange={this.handleChange}
-//             value={this.state.image}
-//           />
-//           <label>Image</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="url"
-//             name="github"
-//             required=""
-//             placeholder="url"
-//             onChange={this.handleChange}
-//             value={this.state.github}
-//           />
-//           <label>Github</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="text"
-//             name="spokenLanguages"
-//             required=""
-//             placeholder="e.g. English,Hindi"
-//             onChange={this.handleChange}
-//             value={this.state.spokenLanguages}
-//           />
-//           <label>Language</label>
-//         </div>
-//         <div className="user-box">
-//           <input
-//             type="text"
-//             name="resume"
-//             required=""
-//             placeholder="url"
-//             onChange={this.handleChange}
-//             value={this.state.resume}
-//           />
-//           <label>Resume</label>
-//         </div>
-
-//         <a onClick={this.handleSubmit}>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           <span></span>
-//           Next
-//         </a>
-//       </form>
-//     </div>
-//   </>
-// );

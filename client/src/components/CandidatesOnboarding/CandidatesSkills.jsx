@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import Skills from "./skillsData.json";
-import "./Portfolio.scss";
 import { Button } from "@material-ui/core";
+import { addCandidatesSkills } from "../../store/actions.js";
 
 class CandidatesSkills extends Component {
   constructor() {
@@ -18,17 +17,7 @@ class CandidatesSkills extends Component {
   handleAdd = e => {
     let skillsArray = this.state.skills.map(a => a.value);
     console.log(skillsArray);
-    Axios.post(
-      "/api/v1/candidates/skills",
-      { skills: skillsArray },
-      {
-        headers: { authorization: JSON.parse(localStorage.jobUser).token }
-      }
-    )
-      .then(res => {
-        console.log(res.data, "skills successful");
-      })
-      .catch(err => console.log(err, "skills failed"));
+    this.props.dispatch(addCandidatesSkills({ skills: skillsArray }));
   };
 
   render() {

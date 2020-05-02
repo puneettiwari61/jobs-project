@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-// import "./Portfolio.scss";
-import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateLoggedCandidate } from "../../store/actions";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { Button, Chip } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import FaceIcon from "@material-ui/icons/Face";
+
+import { addCandidatesExperience } from "../../store/actions";
 
 const styles = theme => ({
   root: {
@@ -46,28 +44,15 @@ class CandidatesExperience extends Component {
 
   handleAdd = e => {
     console.log(this.state);
-    Axios.post(
-      "/api/v1/candidates/experience",
-      { ...this.state },
-      {
-        headers: { authorization: JSON.parse(localStorage.jobUser).token }
-      }
-    )
-      .then(res => {
-        console.log(res, "experience successful");
-        this.setState({
-          companyName: "",
-          designation: "",
-          location: "",
-          description: "",
-          joiningDate: "",
-          leavingDate: ""
-        });
-        this.props.dispatch(
-          updateLoggedCandidate({ currentCandidate: res.data.candidate })
-        );
-      })
-      .catch(err => console.log(err, "experience failed"));
+    this.props.dispatch(addCandidatesExperience(this.state));
+    this.setState({
+      companyName: "",
+      designation: "",
+      location: "",
+      description: "",
+      joiningDate: "",
+      leavingDate: ""
+    });
   };
 
   render() {
