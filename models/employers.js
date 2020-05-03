@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
+const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
 var employerSchema = new Schema(
   {
@@ -30,7 +31,7 @@ var employerSchema = new Schema(
       // required: true
     },
     contactNumber: {
-      type: Number,
+      type: Number
       // required: false
     },
     profileImage: {
@@ -47,31 +48,33 @@ var employerSchema = new Schema(
       type: Number
       // required: true
     },
-    company: [{
-      establishmentDate: {
-        type: Date,
-        // required: false
-      },
-      companyName: {
-        type: String
-      },
-      companyWebsiteUrl: {
-        type: String
-      },
-      companyLogo: {
-        type: String,
-        // required: true
-      },
-      founder: {
-        type: String
-      },
-      foundersView: {
-        type: String
-      },
-      aboutCompany: {
-        type: String
+    company: [
+      {
+        establishmentDate: {
+          type: Date
+          // required: false
+        },
+        companyName: {
+          type: String
+        },
+        companyWebsiteUrl: {
+          type: String
+        },
+        companyLogo: {
+          type: String
+          // required: true
+        },
+        founder: {
+          type: String
+        },
+        foundersView: {
+          type: String
+        },
+        aboutCompany: {
+          type: String
+        }
       }
-    }],
+    ],
     skills: [
       {
         type: Schema.Types.ObjectId,
@@ -82,15 +85,23 @@ var employerSchema = new Schema(
   { timestamps: true }
 );
 
-employerSchema.pre("save", function (next) {
+employerSchema.pre("save", function(next) {
   if (this.password && this.isModified("password")) {
     this.password = bcrypt.hashSync(this.password, 10);
     next();
   }
 });
 
-employerSchema.methods.verifyPassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
+// employerSchema.methods.verifyPassword = function(password) {
+//   return bcrypt.compareSync(password, this.password);
+// };
+
+employerSchema.virtual("verifyPassword").get(function() {
+  return function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+});
+
+employerSchema.plugin(mongooseLeanVirtuals);
 
 module.exports = mongoose.model("Employer", employerSchema);

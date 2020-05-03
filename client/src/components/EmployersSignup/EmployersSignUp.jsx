@@ -81,7 +81,7 @@ class EmployersSignUp extends Component {
   };
 
   handleSubmit = e => {
-    console.log(this.state);
+    e.preventDefault();
     this.props.dispatch(employersSignup(this.state));
     this.props.history.push("/");
   };
