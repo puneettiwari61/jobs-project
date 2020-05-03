@@ -120,6 +120,9 @@ export let validateCandidatesLogin = payload => {
 
 export let candidatesSignup = payload => {
   return function() {
+    store.dispatch(
+      candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+    );
     Axios.post("/api/v1/candidates/signup", { ...payload })
       .then(res => {
         if (res.data.success) {
@@ -170,6 +173,9 @@ export let validateEmployersLogin = payload => {
 
 export let employersSignup = payload => {
   return function() {
+    store.dispatch(
+      employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+    );
     Axios.post("/api/v1/employers/signup", { ...payload })
       .then(res => {
         if (res.data.success) {
