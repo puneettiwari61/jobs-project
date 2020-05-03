@@ -84,12 +84,12 @@ class Header extends React.Component {
 		this.setState({ anchorEl: null });
 	};
 
-	handleCloseAndLogout = () => {
-		// setAnchorEl(null);
-		this.setState({ anchorEl: null });
-		this.props.handleLogout();
-		this.props.history.push('/git');
-	};
+  handleCloseAndLogout = () => {
+    // setAnchorEl(null);
+    this.setState({ anchorEl: null });
+    this.props.handleLogout();
+    this.props.history.push("/");
+  };
 
 	render() {
 		console.log(this.props, 'from header');

@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
+const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
 var employerSchema = new Schema(
   {
@@ -30,16 +31,56 @@ var employerSchema = new Schema(
       // required: true
     },
     contactNumber: {
-      type: Number,
-      required: false
+      type: Number
+      // required: false
     },
     profileImage: {
       type: String
     },
-    portfolio: {
-      type: Schema.Types.ObjectId,
-      ref: "EmployerPortfolio"
-    }
+    profileDescription: {
+      type: String
+    },
+    city: {
+      type: String
+      // required: true
+    },
+    zip: {
+      type: Number
+      // required: true
+    },
+    company: [
+      {
+        establishmentDate: {
+          type: Date
+          // required: false
+        },
+        companyName: {
+          type: String
+        },
+        companyWebsiteUrl: {
+          type: String
+        },
+        companyLogo: {
+          type: String
+          // required: true
+        },
+        founder: {
+          type: String
+        },
+        foundersView: {
+          type: String
+        },
+        aboutCompany: {
+          type: String
+        }
+      }
+    ],
+    skills: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Skill"
+      }
+    ]
   },
   { timestamps: true }
 );
@@ -51,8 +92,16 @@ employerSchema.pre("save", function(next) {
   }
 });
 
-employerSchema.methods.verifyPassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
-};
+// employerSchema.methods.verifyPassword = function(password) {
+//   return bcrypt.compareSync(password, this.password);
+// };
+
+employerSchema.virtual("verifyPassword").get(function() {
+  return function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+});
+
+employerSchema.plugin(mongooseLeanVirtuals);
 
 module.exports = mongoose.model("Employer", employerSchema);

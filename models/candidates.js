@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
 const mongooseLeanGetters = require("mongoose-lean-getters");
+const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
 var candidateSchema = new Schema(
   {
@@ -115,10 +116,16 @@ candidateSchema.pre("save", function(next) {
   }
 });
 
-candidateSchema.methods.verifyPassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
-};
+// candidateSchema.methods.verifyPassword = function(password) {
+//   return bcrypt.compareSync(password, this.password);
+// };
 
-// candidateSchema.plugin(mongooseLeanGetters);
+candidateSchema.virtual("verifyPassword").get(function() {
+  return function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+});
+
+candidateSchema.plugin(mongooseLeanVirtuals);
 
 module.exports = mongoose.model("Candidate", candidateSchema);
