@@ -31,16 +31,56 @@ var employerSchema = new Schema(
       // required: true
     },
     contactNumber: {
-      type: Number,
-      required: false
+      type: Number
+      // required: false
     },
     profileImage: {
       type: String
     },
-    portfolio: {
-      type: Schema.Types.ObjectId,
-      ref: "EmployerPortfolio"
-    }
+    profileDescription: {
+      type: String
+    },
+    city: {
+      type: String
+      // required: true
+    },
+    zip: {
+      type: Number
+      // required: true
+    },
+    company: [
+      {
+        establishmentDate: {
+          type: Date
+          // required: false
+        },
+        companyName: {
+          type: String
+        },
+        companyWebsiteUrl: {
+          type: String
+        },
+        companyLogo: {
+          type: String
+          // required: true
+        },
+        founder: {
+          type: String
+        },
+        foundersView: {
+          type: String
+        },
+        aboutCompany: {
+          type: String
+        }
+      }
+    ],
+    skills: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Skill"
+      }
+    ]
   },
   { timestamps: true }
 );

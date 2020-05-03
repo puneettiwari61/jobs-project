@@ -64,5 +64,20 @@ module.exports = {
       console.log(err);
       res.json({ success: false, err });
     }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      var employer = await Employer.findByIdAndUpdate(req.user.userId,
+        { $push: { company: req.body } },
+        {
+          new: true
+        }
+      );
+      console.log(employer, "from update profile");
+      res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
   }
 };

@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+
 var candidatesController = require("../../controllers/candidatesController");
 var educationRouter = require("./education");
 var experienceRouter = require("./experience");
