@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var bcrypt = require("bcryptjs");
+const mongooseLeanVirtuals = require("mongoose-lean-virtuals");
 
 var employerSchema = new Schema(
   {
@@ -51,8 +52,16 @@ employerSchema.pre("save", function(next) {
   }
 });
 
-employerSchema.methods.verifyPassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
-};
+// employerSchema.methods.verifyPassword = function(password) {
+//   return bcrypt.compareSync(password, this.password);
+// };
+
+employerSchema.virtual("verifyPassword").get(function() {
+  return function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+});
+
+employerSchema.plugin(mongooseLeanVirtuals);
 
 module.exports = mongoose.model("Employer", employerSchema);

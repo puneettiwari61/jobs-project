@@ -180,9 +180,9 @@ export let employersSignup = payload => {
           );
           store.dispatch(
             loginEmployer({
-              currentEmployer: null,
+              currentEmployer: res.data.employer,
               isAuthInProgress: false,
-              isAuthDone: false
+              isAuthDone: true
             })
           );
         }

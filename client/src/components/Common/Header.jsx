@@ -97,6 +97,7 @@ class Header extends React.Component {
     // setAnchorEl(null);
     this.setState({ anchorEl: null });
     this.props.handleLogout();
+    this.props.history.push("/");
   };
 
   render() {
