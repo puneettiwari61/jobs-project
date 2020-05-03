@@ -161,7 +161,7 @@ class CandidatesSignUp extends Component {
 									</Grid>
 									<Grid item xs={12}>
 										<TextField
-											validators={['required', 'matchRegexp:^[a-z | 0-9 | !,@,#,$,$,^,&,*,(,),_,+]{6,15}$']}
+											validators={['required', 'matchRegexp:^[a-z|A-Z | 0-9 | !,@,#,$,$,^,&,*,(,),_,+]{6,15}$']}
 											errorMessages={['passwword is required', 'minimum length is 6']}
 											variant="outlined"
 											required
@@ -178,8 +178,8 @@ class CandidatesSignUp extends Component {
 									</Grid>
 									<Grid item xs={12} sm={6}>
 										<TextField
-											validators={['required', 'matchRegexp:^[a-z | 0-9]{3,15}$']}
-											errorMessages={['City is required', 'minimum length is 3']}
+											validators={['required', 'matchRegexp:^[a-z |A-Z| 0-9]{3,15}$']}
+											errorMessages={['City is required', 'minimum length is 3 and no special character']}
 											autoComplete="fname"
 											name="city"
 											variant="outlined"
@@ -246,7 +246,6 @@ class CandidatesSignUp extends Component {
 											type="tel"
 											onChange={this.handleChange}
 											value={this.state.contactNumber}
-											// pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
 										/>
 									</Grid>
 									<Grid item xs={12} sm={6}>

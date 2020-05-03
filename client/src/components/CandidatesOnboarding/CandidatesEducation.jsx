@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import { ValidatorForm, TextValidator as TextField } from 'react-material-ui-form-validator';
 import { Button, Chip } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -59,6 +59,7 @@ class CandidatesEducation extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
+				<ValidatorForm ref="form" onError={(errors) => console.log(errors)} onSubmit={this.handleAdd} >
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
@@ -132,7 +133,7 @@ class CandidatesEducation extends Component {
               value={this.state.to}
             />
           </Grid>
-          <Button variant="contained" size="medium" onClick={this.handleAdd}>
+          <Button variant="contained" size="medium" type="submit">
             ADD
           </Button>
           {this.props.candidate.currentCandidate.education.map(a => {
@@ -148,6 +149,7 @@ class CandidatesEducation extends Component {
             );
           })}
         </Grid>
+        </ValidatorForm>
       </React.Fragment>
     );
   }

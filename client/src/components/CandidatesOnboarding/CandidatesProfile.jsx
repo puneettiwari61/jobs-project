@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	stepper: {
-    width:"auto%",
+		width: 'auto%',
 		padding: theme.spacing(3, 0, 5),
 	},
 	buttons: {
@@ -116,6 +116,9 @@ function Checkout(props) {
 									Updated Successfully
 								</Typography>
 								<Typography variant="subtitle1">Your Profile has been updated.</Typography>
+								<Button onClick={handleBack} className={classes.button}>
+									Back
+								</Button>
 							</React.Fragment>
 						) : (
 							<React.Fragment>

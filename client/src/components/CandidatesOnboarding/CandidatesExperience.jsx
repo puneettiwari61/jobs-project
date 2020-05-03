@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import { Button, Chip } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import FaceIcon from "@material-ui/icons/Face";
+import { ValidatorForm, TextValidator as TextField } from 'react-material-ui-form-validator';
 
 import { addCandidatesExperience } from "../../store/actions";
 
@@ -60,6 +60,7 @@ class CandidatesExperience extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
+        <ValidatorForm ref="form" onError={(errors) => console.log(errors)} onSubmit={this.handleAdd}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
@@ -70,7 +71,7 @@ class CandidatesExperience extends Component {
               fullWidth
               onChange={this.handleChange}
               value={this.state.companyName}
-              placeholder="e.g. TCS"
+              placeholder="e.g. AltCampus"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -119,6 +120,7 @@ class CandidatesExperience extends Component {
               InputLabelProps={{
                 shrink: true
               }}
+              required
               placeholder="joining date..."
               onChange={this.handleChange}
               value={this.state.joiningDate}
@@ -126,6 +128,7 @@ class CandidatesExperience extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              required
               id="leavingDate"
               name="leavingDate"
               label="Leaving Date"
@@ -139,7 +142,7 @@ class CandidatesExperience extends Component {
               value={this.state.leavingDate}
             />
           </Grid>
-          <Button variant="contained" size="medium" onClick={this.handleAdd}>
+          <Button variant="contained" size="medium" type="submit" >
             ADD
           </Button>
           {this.props.candidate.currentCandidate.experience.map(a => {
@@ -155,6 +158,7 @@ class CandidatesExperience extends Component {
             );
           })}
         </Grid>
+        </ValidatorForm>
       </React.Fragment>
     );
   }
