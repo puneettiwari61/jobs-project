@@ -95,8 +95,38 @@ export let validateCandidatesLogin = payload => {
     );
     Axios.post("/api/v1/candidates/login", { ...payload })
       .then(res => {
-        if (res.data.success === true) {
-          console.log(res, "login successful");
+        if (res.data.success) {
+          if (res.data.success === true) {
+            console.log(res, "login successful");
+            localStorage.setItem(
+              "jobUser",
+              JSON.stringify({ token: res.data.token, type: "candidate" })
+            );
+            store.dispatch(
+              loginCandidate({
+                currentCandidate: res.data.candidate,
+                isAuthInProgress: false,
+                isAuthDone: true
+              })
+            );
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err, "login failed");
+      });
+  };
+};
+
+export let candidatesSignup = payload => {
+  return function() {
+    store.dispatch(
+      candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+    );
+    Axios.post("/api/v1/candidates/signup", { ...payload })
+      .then(res => {
+        if (res.data.success) {
+          console.log(res, "signup successful");
           localStorage.setItem(
             "jobUser",
             JSON.stringify({ token: res.data.token, type: "candidate" })
@@ -109,27 +139,6 @@ export let validateCandidatesLogin = payload => {
             })
           );
         }
-      })
-      .catch(err => console.log(err, "login failed"));
-  };
-};
-
-export let candidatesSignup = payload => {
-  return function() {
-    Axios.post("/api/v1/candidates/signup", { ...payload })
-      .then(res => {
-        console.log(res, "signup successful");
-        localStorage.setItem(
-          "jobUser",
-          JSON.stringify({ token: res.data.token, type: "candidate" })
-        );
-        store.dispatch(
-          loginCandidate({
-            currentCandidate: res.data.candidate,
-            isAuthInProgress: false,
-            isAuthDone: true
-          })
-        );
       })
       .catch(err => console.log(err, "signup failed"));
   };
@@ -164,20 +173,25 @@ export let validateEmployersLogin = payload => {
 
 export let employersSignup = payload => {
   return function() {
+    store.dispatch(
+      employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
+    );
     Axios.post("/api/v1/employers/signup", { ...payload })
       .then(res => {
-        console.log(res, "signup successful");
-        localStorage.setItem(
-          "jobUser",
-          JSON.stringify({ token: res.data.token, type: "employer" })
-        );
-        store.dispatch(
-          loginEmployer({
-            currentEmployer: null,
-            isAuthInProgress: false,
-            isAuthDone: false
-          })
-        );
+        if (res.data.success) {
+          console.log(res, "signup successful");
+          localStorage.setItem(
+            "jobUser",
+            JSON.stringify({ token: res.data.token, type: "employer" })
+          );
+          store.dispatch(
+            loginEmployer({
+              currentEmployer: res.data.employer,
+              isAuthInProgress: false,
+              isAuthDone: true
+            })
+          );
+        }
       })
       .catch(err => console.log(err, "signup failed"));
   };

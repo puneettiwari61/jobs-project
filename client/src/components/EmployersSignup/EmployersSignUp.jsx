@@ -81,7 +81,7 @@ class EmployersSignUp extends Component {
   };
 
   handleSubmit = e => {
-    console.log(this.state);
+    e.preventDefault();
     this.props.dispatch(employersSignup(this.state));
     this.props.history.push("/");
   };
@@ -224,6 +224,22 @@ class EmployersSignUp extends Component {
                     type="tel"
                     onChange={this.handleChange}
                     value={this.state.contactNumber}
+                    // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="fname"
+                    name="profileDescription"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="profileDescription"
+                    label="Profile Description"
+                    size="small"
+                    type="tel"
+                    onChange={this.handleChange}
+                    value={this.state.profileDescription}
                     // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                   />
                 </Grid>

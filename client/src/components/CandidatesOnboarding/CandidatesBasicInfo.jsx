@@ -50,7 +50,7 @@ const styles = (theme) => ({
 			animation: '$ripple 1.2s infinite ease-in-out',
 			border: '1px solid currentColor',
 			content: '""',
-		},
+		},  
 	},
 });
 
@@ -160,7 +160,7 @@ class CandidatesPortfolio extends Component {
 					
             
 							
-						<Button variant="contained" size="medium" type="submit">
+						<Button variant="contained" size="medium" type="submit" >
 							{this.state.save}
 						</Button>
 					</Grid>
