@@ -1,195 +1,179 @@
-import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  InputBase,
-  Typography,
-  Button,
-  Icon,
-  Link
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { fade } from "@material-ui/core/styles/colorManipulator";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { withRouter } from "react-router-dom";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import React from 'react';
+import { AppBar, Toolbar, IconButton, InputBase, Typography, Button, Icon, Link } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { withRouter } from 'react-router-dom';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
-const styles = theme => ({
-  grow: {
-    flexGrow: 1
-  },
-  margin: {
-    color: "white"
-    // backgroundColor: "white"
-  },
-  drawer: {
-    color: "white"
-  },
-  button: {
-    color: "white"
-  },
-  search: {
-    position: "relative",
-    marginLeft: "8px",
-    width: "auto",
-    float: "left",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    }
-  },
-  searchIcon: {
-    width: 119,
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  inputRoot: {
-    color: "inherit",
-    width: "100%"
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: 120,
-      "&:focus": {
-        width: 200
-      }
-    }
-  },
-  appBar: {
-    padding: "1rem 0"
-    // marginBottom: "2rem"
-  }
+const styles = (theme) => ({
+	grow: {
+		flexGrow: 1,
+	},
+	margin: {
+		color: 'white',
+		// backgroundColor: "white"
+	},
+	drawer: {
+		color: 'white',
+	},
+	button: {
+		color: 'white',
+	},
+	search: {
+		position: 'relative',
+		marginLeft: '8px',
+		width: 'auto',
+		float: 'left',
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: fade(theme.palette.common.white, 0.15),
+		'&:hover': {
+			backgroundColor: fade(theme.palette.common.white, 0.25),
+		},
+	},
+	searchIcon: {
+		width: 119,
+		height: '100%',
+		position: 'absolute',
+		pointerEvents: 'none',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	inputRoot: {
+		color: 'inherit',
+		width: '100%',
+	},
+	inputInput: {
+		paddingTop: theme.spacing.unit,
+		paddingRight: theme.spacing.unit,
+		paddingBottom: theme.spacing.unit,
+		paddingLeft: theme.spacing.unit * 10,
+		transition: theme.transitions.create('width'),
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			width: 120,
+			'&:focus': {
+				width: 200,
+			},
+		},
+	},
+	appBar: {
+		padding: '1rem 0',
+		// marginBottom: "2rem"
+	},
 });
 class Header extends React.Component {
-  constructor() {
-    super();
-    this.state = { anchorEl: null };
-  }
-  // const [anchorEl, setAnchorEl] = React.useState(null);
+	constructor() {
+		super();
+		this.state = { anchorEl: null };
+	}
+	// const [anchorEl, setAnchorEl] = React.useState(null);
 
-  handleClick = event => {
-    // setAnchorEl(event.currentTarget);
-    this.setState({ anchorEl: event.currentTarget });
-  };
+	handleClick = (event) => {
+		// setAnchorEl(event.currentTarget);
+		this.setState({ anchorEl: event.currentTarget });
+	};
 
-  handleClose = () => {
-    // setAnchorEl(null);
-    this.setState({ anchorEl: null });
-  };
+	handleClose = () => {
+		// setAnchorEl(null);
+		this.setState({ anchorEl: null });
+	};
 
-  handleCloseAndLogout = () => {
-    // setAnchorEl(null);
-    this.setState({ anchorEl: null });
-    this.props.handleLogout();
-  };
+	handleCloseAndLogout = () => {
+		// setAnchorEl(null);
+		this.setState({ anchorEl: null });
+		this.props.handleLogout();
+		this.props.history.push('/git');
+	};
 
-  render() {
-    console.log(this.props, "from header");
-    const { classes } = this.props;
-    return (
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            STEVE'S JOBS
-          </Typography>
-          <div className={classes.grow} />
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-            />
-          </div> */}
-          {/* <div></div> */}
-          {this.props.currentCandidate ? (
-            <Typography variant="h6" color="inherit" noWrap>
-              {this.props.currentCandidate.email}
-            </Typography>
-          ) : this.props.currentEmployer ? (
-            <Typography variant="h6" color="inherit" noWrap>
-              {this.props.currentEmployer.email}
-            </Typography>
-          ) : (
-            ""
-          )}
-          <div>
-            {this.props.currentCandidate || this.props.currentEmployer ? (
-              <>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-haspopup="true"
-                  className={classes.margin}
-                >
-                  <AccountCircleIcon fontSize="inherit" />
-                </IconButton>
-              </>
-            ) : (
-              ""
-            )}
-            <Button
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={this.handleClick}
-            >
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                className={classes.drawer}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Button>
+	render() {
+		console.log(this.props, 'from header');
+		const { classes } = this.props;
+		return (
+			<AppBar position="fixed" className={classes.appBar}>
+				<Toolbar>
+					<Typography variant="h6" color="inherit" noWrap>
+						STEVE'S JOBS
+					</Typography>
+					<div className={classes.grow} />
+					{/* <div className={classes.search}>
+<div className={classes.searchIcon}>
+<SearchIcon />
+</div>
+<InputBase
+placeholder="Search…"
+classes={{
+root: classes.inputRoot,
+input: classes.inputInput
+}}
+/>
+</div> */}
+					{/* <div></div> */}
+					{this.props.currentCandidate ? (
+						<Typography variant="h6" color="inherit" noWrap>
+							{this.props.currentCandidate.email}
+						</Typography>
+					) : this.props.currentEmployer ? (
+						<Typography variant="h6" color="inherit" noWrap>
+							{this.props.currentEmployer.email}
+						</Typography>
+					) : (
+						''
+					)}
+					<div>
+						{this.props.currentCandidate || this.props.currentEmployer ? (
+							<>
+								<IconButton
+									aria-label="account of current user"
+									aria-haspopup="true"
+									className={classes.margin}
+								>
+									<AccountCircleIcon fontSize="inherit" />
+								</IconButton>
+							</>
+						) : (
+							''
+						)}
+						<Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+							<IconButton color="inherit" aria-label="Open drawer" className={classes.drawer}>
+								<MenuIcon />
+							</IconButton>
+						</Button>
 
-            <Menu
-              id="simple-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
-            >
-              {this.props.currentCandidate || this.props.currentEmployer ? (
-                <MenuItem onClick={this.handleCloseAndLogout}>Logout</MenuItem>
-              ) : (
-                <>
-                  <MenuItem onClick={this.handleClose}>
-                    <Link href="/candidates/login">Candidates</Link>
-                  </MenuItem>
-                  <MenuItem onClick={this.handleClose}>
-                    <Link href="/employers/login">Employer</Link>
-                  </MenuItem>
-                </>
-              )}
-            </Menu>
-          </div>
-        </Toolbar>
-      </AppBar>
-    );
-  }
+						<Menu
+							id="simple-menu"
+							anchorEl={this.state.anchorEl}
+							keepMounted
+							open={Boolean(this.state.anchorEl)}
+							onClose={this.handleClose}
+						>
+							{this.props.currentCandidate || this.props.currentEmployer ? (
+								<MenuItem onClick={this.handleCloseAndLogout}>Logout</MenuItem>
+							) : (
+								<>
+									<MenuItem onClick={this.handleClose}>
+										<Link href="/candidates/login">Candidates</Link>
+									</MenuItem>
+									<MenuItem onClick={this.handleClose}>
+										<Link href="/employers/login">Employer</Link>
+									</MenuItem>
+								</>
+							)}
+						</Menu>
+					</div>
+				</Toolbar>
+			</AppBar>
+		);
+	}
 }
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
 };
 
 export default withRouter(withStyles(styles)(Header));
