@@ -10,6 +10,7 @@ import {
   ValidatorForm,
   TextValidator as TextField
 } from "react-material-ui-form-validator";
+import Avatar from "@material-ui/core/Avatar";
 
 import { saveCandidatesBasicInfo } from "../../store/actions";
 
@@ -53,11 +54,20 @@ class CandidatesPortfolio extends Component {
       image: "",
       spokenLanguages: "",
       resume: "",
-      github: ""
+      github: "",
+      githubImage: "",
+      save: "save"
     };
   }
 
   componentDidMount() {
+    fetch(
+      `https://api.github.com/users/${this.props.candidate.currentCandidate.github}`
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ githubImage: data.avatar_url });
+      });
     let {
       image,
       spokenLanguages,
@@ -72,8 +82,17 @@ class CandidatesPortfolio extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleChangeImage = () => {
+    fetch(`https://api.github.com/users/${this.state.github}`)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ githubImage: data.avatar_url });
+      });
+  };
+
   handleSave = e => {
     this.props.dispatch(saveCandidatesBasicInfo(this.state));
+    this.setState({ save: "saved" });
   };
 
   render() {
@@ -87,6 +106,10 @@ class CandidatesPortfolio extends Component {
         >
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
+              <Avatar
+                alt={this.props.candidate.currentCandidate.firstName}
+                src={this.state.image}
+              />
               <TextField
                 required
                 id="image"
@@ -96,22 +119,47 @@ class CandidatesPortfolio extends Component {
                 onChange={this.handleChange}
                 value={this.state.image}
                 autoFocus
-                // validators={['required', 'matchRegexp:/^[a-z][a-z\d.+-]*:\/*(?:[^:@]+(?::[^@]+)?@)?(?:[^\s:/?#]+|\[[a-f\d:]+])(?::\d+)?(?:\/[^?#]*)?(?:\?[^#]*)?(?:#.*)?$/i']}
-                // errorMessages={['url is required', 'it should be URL']}
+                validators={[
+                  "required",
+                  'matchRegexp:^(ftp|http|https)://[^ "]+$'
+                ]}
+                errorMessages={["url is required", "enter a valid URL"]}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <Avatar
+                alt={this.props.candidate.currentCandidate.firstName}
+                src={this.state.githubImage}
+              />
               <TextField
-                required
+                id="github"
+                name="github"
+                label="Github"
+                placeholder="your github username"
+                fullWidth
+                onChange={this.handleChange}
+                onBlur={this.handleChangeImage}
+                value={this.state.github}
+                validators={["required", "matchRegexp:^[a-z|A-Z | 0-9]{1,15}$"]}
+                errorMessages={[
+                  "username is required",
+                  "enter a valid Github username"
+                ]}
+              />{" "}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
                 id="spokenLanguages"
                 name="spokenLanguages"
                 label="Spoken Languages"
                 fullWidth
                 onChange={this.handleChange}
                 value={this.state.spokenLanguages}
+                validators={["required", "matchRegexp:^[a-z|A-Z,;]{3,55}$"]}
+                errorMessages={["City is required", "e.g. English,Hindi"]}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 id="resume"
@@ -120,21 +168,16 @@ class CandidatesPortfolio extends Component {
                 fullWidth
                 onChange={this.handleChange}
                 value={this.state.resume}
+                validators={[
+                  "required",
+                  'matchRegexp:^(ftp|http|https)://[^ "]+$'
+                ]}
+                errorMessages={["url is required", "enter a valid URL"]}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="github"
-                name="github"
-                label="Github"
-                placeholder="your github username"
-                fullWidth
-                onChange={this.handleChange}
-                value={this.state.github}
-              />
-            </Grid>
+
             <Button variant="contained" size="medium" type="submit">
-              Save
+              {this.state.save}
             </Button>
           </Grid>
         </ValidatorForm>

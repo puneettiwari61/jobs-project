@@ -6,9 +6,6 @@ import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
-import CandidatesEducation from "./components/CandidatesOnboarding/CandidatesEducation";
-import CandidatesExperience from "./components/CandidatesOnboarding/CandidatesExperience";
-import CandidatesSkills from "./components/CandidatesOnboarding/CandidatesSkills";
 
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -67,15 +64,6 @@ function PrivateRoutes(props) {
         </Route>
         <Route path="/candidates/profile">
           <CandidatesProfile />
-        </Route>
-        <Route path="/candidates/education">
-          <CandidatesEducation />
-        </Route>
-        <Route path="/candidates/experience">
-          <CandidatesExperience />
-        </Route>
-        <Route path="/candidates/skills">
-          <CandidatesSkills />
         </Route>
         <Route path="*">
           <h1

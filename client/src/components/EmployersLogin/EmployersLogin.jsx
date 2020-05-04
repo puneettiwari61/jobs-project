@@ -64,7 +64,9 @@ class EmployersLogin extends Component {
   handleSubmit = e => {
     console.log(this.state);
     this.props.dispatch(validateEmployersLogin(this.state));
+    // if (this.props.employer.isAuthDone) {
     this.props.history.push("/");
+    // }
   };
 
   render() {

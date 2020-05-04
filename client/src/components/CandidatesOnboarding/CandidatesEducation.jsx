@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import {
+  ValidatorForm,
+  TextValidator as TextField
+} from "react-material-ui-form-validator";
 import { Button, Chip } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -59,95 +62,101 @@ class CandidatesEducation extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="schoolOrCollege"
-              name="schoolOrCollege"
-              label="School / College"
-              fullWidth
-              onChange={this.handleChange}
-              value={this.state.schoolOrCollege}
-              placeholder="School or College Name"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="classOrDegree"
-              name="classOrDegree"
-              label="Class / Degree"
-              fullWidth
-              onChange={this.handleChange}
-              value={this.state.classOrDegree}
-              placeholder="eg. 12th or Btech"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id=" grade"
-              name="grade"
-              label="Grade"
-              fullWidth
-              placeholder="percentage, CGPA, or grade"
-              onChange={this.handleChange}
-              value={this.state.grade}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="branch"
-              name="branch"
-              label="Branch"
-              fullWidth
-              onChange={this.handleChange}
-              value={this.state.branch}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="from"
-              name="from"
-              label="From"
-              fullWidth
-              placeholder="year of starting"
-              placeholder="year of starting"
-              onChange={this.handleChange}
-              value={this.state.from}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="to"
-              name="to"
-              label="To"
-              fullWidth
-              placeholder="year of passing"
-              placeholder="year of passing"
-              onChange={this.handleChange}
-              value={this.state.to}
-            />
-          </Grid>
-          <Button variant="contained" size="medium" onClick={this.handleAdd}>
-            ADD
-          </Button>
-          {this.props.candidate.currentCandidate.education.map(a => {
-            return (
-              <Chip
-                clickable
-                icon={<FaceIcon />}
-                onClick=""
-                className={classes.chip}
-                onDelete="Function"
-                label={a.classOrDegree}
+        <ValidatorForm
+          ref="form"
+          onError={errors => console.log(errors)}
+          onSubmit={this.handleAdd}
+        >
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="schoolOrCollege"
+                name="schoolOrCollege"
+                label="School / College"
+                fullWidth
+                onChange={this.handleChange}
+                value={this.state.schoolOrCollege}
+                placeholder="School or College Name"
               />
-            );
-          })}
-        </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="classOrDegree"
+                name="classOrDegree"
+                label="Class / Degree"
+                fullWidth
+                onChange={this.handleChange}
+                value={this.state.classOrDegree}
+                placeholder="eg. 12th or Btech"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id=" grade"
+                name="grade"
+                label="Grade"
+                fullWidth
+                placeholder="percentage, CGPA, or grade"
+                onChange={this.handleChange}
+                value={this.state.grade}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="branch"
+                name="branch"
+                label="Branch"
+                fullWidth
+                onChange={this.handleChange}
+                value={this.state.branch}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="from"
+                name="from"
+                label="From"
+                fullWidth
+                placeholder="year of starting"
+                placeholder="year of starting"
+                onChange={this.handleChange}
+                value={this.state.from}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="to"
+                name="to"
+                label="To"
+                fullWidth
+                placeholder="year of passing"
+                placeholder="year of passing"
+                onChange={this.handleChange}
+                value={this.state.to}
+              />
+            </Grid>
+            <Button variant="contained" size="medium" type="submit">
+              ADD
+            </Button>
+            {this.props.candidate.currentCandidate.education.map(a => {
+              return (
+                <Chip
+                  clickable
+                  icon={<FaceIcon />}
+                  onClick=""
+                  className={classes.chip}
+                  onDelete="Function"
+                  label={a.classOrDegree}
+                />
+              );
+            })}
+          </Grid>
+        </ValidatorForm>
       </React.Fragment>
     );
   }

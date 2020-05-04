@@ -43,6 +43,7 @@ export let loginEmployer = payload => {
 };
 
 export let candidateAuthProgress = payload => {
+  console.log(payload, "hey from candidate aith prorss action");
   return { type: CANDIDATE_AUTH_IN_PROGRESS, payload };
 };
 
@@ -96,24 +97,36 @@ export let validateCandidatesLogin = payload => {
     Axios.post("/api/v1/candidates/login", { ...payload })
       .then(res => {
         if (res.data.success) {
-          if (res.data.success === true) {
-            console.log(res, "login successful");
-            localStorage.setItem(
-              "jobUser",
-              JSON.stringify({ token: res.data.token, type: "candidate" })
-            );
-            store.dispatch(
-              loginCandidate({
-                currentCandidate: res.data.candidate,
-                isAuthInProgress: false,
-                isAuthDone: true
-              })
-            );
-          }
+          console.log(res, "login successful");
+          localStorage.setItem(
+            "jobUser",
+            JSON.stringify({ token: res.data.token, type: "candidate" })
+          );
+          store.dispatch(
+            loginCandidate({
+              currentCandidate: res.data.candidate,
+              isAuthInProgress: false,
+              isAuthDone: true
+            })
+          );
+        } else if (!res.data.success) {
+          console.log(res, "login failed");
+          store.dispatch(
+            candidateAuthProgress({
+              isAuthInProgress: false,
+              isAuthDone: false
+            })
+          );
         }
       })
       .catch(err => {
         console.log(err, "login failed");
+        // store.dispatch(
+        //   candidateAuthProgress({
+        //     isAuthInProgress: false,
+        //     isAuthDone: false
+        //   })
+        // );
       });
   };
 };
@@ -138,9 +151,22 @@ export let candidatesSignup = payload => {
               isAuthDone: true
             })
           );
+        } else if (!res.data.success) {
+          console.log(res, "signup failed");
+          store.dispatch(
+            candidateAuthProgress({
+              isAuthInProgress: false,
+              isAuthDone: false
+            })
+          );
         }
       })
-      .catch(err => console.log(err, "signup failed"));
+      .catch(err => {
+        console.log(err, "signup failed");
+        store.dispatch(
+          candidateAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+      });
   };
 };
 
@@ -165,9 +191,16 @@ export let validateEmployersLogin = payload => {
               isAuthDone: true
             })
           );
+        } else if (!res.data.success) {
+          console.log(res, "login failed");
+          store.dispatch(
+            employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+          );
         }
       })
-      .catch(err => console.log(err, "login failed"));
+      .catch(err => {
+        console.log(err, "login failed");
+      });
   };
 };
 
@@ -191,9 +224,19 @@ export let employersSignup = payload => {
               isAuthDone: true
             })
           );
+        } else if (!res.data.success) {
+          console.log(res, "signup failed");
+          store.dispatch(
+            employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+          );
         }
       })
-      .catch(err => console.log(err, "signup failed"));
+      .catch(err => {
+        console.log(err, "signup failed");
+        store.dispatch(
+          employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+      });
   };
 };
 
