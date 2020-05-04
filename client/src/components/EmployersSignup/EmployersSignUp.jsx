@@ -83,7 +83,7 @@ class EmployersSignUp extends Component {
   handleSubmit = e => {
     console.log(this.state);
     this.props.dispatch(employersSignup(this.state));
-    this.props.history.push("/");
+    this.props.history.push("/employers/profile");
   };
 
   render() {
@@ -230,11 +230,11 @@ class EmployersSignUp extends Component {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="fname"
-                    name="contactNumber"
+                    name="profileDescription"
                     variant="outlined"
                     required
                     fullWidth
-                    id="contactNumber"
+                    id="profileDescription"
                     label="Profile Description"
                     size="small"
                     type="tel"

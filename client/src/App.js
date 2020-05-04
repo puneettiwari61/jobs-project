@@ -5,10 +5,13 @@ import CandidatesSignUp from "./components/CandidatesSignUp/CandidatesSignUp";
 import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
+import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile";
+
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
 import CandidatesEducation from "./components/CandidatesOnboarding/CandidatesEducation";
 import CandidatesExperience from "./components/CandidatesOnboarding/CandidatesExperience";
 import CandidatesSkills from "./components/CandidatesOnboarding/CandidatesSkills";
+
 
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -21,6 +24,7 @@ import {
 } from "./store/actions";
 import "./App.css";
 import AwesomeComponent from "./components/Loader/Lodaer";
+import CompanyDetails from "./components/EmployersOnboarding/CompanyDetails";
 
 function PublicRoutes(props) {
   return (
@@ -68,15 +72,20 @@ function PrivateRoutes(props) {
         <Route path="/candidates/profile">
           <CandidatesProfile />
         </Route>
-        <Route path="/candidates/education">
+        {/* <Route path="/candidates/education">
           <CandidatesEducation />
-        </Route>
-        <Route path="/candidates/experience">
+          </Route>
+          <Route path="/candidates/experience">
           <CandidatesExperience />
-        </Route>
-        <Route path="/candidates/skills">
+          </Route>
+          <Route path="/candidates/skills">
           <CandidatesSkills />
+        </Route> */}
+        <Route path="/employers/proflie">
+        <EmployersProfile />
+          {/* <CompanyDetails /> */}
         </Route>
+
         <Route path="*">
           <h1
             style={{

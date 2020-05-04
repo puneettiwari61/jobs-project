@@ -12,6 +12,7 @@ import {
 // TODO: Axios should be axios.
 import Axios from "axios";
 import { store } from "./index";
+import { func } from "prop-types";
 
 export let fetchLoggedCandidate = payload => {
   return { type: IDENTIFY_CANDIDATE, payload };
@@ -50,8 +51,12 @@ export let employerAuthProgress = payload => {
   return { type: EMPLOYER_AUTH_IN_PROGRESS, payload };
 };
 
+export let updateLoggedEmployer = payload => {
+  return { type: UPDATE_LOGGED_EMPLOYER, payload };
+};
+
 export let identifyLoggedUser = () => {
-  return function() {
+  return function () {
     if (localStorage.jobUser) {
       let userType = JSON.parse(localStorage.jobUser).type;
       store.dispatch(
@@ -89,7 +94,7 @@ export let identifyLoggedUser = () => {
 };
 
 export let validateCandidatesLogin = payload => {
-  return function() {
+  return function () {
     store.dispatch(
       candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
     );
@@ -115,7 +120,7 @@ export let validateCandidatesLogin = payload => {
 };
 
 export let candidatesSignup = payload => {
-  return function() {
+  return function () {
     Axios.post("/api/v1/candidates/signup", { ...payload })
       .then(res => {
         console.log(res, "signup successful");
@@ -136,7 +141,7 @@ export let candidatesSignup = payload => {
 };
 
 export let validateEmployersLogin = payload => {
-  return function() {
+  return function () {
     store.dispatch(
       employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
     );
@@ -163,7 +168,7 @@ export let validateEmployersLogin = payload => {
 };
 
 export let employersSignup = payload => {
-  return function() {
+  return function () {
     Axios.post("/api/v1/employers/signup", { ...payload })
       .then(res => {
         console.log(res, "signup successful");
@@ -173,9 +178,9 @@ export let employersSignup = payload => {
         );
         store.dispatch(
           loginEmployer({
-            currentEmployer: null,
+            currentEmployer: res.data.employer,
             isAuthInProgress: false,
-            isAuthDone: false
+            isAuthDone: true
           })
         );
       })
@@ -183,8 +188,25 @@ export let employersSignup = payload => {
   };
 };
 
+export let saveCompanyDetails = payload => {
+  return function () {
+    Axios.post("api/v1/employers/companyinfo", { ...payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+    .then(res => {
+      console.log(res, "portfolio successful");
+      store.dispatch(
+        updateLoggedEmployer({ currentEmployer: res.data.employer })
+      );
+    })
+    .catch(err => console.log(err, "portfolio failed"));
+  };
+};
+
 export let saveCandidatesBasicInfo = payload => {
-  return function() {
+  return function () {
     Axios.post(
       "/api/v1/candidates/profile",
       { ...payload },
@@ -203,7 +225,7 @@ export let saveCandidatesBasicInfo = payload => {
 };
 
 export let addCandidatesEducation = payload => {
-  return function() {
+  return function () {
     Axios.post(
       "/api/v1/candidates/education",
       { ...payload },
@@ -222,7 +244,7 @@ export let addCandidatesEducation = payload => {
 };
 
 export let addCandidatesExperience = payload => {
-  return function() {
+  return function () {
     Axios.post(
       "/api/v1/candidates/experience",
       { ...payload },
@@ -241,7 +263,7 @@ export let addCandidatesExperience = payload => {
 };
 
 export let addCandidatesSkills = payload => {
-  return function() {
+  return function () {
     Axios.post(
       "/api/v1/candidates/skills",
       { ...payload },

@@ -2,7 +2,8 @@ import {
   IDENTIFY_EMPLOYER,
   LOGOUT_EMPLOYER,
   LOGIN_EMPLOYER,
-  EMPLOYER_AUTH_IN_PROGRESS
+  EMPLOYER_AUTH_IN_PROGRESS,
+  UPDATE_LOGGED_EMPLOYER
 } from "../types";
 
 let initialState = {
@@ -20,6 +21,8 @@ export default function employerReducer(state = initialState, action) {
     case LOGIN_EMPLOYER:
       return { ...state, ...action.payload };
     case EMPLOYER_AUTH_IN_PROGRESS:
+      return { ...state, ...action.payload };
+      case UPDATE_LOGGED_EMPLOYER:
       return { ...state, ...action.payload };
     default:
       return state;
