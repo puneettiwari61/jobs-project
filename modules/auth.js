@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   generateJWT: async user => {
-    // TODO: userId, remove user.email
     var payload = { userId: user.id };
     var token = await jwt.sign(payload, process.env.SECRET);
     return token;

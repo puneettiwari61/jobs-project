@@ -58,7 +58,6 @@ class CandidatesLogin extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // TODO: remove ajax calls from here and move to actions.
   handleSubmit = e => {
     e.preventDefault();
     console.log(this.state);

@@ -9,7 +9,7 @@ import {
   CANDIDATE_AUTH_IN_PROGRESS,
   EMPLOYER_AUTH_IN_PROGRESS
 } from "./types";
-// TODO: Axios should be axios.
+
 import Axios from "axios";
 import { store } from "./index";
 
@@ -67,7 +67,6 @@ export let identifyLoggedUser = () => {
           console.log(res.data[userType], "user identified");
           if (userType === "candidate") {
             store.dispatch(
-              // TODO: is, has
               fetchLoggedCandidate({
                 currentCandidate: res.data[userType],
                 isAuthInProgress: false,
