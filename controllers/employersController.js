@@ -1,10 +1,14 @@
 var Employer = require("../models/employers");
 var auth = require("../modules/auth");
+const { check, validationResult } = require("express-validator");
 
 module.exports = {
   signUp: async (req, res) => {
-    // TODO: Proper validation.
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
       var employer = await Employer.create(req.body);
       var token = await auth.generateJWT(employer);
       let {
@@ -38,6 +42,10 @@ module.exports = {
   },
   login: async (req, res) => {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
       var employer = await Employer.findOne({ email: req.body.email }).lean({
         virtuals: true
       });
@@ -67,7 +75,8 @@ module.exports = {
   },
   updateProfile: async (req, res) => {
     try {
-      var employer = await Employer.findByIdAndUpdate(req.user.userId,
+      var employer = await Employer.findByIdAndUpdate(
+        req.user.userId,
         { $push: { company: req.body } },
         {
           new: true

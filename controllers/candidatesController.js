@@ -6,6 +6,10 @@ const { check, validationResult } = require("express-validator");
 module.exports = {
   signUp: async (req, res) => {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
       var candidate = await Candidate.create(req.body);
       var token = await auth.generateJWT(candidate);
       let {
