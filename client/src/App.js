@@ -1,26 +1,151 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import LandingPage from "./components/LandingPage/LandingPage";
+import Header from "./components/Common/Header";
+import CandidatesSignUp from "./components/CandidatesSignUp/CandidatesSignUp";
+import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
+import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
+import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
+import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
 
-function App() {
+import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  logoutCandidate,
+  loginCandidate,
+  loginEmployer,
+  logoutEmployer,
+  identifyLoggedUser
+} from "./store/actions";
+import "./App.css";
+import AwesomeComponent from "./components/Loader/Lodaer";
+
+function PublicRoutes(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Switch>
+        <Route path="/" exact component={LandingPage} />
+        <Route path="/candidates/signup">
+          <CandidatesSignUp />
+        </Route>
+        <Route path="/employers/signup">
+          <EmployersSignUp />
+        </Route>
+        <Route path="/candidates/login">
+          <CandidatesLogin />
+        </Route>
+        <Route path="/employers/login">
+          <EmployersLogin />
+        </Route>
+        />
+        <Route path="*">
+          <h1
+            style={{
+              margin: "200px auto",
+              textAlign: "center",
+              color: "red"
+            }}
+          >
+            Page Not found
+          </h1>
+        </Route>
+      </Switch>
+    </>
   );
 }
 
-export default App;
+function PrivateRoutes(props) {
+  return (
+    <>
+      <Header {...props} />
+      <Switch>
+        <Route path="/" exact>
+          <LandingPage />
+        </Route>
+        <Route path="/candidates/profile">
+          <CandidatesProfile />
+        </Route>
+        <Route path="*">
+          <h1
+            style={{
+              margin: "200px auto",
+              textAlign: "center",
+              color: "red"
+            }}
+          >
+            Page Not found
+          </h1>
+        </Route>
+      </Switch>
+    </>
+  );
+}
+
+class App extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(identifyLoggedUser());
+  }
+
+  handleLogout = () => {
+    localStorage.clear();
+    if (this.props.candidate.currentCandidate) {
+      this.props.dispatch(
+        logoutCandidate({
+          currentCandidate: null,
+          isAuthInProgress: false,
+          isAuthDone: false
+        })
+      );
+    } else if (this.props.employer.currentEmployer) {
+      this.props.dispatch(
+        logoutEmployer({
+          currentEmployer: null,
+          isAuthInProgress: false,
+          isAuthDone: false
+        })
+      );
+    }
+  };
+
+  loginFunction = () => {
+    if (this.props.candidateData) {
+      this.props.dispatch(
+        loginCandidate({
+          currentEmployer: null,
+          isAuthInProgress: false,
+          isAuthDone: false
+        })
+      );
+    } else if (this.props.employerData) {
+      this.props.dispatch(loginEmployer({ isEmployerLogged: true }));
+    }
+  };
+
+  render() {
+    let employer = this.props.employer;
+    let candidate = this.props.candidate;
+
+    return (
+      <>
+        {this.props.candidate.isAuthInProgress ||
+        this.props.employer.isAuthInProgress ? (
+          <AwesomeComponent />
+        ) : candidate.currentCandidate || employer.currentEmployer ? (
+          <PrivateRoutes
+            currentCandidate={candidate.currentCandidate}
+            handleLogout={this.handleLogout}
+            currentEmployer={employer.currentEmployer}
+          />
+        ) : (
+          <PublicRoutes />
+        )}
+      </>
+    );
+  }
+}
+
+function mapToProps({ candidate, employer }) {
+  return { candidate, employer };
+}
+
+export default connect(mapToProps)(App);
