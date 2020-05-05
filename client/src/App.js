@@ -6,9 +6,10 @@ import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
-
+import Loader from "./components/Loader/Lodaer";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+
 import {
   logoutCandidate,
   loginCandidate,
@@ -17,7 +18,6 @@ import {
   identifyLoggedUser
 } from "./store/actions";
 import "./App.css";
-import AwesomeComponent from "./components/Loader/Lodaer";
 
 function PublicRoutes(props) {
   return (
@@ -133,7 +133,7 @@ class App extends React.Component {
         {token &&
         (this.props.candidate.isAuthInProgress ||
           this.props.employer.isAuthInProgress) ? (
-          <AwesomeComponent />
+          <Loader />
         ) : candidate.currentCandidate || employer.currentEmployer ? (
           <PrivateRoutes
             currentCandidate={candidate.currentCandidate}

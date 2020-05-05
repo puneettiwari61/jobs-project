@@ -142,5 +142,14 @@ module.exports = {
       console.log(err);
       res.json({ success: false });
     }
+  },
+  getSkills: async (req, res) => {
+    try {
+      var skills = await Skill.find({});
+      res.json({ success: true, skills });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
   }
 };
