@@ -8,4 +8,7 @@ var candidatesController = require("../../controllers/candidatesController");
 //add skills
 router.post("/", candidatesController.addSkills);
 
+// fetch all skills
+router.get("/", candidatesController.getSkills);
+
 module.exports = router;
