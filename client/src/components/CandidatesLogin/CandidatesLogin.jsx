@@ -15,7 +15,8 @@ import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { validateCandidatesLogin } from "../../store/actions";
+import { candidateAuthProgress, candidatesLogin } from "../../store/actions";
+import AwesomeComponent from "../Loader/Lodaer";
 
 const styles = theme => ({
   paper: {
@@ -50,7 +51,8 @@ class CandidatesLogin extends Component {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      msg: ""
     };
   }
 
@@ -60,16 +62,24 @@ class CandidatesLogin extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-    this.props.dispatch(validateCandidatesLogin(this.state));
-    console.log(this.props, "from loin mjbvjkdsbvjkdbjkv");
-    // if (this.props.candidate.isAuthDone) {
-    this.props.history.push("/candidates/profile");
-    // }
+    this.props
+      .dispatch(candidatesLogin(this.state))
+      .then(data => {
+        if (data.success) return this.props.history.push("/candidates/profile");
+        this.setState({ msg: data.msg });
+      })
+      .catch(err => {
+        console.log(err, "login failed");
+        store.dispatch(
+          candidateAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+      });
   };
 
   render() {
     const { classes } = this.props;
+    const isAuthInProgress = this.props.candidate.isAuthInProgress;
+    console.log(isAuthInProgress, "isAuthInProgress");
     return (
       <Container component="main" className={classes.box}>
         <Box>
@@ -109,6 +119,11 @@ class CandidatesLogin extends Component {
                         "email is not valid"
                       ]}
                     />
+                    <Link href="/recover" variant="body2">
+                      {this.state.msg == "incorrect credentials"
+                        ? this.state.msg
+                        : ""}
+                    </Link>
                     <TextValidator
                       variant="outlined"
                       margin="normal"
@@ -131,6 +146,11 @@ class CandidatesLogin extends Component {
                         "minimum length is 6"
                       ]}
                     />
+                    <Link href="/recover" variant="caption" color="primary">
+                      {this.state.msg == "incorrect password"
+                        ? this.state.msg
+                        : ""}
+                    </Link>
                     <Button
                       type="submit"
                       fullWidth
@@ -138,7 +158,7 @@ class CandidatesLogin extends Component {
                       color="primary"
                       className={classes.submit}
                     >
-                      Sign In
+                      {isAuthInProgress ? "Signing in . . ." : "Sign In"}
                     </Button>
                   </form>
                 </ValidatorForm>
