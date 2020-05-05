@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
-import { employersSignup } from "../../store/actions";
+import { employersSignup, employerAuthProgress } from "../../store/actions";
 
 const genders = [
   {
@@ -72,7 +72,8 @@ class EmployersSignUp extends Component {
       contactNumber: "",
       profileImage: "",
       dob: "",
-      gender: ""
+      gender: "",
+      msg: ""
     };
   }
 
@@ -82,10 +83,19 @@ class EmployersSignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.dispatch(employersSignup(this.state));
-    // if (this.props.employer.isAuthDone) {
-    this.props.history.push("/");
-    // }
+    this.props
+      .dispatch(employersSignup(this.state))
+      .then(data => {
+        if (data.success) return this.props.history.push("/");
+        if (data.err.errmsg.includes("duplicate"))
+          return this.setState({ msg: "User with same email already exists" });
+      })
+      .catch(err => {
+        console.log(err, "signup failed");
+        this.props.dispatch(
+          employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+      });
   };
 
   render() {
@@ -281,6 +291,7 @@ class EmployersSignUp extends Component {
                   <Link href="/employers/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
+                  <p>{this.state.msg}</p>
                 </Grid>
               </Grid>
             </form>

@@ -129,7 +129,8 @@ module.exports = {
 
       var findSkills = await Skill.find({
         name: { $in: req.body.skills }
-      });[]
+      });
+      [];
       // TODO: Don't make calls to DB in a loop.
       findSkills.forEach(async s => {
         await Candidate.findByIdAndUpdate(req.user.userId, {

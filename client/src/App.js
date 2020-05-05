@@ -125,10 +125,14 @@ class App extends React.Component {
     let employer = this.props.employer;
     let candidate = this.props.candidate;
 
+    let jobUser = JSON.parse(localStorage.getItem("jobUser"));
+    let token = jobUser && jobUser.token;
+
     return (
       <>
-        {this.props.candidate.isAuthInProgress ||
-        this.props.employer.isAuthInProgress ? (
+        {token &&
+        (this.props.candidate.isAuthInProgress ||
+          this.props.employer.isAuthInProgress) ? (
           <AwesomeComponent />
         ) : candidate.currentCandidate || employer.currentEmployer ? (
           <PrivateRoutes
