@@ -145,7 +145,7 @@ module.exports = {
   },
   getSkills: async (req, res) => {
     try {
-      var skills = await Skill.find({});
+      var skills = await Skill.find({}).lean();
       res.json({ success: true, skills });
     } catch (err) {
       console.log(err);

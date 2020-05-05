@@ -130,37 +130,49 @@ function Checkout(props) {
                       Back
                     </Button>
                   )}
-                  {(activeStep === steps.length-4 && props.candidate.currentCandidate.github)?<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>:(activeStep === steps.length-3 && props.candidate.currentCandidate.education[0])?<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>:(activeStep === steps.length-2 && props.candidate.currentCandidate.experience[0])?<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>:(activeStep === steps.length-1 && props.candidate.currentCandidate.skills[0])?<Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>:<></>}
-                  {console.log(props)}
-                  
+                  {activeStep === steps.length - 4 &&
+                  props.candidate.currentCandidate.github ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : activeStep === steps.length - 3 &&
+                    props.candidate.currentCandidate.education[0] ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : activeStep === steps.length - 2 &&
+                    props.candidate.currentCandidate.experience[0] ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : activeStep === steps.length - 1 &&
+                    props.candidate.currentCandidate.skills[0] ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </React.Fragment>
             )}
