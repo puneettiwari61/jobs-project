@@ -8,7 +8,8 @@ import {
   LOGIN_EMPLOYER,
   UPDATE_LOGGED_CANDIDATE,
   CANDIDATE_AUTH_IN_PROGRESS,
-  EMPLOYER_AUTH_IN_PROGRESS
+  EMPLOYER_AUTH_IN_PROGRESS,
+  CANDIDATE_SKILLS_UPDATE
 } from "./types";
 
 import { store } from "./index";
@@ -38,17 +39,19 @@ export let logoutEmployer = payload => {
 };
 
 export let loginEmployer = payload => {
-  console.log(payload, "from employer func login");
   return { type: LOGIN_EMPLOYER, payload };
 };
 
 export let candidateAuthProgress = payload => {
-  console.log(payload, "hey from candidate aith prorss action");
   return { type: CANDIDATE_AUTH_IN_PROGRESS, payload };
 };
 
 export let employerAuthProgress = payload => {
   return { type: EMPLOYER_AUTH_IN_PROGRESS, payload };
+};
+
+export let updateCandidateSkills = payload => {
+  return { type: CANDIDATE_SKILLS_UPDATE, payload };
 };
 
 export let identifyLoggedUser = () => {
@@ -284,7 +287,10 @@ export let addCandidatesSkills = payload => {
       }
     )
       .then(res => {
-        console.log(res.data, "skills successful");
+        if (res.data.success) {
+          console.log(res.data, "skills successful");
+          store.dispatch(updateCandidateSkills({ skills: payload.skills }));
+        }
       })
       .catch(err => console.log(err, "skills failed"));
   };
