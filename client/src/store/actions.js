@@ -277,6 +277,25 @@ export let addCandidatesExperience = payload => {
   };
 };
 
+export let deleteCandidatesExperience = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/candidates/experience/delete",
+      { _id: payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "experience deleted successful");
+        store.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
+      })
+      .catch(err => console.log(err, "experience delete failed"));
+  };
+};
+
 export let addCandidatesSkills = payload => {
   return function() {
     Axios.post(

@@ -12,6 +12,8 @@ import {
 } from "react-material-ui-form-validator";
 
 import { addCandidatesExperience } from "../../store/actions";
+import { deleteCandidatesExperience } from "../../store/actions";
+
 
 const styles = theme => ({
   root: {
@@ -47,6 +49,17 @@ class CandidatesExperience extends Component {
 
   handleAdd = e => {
     this.props.dispatch(addCandidatesExperience(this.state));
+    this.setState({
+      companyName: "",
+      designation: "",
+      location: "",
+      description: "",
+      joiningDate: "",
+      leavingDate: ""
+    });
+  };
+  handledelete = e => {
+    this.props.dispatch(deleteCandidatesExperience(e));
     this.setState({
       companyName: "",
       designation: "",
@@ -157,7 +170,7 @@ class CandidatesExperience extends Component {
                   icon={<FaceIcon />}
                   onClick=""
                   className={classes.chip}
-                  onDelete="Function"
+                  onDelete={() => this.handledelete(a._id)}
                   label={a.companyName}
                 />
               );

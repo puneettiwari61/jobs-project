@@ -6,5 +6,6 @@ var candidatesController = require("../../controllers/candidatesController");
 
 //add experience
 router.post("/", candidatesController.addExperience);
+router.post("/delete", candidatesController.deleteExperience);
 
 module.exports = router;
