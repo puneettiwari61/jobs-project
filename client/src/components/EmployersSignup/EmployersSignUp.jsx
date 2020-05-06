@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
-import { employersSignup } from "../../store/actions";
+import { employersSignup, employerAuthProgress } from "../../store/actions";
 
 const genders = [
   {
@@ -72,7 +72,8 @@ class EmployersSignUp extends Component {
       contactNumber: "",
       profileImage: "",
       dob: "",
-      gender: ""
+      gender: "",
+      msg: ""
     };
   }
 
@@ -86,6 +87,7 @@ class EmployersSignUp extends Component {
     // if (this.props.employer.isAuthDone) {
     this.props.history.push("/employers/profile");
     // }
+
   };
 
   render() {
@@ -281,6 +283,7 @@ class EmployersSignUp extends Component {
                   <Link href="/employers/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
+                  <p>{this.state.msg}</p>
                 </Grid>
               </Grid>
             </form>

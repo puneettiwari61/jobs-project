@@ -18,7 +18,7 @@ import {
   ValidatorForm,
   TextValidator as TextField
 } from "react-material-ui-form-validator";
-import { candidatesSignup } from "../../store/actions";
+import { candidatesSignup, candidateAuthProgress } from "../../store/actions";
 
 // import "./signup.scss";
 const genders = [
@@ -76,7 +76,8 @@ class CandidatesSignUp extends Component {
       city: "",
       zip: "",
       dob: "",
-      gender: ""
+      gender: "",
+      msg: ""
     };
   }
 
@@ -86,10 +87,19 @@ class CandidatesSignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.dispatch(candidatesSignup(this.state));
-    // if (this.props.candidate.isAuthDone) {
-    this.props.history.push("/candidates/profile");
-    // }
+    this.props
+      .dispatch(candidatesSignup(this.state))
+      .then(data => {
+        if (data.success) return this.props.history.push("/candidates/profile");
+        if (data.err.errmsg.includes("duplicate"))
+          return this.setState({ msg: "User with same email already exists" });
+      })
+      .catch(err => {
+        console.log(err, "signup failed");
+        this.props.dispatch(
+          candidateAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+      });
   };
 
   render() {
@@ -313,6 +323,7 @@ class CandidatesSignUp extends Component {
                     Already have an account? Sign in
                   </Link>
                 </ValidatorForm>
+                <p>{this.state.msg}</p>
               </Grid>
             </Grid>
           </div>

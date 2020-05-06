@@ -1,3 +1,4 @@
+import Axios from "axios";
 import {
   IDENTIFY_CANDIDATE,
   IDENTIFY_EMPLOYER,
@@ -7,10 +8,10 @@ import {
   LOGIN_EMPLOYER,
   UPDATE_LOGGED_CANDIDATE,
   CANDIDATE_AUTH_IN_PROGRESS,
-  EMPLOYER_AUTH_IN_PROGRESS
+  EMPLOYER_AUTH_IN_PROGRESS,
+  CANDIDATE_SKILLS_UPDATE
 } from "./types";
 
-import Axios from "axios";
 import { store } from "./index";
 
 export let fetchLoggedCandidate = payload => {
@@ -38,17 +39,19 @@ export let logoutEmployer = payload => {
 };
 
 export let loginEmployer = payload => {
-  console.log(payload, "from employer func login");
   return { type: LOGIN_EMPLOYER, payload };
 };
 
 export let candidateAuthProgress = payload => {
-  console.log(payload, "hey from candidate aith prorss action");
   return { type: CANDIDATE_AUTH_IN_PROGRESS, payload };
 };
 
 export let employerAuthProgress = payload => {
   return { type: EMPLOYER_AUTH_IN_PROGRESS, payload };
+};
+
+export let updateCandidateSkills = payload => {
+  return { type: CANDIDATE_SKILLS_UPDATE, payload };
 };
 
 export let identifyLoggedUser = () => {
@@ -88,45 +91,38 @@ export let identifyLoggedUser = () => {
   };
 };
 
-export let validateCandidatesLogin = payload => {
+export let candidatesLogin = payload => {
   return function() {
     store.dispatch(
-      candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
-    );
-    Axios.post("/api/v1/candidates/login", { ...payload })
-      .then(res => {
-        if (res.data.success) {
-          console.log(res, "login successful");
-          localStorage.setItem(
-            "jobUser",
-            JSON.stringify({ token: res.data.token, type: "candidate" })
-          );
-          store.dispatch(
-            loginCandidate({
-              currentCandidate: res.data.candidate,
-              isAuthInProgress: false,
-              isAuthDone: true
-            })
-          );
-        } else if (!res.data.success) {
-          console.log(res, "login failed");
-          store.dispatch(
-            candidateAuthProgress({
-              isAuthInProgress: false,
-              isAuthDone: false
-            })
-          );
-        }
+      candidateAuthProgress({
+        isAuthInProgress: true
       })
-      .catch(err => {
-        console.log(err, "login failed");
-        // store.dispatch(
-        //   candidateAuthProgress({
-        //     isAuthInProgress: false,
-        //     isAuthDone: false
-        //   })
-        // );
-      });
+    );
+    return Axios.post("/api/v1/candidates/login", { ...payload }).then(res => {
+      if (res.data.success) {
+        console.log(res, "login successful");
+        localStorage.setItem(
+          "jobUser",
+          JSON.stringify({ token: res.data.token, type: "candidate" })
+        );
+        store.dispatch(
+          loginCandidate({
+            currentCandidate: res.data.candidate,
+            isAuthInProgress: false,
+            isAuthDone: true
+          })
+        );
+      } else if (!res.data.success) {
+        console.log(res, "login failed");
+        store.dispatch(
+          candidateAuthProgress({
+            isAuthInProgress: false,
+            isAuthDone: false
+          })
+        );
+      }
+      return res.data;
+    });
   };
 };
 
@@ -135,71 +131,62 @@ export let candidatesSignup = payload => {
     store.dispatch(
       candidateAuthProgress({ isAuthInProgress: true, isAuthDone: false })
     );
-    Axios.post("/api/v1/candidates/signup", { ...payload })
-      .then(res => {
-        if (res.data.success) {
-          console.log(res, "signup successful");
-          localStorage.setItem(
-            "jobUser",
-            JSON.stringify({ token: res.data.token, type: "candidate" })
-          );
-          store.dispatch(
-            loginCandidate({
-              currentCandidate: res.data.candidate,
-              isAuthInProgress: false,
-              isAuthDone: true
-            })
-          );
-        } else if (!res.data.success) {
-          console.log(res, "signup failed");
-          store.dispatch(
-            candidateAuthProgress({
-              isAuthInProgress: false,
-              isAuthDone: false
-            })
-          );
-        }
-      })
-      .catch(err => {
-        console.log(err, "signup failed");
-        store.dispatch(
-          candidateAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+    return Axios.post("/api/v1/candidates/signup", { ...payload }).then(res => {
+      if (res.data.success) {
+        console.log(res, "signup successful");
+        localStorage.setItem(
+          "jobUser",
+          JSON.stringify({ token: res.data.token, type: "candidate" })
         );
-      });
+        store.dispatch(
+          loginCandidate({
+            currentCandidate: res.data.candidate,
+            isAuthInProgress: false,
+            isAuthDone: true
+          })
+        );
+      } else if (!res.data.success) {
+        console.log(res, "signup failed");
+        store.dispatch(
+          candidateAuthProgress({
+            isAuthInProgress: false,
+            isAuthDone: false
+          })
+        );
+      }
+      return res.data;
+    });
   };
 };
 
-export let validateEmployersLogin = payload => {
+export let employersLogin = payload => {
   return function() {
     store.dispatch(
       employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
     );
-    Axios.post("/api/v1/employers/login", { ...payload })
-      .then(res => {
-        if (res.data.success === true) {
-          console.log(res, "login successful");
-          localStorage.setItem(
-            "jobUser",
-            JSON.stringify({ token: res.data.token, type: "employer" })
-          );
-          // this.props.loginFunction();
-          store.dispatch(
-            loginEmployer({
-              currentEmployer: res.data.employer,
-              isAuthInProgress: false,
-              isAuthDone: true
-            })
-          );
-        } else if (!res.data.success) {
-          console.log(res, "login failed");
-          store.dispatch(
-            employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
-          );
-        }
-      })
-      .catch(err => {
-        console.log(err, "login failed");
-      });
+    return Axios.post("/api/v1/employers/login", { ...payload }).then(res => {
+      if (res.data.success === true) {
+        console.log(res, "login successful");
+        localStorage.setItem(
+          "jobUser",
+          JSON.stringify({ token: res.data.token, type: "employer" })
+        );
+        // this.props.loginFunction();
+        store.dispatch(
+          loginEmployer({
+            currentEmployer: res.data.employer,
+            isAuthInProgress: false,
+            isAuthDone: true
+          })
+        );
+      } else if (!res.data.success) {
+        console.log(res, "login failed");
+        store.dispatch(
+          employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+      }
+      return res.data;
+    });
   };
 };
 
@@ -208,34 +195,28 @@ export let employersSignup = payload => {
     store.dispatch(
       employerAuthProgress({ isAuthInProgress: true, isAuthDone: false })
     );
-    Axios.post("/api/v1/employers/signup", { ...payload })
-      .then(res => {
-        if (res.data.success) {
-          console.log(res, "signup successful");
-          localStorage.setItem(
-            "jobUser",
-            JSON.stringify({ token: res.data.token, type: "employer" })
-          );
-          store.dispatch(
-            loginEmployer({
-              currentEmployer: res.data.employer,
-              isAuthInProgress: false,
-              isAuthDone: true
-            })
-          );
-        } else if (!res.data.success) {
-          console.log(res, "signup failed");
-          store.dispatch(
-            employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
-          );
-        }
-      })
-      .catch(err => {
-        console.log(err, "signup failed");
+    return Axios.post("/api/v1/employers/signup", { ...payload }).then(res => {
+      if (res.data.success) {
+        console.log(res, "signup successful");
+        localStorage.setItem(
+          "jobUser",
+          JSON.stringify({ token: res.data.token, type: "employer" })
+        );
+        store.dispatch(
+          loginEmployer({
+            currentEmployer: res.data.employer,
+            isAuthInProgress: false,
+            isAuthDone: true
+          })
+        );
+      } else if (!res.data.success) {
+        console.log(res, "signup failed");
         store.dispatch(
           employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
         );
-      });
+      }
+      return res.data;
+    });
   };
 };
 
@@ -306,7 +287,12 @@ export let addCandidatesSkills = payload => {
       }
     )
       .then(res => {
-        console.log(res.data, "skills successful");
+        if (res.data.success) {
+          console.log(res.data, "skills successful");
+          store.dispatch(
+            updateLoggedCandidate({ currentCandidate: res.data.candidate })
+          );
+        }
       })
       .catch(err => console.log(err, "skills failed"));
   };
