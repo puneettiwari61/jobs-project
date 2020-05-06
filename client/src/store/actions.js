@@ -289,7 +289,9 @@ export let addCandidatesSkills = payload => {
       .then(res => {
         if (res.data.success) {
           console.log(res.data, "skills successful");
-          store.dispatch(updateCandidateSkills({ skills: payload.skills }));
+          store.dispatch(
+            updateLoggedCandidate({ currentCandidate: res.data.candidate })
+          );
         }
       })
       .catch(err => console.log(err, "skills failed"));

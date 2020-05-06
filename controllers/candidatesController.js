@@ -66,9 +66,9 @@ module.exports = {
   },
   getCurrentUser: async (req, res) => {
     try {
-      var candidate = await Candidate.findById(req.user.userId).select(
-        "-password"
-      );
+      var candidate = await Candidate.findById(req.user.userId)
+        .populate("skills", "name")
+        .select("-password");
       res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);
@@ -98,7 +98,9 @@ module.exports = {
         req.user.userId,
         { $push: { education: req.body } },
         { new: true }
-      ).select("-password");
+      )
+        .populate("skills", "name")
+        .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
     } catch (err) {
@@ -112,7 +114,9 @@ module.exports = {
         req.user.userId,
         { $push: { experience: req.body } },
         { new: true }
-      ).select("-password");
+      )
+        .populate("skills", "name")
+        .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
     } catch (err) {
@@ -123,21 +127,21 @@ module.exports = {
   addSkills: async (req, res) => {
     try {
       var updateSkills = await Skill.updateMany(
-        { name: { $in: req.body.skills } },
+        { _id: { $in: req.body.skills } },
         { $addToSet: { candidates: req.user.userId } }
       );
 
-      var findSkills = await Skill.find({
-        name: { $in: req.body.skills }
-      });
-      [];
-      // TODO: Don't make calls to DB in a loop.
-      findSkills.forEach(async s => {
-        await Candidate.findByIdAndUpdate(req.user.userId, {
-          $addToSet: { skills: s._id }
-        });
-      });
-      res.json({ success: true, updateSkills });
+      var candidate = await Candidate.findByIdAndUpdate(
+        req.user.userId,
+        {
+          $addToSet: { skills: { $each: req.body.skills } }
+        },
+        { new: true }
+      )
+        .populate("skills", "name")
+        .select("-password");
+      console.log(candidate);
+      res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);
       res.json({ success: false });
