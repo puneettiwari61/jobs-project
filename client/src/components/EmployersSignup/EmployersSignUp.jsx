@@ -17,6 +17,7 @@ import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
 import { employersSignup } from "../../store/actions";
+import EmployerProfiles from "../../../../modules/employerProfilesData.json";
 
 const genders = [
   {
@@ -226,9 +227,27 @@ class EmployersSignUp extends Component {
                     type="tel"
                     onChange={this.handleChange}
                     value={this.state.contactNumber}
-                    // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                  // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                   />
                 </Grid>
+                {/* <Grid item xs={12} sm={6}>
+                  <Select
+                    // defaultValue={[colourOptions[2], colourOptions[3]]}
+                    isMulti
+                    name="profileDescription"
+                    options={EmployerProfiles.employerProfiles.map((a) => {
+                      return {
+                        value: `${a}`,
+                        label: `${a}`,
+                        // color: "#00B8D9",
+                        // isFixed: true
+                      };
+                    })}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(e) => this.setState({ profileDescription: e })}
+                  />
+                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="fname"
