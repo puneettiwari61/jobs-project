@@ -3,10 +3,27 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import Skills from "./skillsData.json";
-import { Button } from "@material-ui/core";
+import { Button, Chip } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+import PropTypes from "prop-types";
+import FaceIcon from "@material-ui/icons/Face";
 import { addCandidatesSkills } from "../../store/actions.js";
 import Axios from "axios";
 
+const styles = theme => ({
+	root: {
+	  display: "flex",
+	  justifyContent: "center",
+	  flexDirection: "row-reverse",
+	  flexWrap: "wrap",
+	  listStyle: "none",
+	  padding: theme.spacing(0.5),
+	  margin: 0
+	},
+	chip: {
+	  margin: theme.spacing(0.3)
+	}
+  });
 class CandidatesSkills extends Component {
   constructor() {
     super();
@@ -34,6 +51,8 @@ class CandidatesSkills extends Component {
   };
 
   render() {
+	const { classes } = this.props;
+	  
     console.log(this.state);
     return (
       <>
@@ -61,6 +80,19 @@ class CandidatesSkills extends Component {
         >
           ADD
         </Button>
+		{console.log(this.props.candidate.currentCandidate.skills)}
+		{this.props.candidate.currentCandidate.skills.map(a => {
+              return (
+                <Chip
+                  clickable
+                  icon={<FaceIcon />}
+                  onClick=""
+                  className={classes.chip}
+                  onDelete="Function"
+                  label={a}
+                />
+              );
+            })}
       </>
     );
   }
@@ -70,4 +102,9 @@ function mapToProps({ candidate }) {
   return { candidate };
 }
 
-export default connect(mapToProps)(withRouter(CandidatesSkills));
+export default connect(mapToProps)(
+	withRouter(withStyles(styles)(CandidatesSkills))
+  );
+  CandidatesSkills.propTypes = {
+	classes: PropTypes.object.isRequired
+  };
