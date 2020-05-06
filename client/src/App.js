@@ -18,6 +18,9 @@ import {
   identifyLoggedUser
 } from "./store/actions";
 import "./App.css";
+import AwesomeComponent from "./components/Loader/Lodaer";
+import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile";
+
 
 function PublicRoutes(props) {
   return (
@@ -64,6 +67,9 @@ function PrivateRoutes(props) {
         </Route>
         <Route path="/candidates/profile">
           <CandidatesProfile />
+        </Route>
+        <Route path="/employers/profile">
+          <EmployersProfile />
         </Route>
         <Route path="*">
           <h1

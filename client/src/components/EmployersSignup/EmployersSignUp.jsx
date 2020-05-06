@@ -83,19 +83,11 @@ class EmployersSignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props
-      .dispatch(employersSignup(this.state))
-      .then(data => {
-        if (data.success) return this.props.history.push("/");
-        if (data.err.errmsg.includes("duplicate"))
-          return this.setState({ msg: "User with same email already exists" });
-      })
-      .catch(err => {
-        console.log(err, "signup failed");
-        this.props.dispatch(
-          employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
-        );
-      });
+    this.props.dispatch(employersSignup(this.state));
+    // if (this.props.employer.isAuthDone) {
+    this.props.history.push("/employers/profile");
+    // }
+
   };
 
   render() {
