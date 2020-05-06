@@ -84,7 +84,7 @@ class EmployersSignUp extends Component {
     e.preventDefault();
     this.props.dispatch(employersSignup(this.state));
     // if (this.props.employer.isAuthDone) {
-    this.props.history.push("/");
+    this.props.history.push("/employers/profile");
     // }
   };
 
