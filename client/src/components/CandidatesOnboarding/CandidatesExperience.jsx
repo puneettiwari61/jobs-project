@@ -46,7 +46,6 @@ class CandidatesExperience extends Component {
   };
 
   handleAdd = e => {
-    console.log(this.state);
     this.props.dispatch(addCandidatesExperience(this.state));
     this.setState({
       companyName: "",
@@ -59,7 +58,6 @@ class CandidatesExperience extends Component {
   };
 
   render() {
-    console.log(this.props.candidate.currentCandidate);
     const { classes } = this.props;
     return (
       <React.Fragment>

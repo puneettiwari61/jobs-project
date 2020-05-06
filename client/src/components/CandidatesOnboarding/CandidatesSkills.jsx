@@ -11,19 +11,19 @@ import { addCandidatesSkills } from "../../store/actions.js";
 import Axios from "axios";
 
 const styles = theme => ({
-	root: {
-	  display: "flex",
-	  justifyContent: "center",
-	  flexDirection: "row-reverse",
-	  flexWrap: "wrap",
-	  listStyle: "none",
-	  padding: theme.spacing(0.5),
-	  margin: 0
-	},
-	chip: {
-	  margin: theme.spacing(0.3)
-	}
-  });
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    listStyle: "none",
+    padding: theme.spacing(0.5),
+    margin: 0
+  },
+  chip: {
+    margin: theme.spacing(0.3)
+  }
+});
 class CandidatesSkills extends Component {
   constructor() {
     super();
@@ -46,13 +46,12 @@ class CandidatesSkills extends Component {
 
   handleAdd = e => {
     let skillsArray = this.state.skills.map(a => a.value);
-    console.log(skillsArray);
     this.props.dispatch(addCandidatesSkills({ skills: skillsArray }));
   };
 
   render() {
-	const { classes } = this.props;
-	  
+    const { classes } = this.props;
+
     console.log(this.state);
     return (
       <>
@@ -62,7 +61,7 @@ class CandidatesSkills extends Component {
           name="skills"
           options={this.state.skillsData.map(a => {
             return {
-              value: `${a.name}`,
+              value: `${a._id}`,
               label: `${a.name}`
               // color: "#00B8D9",
               // isFixed: true
@@ -80,19 +79,22 @@ class CandidatesSkills extends Component {
         >
           ADD
         </Button>
-		{console.log(this.props.candidate.currentCandidate.skills)}
-		{this.props.candidate.currentCandidate.skills.map(a => {
-              return (
-                <Chip
-                  clickable
-                  icon={<FaceIcon />}
-                  onClick=""
-                  className={classes.chip}
-                  onDelete="Function"
-                  label={a}
-                />
-              );
-            })}
+        {console.log(
+          this.props.candidate.currentCandidate.skills,
+          "from skills "
+        )}
+        {this.props.candidate.currentCandidate.skills.map(a => {
+          return (
+            <Chip
+              clickable
+              icon={<FaceIcon />}
+              onClick=""
+              className={classes.chip}
+              onDelete="Function"
+              label={a.name}
+            />
+          );
+        })}
       </>
     );
   }
@@ -103,8 +105,8 @@ function mapToProps({ candidate }) {
 }
 
 export default connect(mapToProps)(
-	withRouter(withStyles(styles)(CandidatesSkills))
-  );
-  CandidatesSkills.propTypes = {
-	classes: PropTypes.object.isRequired
-  };
+  withRouter(withStyles(styles)(CandidatesSkills))
+);
+CandidatesSkills.propTypes = {
+  classes: PropTypes.object.isRequired
+};

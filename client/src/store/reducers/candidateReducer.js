@@ -28,15 +28,6 @@ export default function candidateReducer(state = initialState, action) {
         ...state,
         ...action.payload
       };
-    case CANDIDATE_SKILLS_UPDATE:
-      return {
-        currentCandidate: {
-          ...state.currentCandidate,
-          skills: action.payload.skills
-        },
-        isAuthInProgress: false,
-        isAuthDone: true
-      };
     default:
       return state;
   }
