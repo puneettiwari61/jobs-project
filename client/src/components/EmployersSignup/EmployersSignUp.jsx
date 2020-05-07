@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -15,8 +14,11 @@ import Container from "@material-ui/core/Container";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
+import {
+  ValidatorForm,
+  TextValidator as TextField
+} from "react-material-ui-form-validator";
 
-import EmployerProfiles from "../../../../modules/employerProfilesData.json";
 import { employersSignup, employerAuthProgress } from "../../store/actions";
 
 const genders = [
@@ -86,12 +88,12 @@ class EmployersSignUp extends Component {
     e.preventDefault();
     this.props.dispatch(employersSignup(this.state)).then(data => {
       if (data.success) return this.props.history.push("/employers/profile");
-      if(data.err.errmsg.includes("duplicate"))
-        return this.setState({msg: "User with same email id already exists"});
+      if (data.err.errmsg.includes("duplicate"))
+        return this.setState({ msg: "User with same email id already exists" });
     })
-    .catch(err =>{
-      this.props.dispatch(employerAuthProgress({ isAuthInProgress : false, isAuthDone: false}))
-    })
+      .catch(err => {
+        this.props.dispatch(employerAuthProgress({ isAuthInProgress: false, isAuthDone: false }))
+      })
     // if (this.props.employer.isAuthDone) {
     // }
 
@@ -110,10 +112,17 @@ class EmployersSignUp extends Component {
             <Typography component="h1" variant="h5">
               Employer Signup
             </Typography>
+            <ValidatorForm
+              ref="form"
+              onSubmit={this.handleSubmit}
+              onError={errors => console.log(errors)}
+            >
             <form className={classes.form} noValidate>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    validators={["required"]}
+                    errorMessages={["first name is required"]}
                     autoComplete="fname"
                     name="firstName"
                     variant="outlined"
@@ -130,6 +139,8 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    validators={["required"]}
+                    errorMessages={["last name is required"]}
                     variant="outlined"
                     required
                     fullWidth
@@ -145,6 +156,11 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    validators={["required", "isEmail"]}
+                    errorMessages={[
+                      "email is required",
+                      "email is not valid"
+                    ]}
                     variant="outlined"
                     required
                     fullWidth
@@ -160,6 +176,14 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    validators={[
+                      "required",
+                      "matchRegexp:^[a-z | 0-9 | !,@,#,$,$,^,&,*,(,),_,+]{6,15}$"
+                    ]}
+                    errorMessages={[
+                      "passwword is required",
+                      "minimum length is 6"
+                    ]}
                     variant="outlined"
                     required
                     fullWidth
@@ -175,6 +199,15 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    validators={[
+                      "required",
+                      "matchRegexp:^[a-z |A-Z|"
+                    ]}
+                    errorMessages={[
+                      "City is required",
+                      "minimum length is 3",
+                      "special characters not allowed"
+                    ]}
                     autoComplete="fname"
                     name="city"
                     variant="outlined"
@@ -190,6 +223,8 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    validators={["required", "matchRegexp:^[0-9]{6}$"]}
+                    errorMessages={["zip is required", "use 6 digit number"]}
                     autoComplete="fname"
                     name="zip"
                     variant="outlined"
@@ -205,7 +240,9 @@ class EmployersSignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete="fname"
+                    validators={["required"]}
+                    errorMessages={["DOB is required"]}
+                    autoComplete="dob"
                     name="dob"
                     variant="outlined"
                     required
@@ -224,6 +261,8 @@ class EmployersSignUp extends Component {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    validators={["required", "matchRegexp:^[0-9]{10}$"]}
+                    errorMessages={["contact number is required"]}
                     autoComplete="fname"
                     name="contactNumber"
                     variant="outlined"
@@ -235,30 +274,11 @@ class EmployersSignUp extends Component {
                     type="tel"
                     onChange={this.handleChange}
                     value={this.state.contactNumber}
-                  // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                   />
                 </Grid>
-                {/* <Grid item xs={12} sm={6}>
-                  <Select
-                    // defaultValue={[colourOptions[2], colourOptions[3]]}
-                    isMulti
-                    name="profileDescription"
-                    options={EmployerProfiles.employerProfiles.map((a) => {
-                      return {
-                        value: `${a}`,
-                        label: `${a}`,
-                        // color: "#00B8D9",
-                        // isFixed: true
-                      };
-                    })}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    onChange={(e) => this.setState({ profileDescription: e })}
-                  />
-                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete="fname"
+                    autoComplete="profileDescription"
                     name="profileDescription"
                     variant="outlined"
                     required
@@ -269,11 +289,12 @@ class EmployersSignUp extends Component {
                     type="tel"
                     onChange={this.handleChange}
                     value={this.state.profileDescription}
-                  // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    validators={["required"]}
+                    errorMessages={["form is required"]}
                     size="small"
                     id="outlined-select-currency"
                     select
@@ -312,6 +333,7 @@ class EmployersSignUp extends Component {
                 </Grid>
               </Grid>
             </form>
+            </ValidatorForm>
           </div>
           <Box mt={5}></Box>
         </Paper>

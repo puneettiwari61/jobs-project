@@ -9,6 +9,10 @@ import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
+import {
+  ValidatorForm,
+  TextValidator as TextField
+} from "react-material-ui-form-validator";
 
 import CompanyDetails from "./CompanyDetails";
 
@@ -88,37 +92,42 @@ function Checkout(props) {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <main className={classes.layout}>
-        <h1>Welcome{" " + props.employer.currentEmployer.firstName}</h1>
-        <Paper className={classes.paper}>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Updated Successfully
+      <ValidatorForm
+        ref="form"
+        onError={errors => console.log(errors)}
+        onSubmit={this.handleSave}
+      >
+        <CssBaseline />
+        <main className={classes.layout}>
+          <h1>Welcome{" " + props.employer.currentEmployer.firstName}</h1>
+          <Paper className={classes.paper}>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <React.Fragment>
+              {activeStep === steps.length ? (
+                <React.Fragment>
+                  <Typography variant="h5" gutterBottom>
+                    Updated Successfully
                 </Typography>
-                <Typography variant="subtitle1">
-                  Your Profile has been updated.
+                  <Typography variant="subtitle1">
+                    Your Profile has been updated.
                 </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
-                  )}
-                  {/* <Button
+                </React.Fragment>
+              ) : (
+                  <React.Fragment>
+                    {getStepContent(activeStep)}
+                    <div className={classes.buttons}>
+                      {activeStep !== 0 && (
+                        <Button onClick={handleBack} className={classes.button}>
+                          Back
+                        </Button>
+                      )}
+                      {/* <Button
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
@@ -126,13 +135,14 @@ function Checkout(props) {
                   >
                     {activeStep === steps.length - 1 ? "Submit" : "Next"}
                   </Button> */}
-                </div>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        </Paper>
-        <Copyright />
-      </main>
+                    </div>
+                  </React.Fragment>
+                )}
+            </React.Fragment>
+          </Paper>
+          <Copyright />
+        </main>
+      </ValidatorForm>
     </React.Fragment>
   );
 }

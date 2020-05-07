@@ -137,13 +137,13 @@ class CandidatesSignUp extends Component {
                       onChange={this.handleChange}
                       value={this.state.firstName}
                       validators={["required"]}
-                      errorMessages={["form is required"]}
+                      errorMessages={["first is required"]}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
                       validators={["required"]}
-                      errorMessages={["form is required"]}
+                      errorMessages={["last name is required"]}
                       variant="outlined"
                       required
                       fullWidth
@@ -204,11 +204,12 @@ class CandidatesSignUp extends Component {
                     <TextField
                       validators={[
                         "required",
-                        "matchRegexp:^[a-z |A-Z| 0-9]{3,15}$"
+                        "matchRegexp:^[a-z |A-Z|"
                       ]}
                       errorMessages={[
                         "City is required",
-                        "minimum length is 3 and no special character"
+                        "minimum length is 3",
+                        "special characters not allowed"
                       ]}
                       autoComplete="fname"
                       name="city"
@@ -243,8 +244,8 @@ class CandidatesSignUp extends Component {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       validators={["required"]}
-                      errorMessages={["form is required"]}
-                      autoComplete="fname"
+                      errorMessages={["DOB is required"]}
+                      autoComplete="dob"
                       name="dob"
                       variant="outlined"
                       required
@@ -262,8 +263,8 @@ class CandidatesSignUp extends Component {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      validators={["required"]}
-                      errorMessages={["form is required"]}
+                      validators={["required", "matchRegexp:^[0-9]{10}$"]}
+                      errorMessages={["contact number is required"]}
                       autoComplete="fname"
                       name="contactNumber"
                       variant="outlined"
@@ -275,7 +276,6 @@ class CandidatesSignUp extends Component {
                       type="tel"
                       onChange={this.handleChange}
                       value={this.state.contactNumber}
-                      // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
