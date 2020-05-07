@@ -40,6 +40,7 @@ function PublicRoutes(props) {
         <Route path="/employers/login">
           <EmployersLogin />
         </Route>
+        
         />
         <Route path="*">
           <h1
@@ -65,6 +66,9 @@ function PrivateRoutes(props) {
         <Route path="/" exact>
           <LandingPage />
         </Route>
+        {/* <Route path="/cache">
+          <CandidateLandingProfile />
+        </Route> */}
         <Route path="/candidates/profile">
           <CandidatesProfile />
         </Route>
