@@ -6,11 +6,11 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 const expressStaticGzip = require("express-static-gzip");
 
-var skillsData = require("./modules/skillsData.json");
+const skills = require("./seed");
 const indexRouter = require("./routes/index");
 var employersRouter = require("./routes/employers/index");
 var candidatesRouter = require("./routes/candidates/index");
-var Skill = require("./models/skills");
+
 //dotenv
 require("dotenv").config();
 
@@ -19,9 +19,9 @@ var app = express();
 const gzipOptions = {
   enableBrotli: true,
   orderPreference: ["br", "gz"],
-  setHeaders: function (res, path) {
+  setHeaders: function(res, path) {
     res.setHeader("Cache-Control", "public, max-age=31536000");
-  },
+  }
 };
 
 // view engine setup
@@ -37,7 +37,6 @@ app.use(
   "/bundle",
   expressStaticGzip(path.join(__dirname, "dist/bundle"), gzipOptions)
 );
-
 
 // Webpack Configuration
 if (process.env.NODE_ENV === "development") {
@@ -61,20 +60,7 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     console.log(err ? err : "db connected ");
-    if (!err) {
-      var skillsArray = skillsData.skills.map(s => {
-        return { name: s };
-      });
-      Skill.find({}, (err, findSkills) => {
-        if (err) return console.log(err);
-        if (findSkills.length === 0) {
-          Skill.insertMany(skillsArray, (error, skills) => {
-            if (error) return console.log(error);
-            console.log(skills);
-          });
-        }
-      });
-    }
+    skills.seedSkills(err);
   }
 );
 

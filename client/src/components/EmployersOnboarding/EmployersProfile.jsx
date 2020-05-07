@@ -118,14 +118,14 @@ function Checkout(props) {
                       Back
                     </Button>
                   )}
-                  <Button
+                  {/* <Button
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>
+                  </Button> */}
                 </div>
               </React.Fragment>
             )}

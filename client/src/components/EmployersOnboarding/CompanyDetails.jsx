@@ -38,7 +38,27 @@ class CompanyDetails extends Component {
       aboutCompany: ""
     };
   }
+  componentDidMount() {
+    let {
+      establishmentDate,
+      companyName,
+      companyWebsiteUrl,
+      companyLogo,
+      founder,
+      foundersView,
+      aboutCompany
+    } = this.props.employer.currentEmployer.company[this.props.employer.currentEmployer.company.length-1  ];
 
+    this.setState({
+      establishmentDate,
+      companyName,
+      companyWebsiteUrl,
+      companyLogo,
+      founder,
+      foundersView,
+      aboutCompany
+    });
+  }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -46,15 +66,6 @@ class CompanyDetails extends Component {
   handleAdd = e => {
     console.log(this.state);
     this.props.dispatch(saveCompanyDetails(this.state));
-    this.setState({
-      establishmentDate: "",
-      companyName: "",
-      companyWebsiteUrl: "",
-      companyLogo: "",
-      founder: "",
-      foundersView: "",
-      aboutCompany: ""
-    });
   };
 
   render() {
@@ -106,8 +117,8 @@ class CompanyDetails extends Component {
           <Grid item xs={12}>
             <TextField
               required
-              id="Company Logo"
-              name="Company Logo"
+              id="CompanyLogo"
+              name="companyLogo"
               label="Company Logo"
               fullWidth
               placeholder="Company logo"
@@ -152,9 +163,9 @@ class CompanyDetails extends Component {
             />
           </Grid>
           <Button variant="contained" size="medium" onClick={this.handleAdd}>
-            ADD
+            SAVE
           </Button>
-          
+
         </Grid>
       </React.Fragment>
     );

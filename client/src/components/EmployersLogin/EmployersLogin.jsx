@@ -15,7 +15,7 @@ import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
-import { validateEmployersLogin } from "../../store/actions";
+import { employerAuthProgress, employersLogin } from "../../store/actions";
 
 const styles = theme => ({
   paper: {
@@ -53,7 +53,8 @@ class EmployersLogin extends Component {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      msg: ""
     };
   }
 
@@ -62,10 +63,21 @@ class EmployersLogin extends Component {
   };
 
   handleSubmit = e => {
-    console.log(this.state);
-    this.props.dispatch(validateEmployersLogin(this.state));
+    e.preventDefault();
+    this.props
+      .dispatch(employersLogin(this.state))
+      .then(data => {
+        if (data.success) return this.props.history.push("/");
+        this.setState({ msg: data.msg });
+      })
+      .catch(err => {
+        this.props.dispatch(
+          employerAuthProgress({ isAuthInProgress: false, isAuthDone: false })
+        );
+        console.log(err, "login failed");
+      });
     // if (this.props.employer.isAuthDone) {
-    this.props.history.push("/");
+    // this.props.history.push("/");
     // }
   };
 
@@ -129,6 +141,7 @@ class EmployersLogin extends Component {
                       <Link href="#" variant="body2">
                         Forgot password?
                       </Link>
+                      <p>{this.state.msg}</p>
                     </Grid>
                     <Grid item>
                       <Link

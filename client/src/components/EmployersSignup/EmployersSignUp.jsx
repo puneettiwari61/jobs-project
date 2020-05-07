@@ -16,8 +16,8 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
-import { employersSignup } from "../../store/actions";
 import EmployerProfiles from "../../../../modules/employerProfilesData.json";
+import { employersSignup, employerAuthProgress } from "../../store/actions";
 
 const genders = [
   {
@@ -73,7 +73,8 @@ class EmployersSignUp extends Component {
       contactNumber: "",
       profileImage: "",
       dob: "",
-      gender: ""
+      gender: "",
+      msg: ""
     };
   }
 
@@ -83,10 +84,17 @@ class EmployersSignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.dispatch(employersSignup(this.state));
+    this.props.dispatch(employersSignup(this.state)).then(data => {
+      if (data.success) return this.props.history.push("/employers/profile");
+      if(data.err.errmsg.includes("duplicate"))
+        return this.setState({msg: "User with same email id already exists"});
+    })
+    .catch(err =>{
+      this.props.dispatch(employerAuthProgress({ isAuthInProgress : false, isAuthDone: false}))
+    })
     // if (this.props.employer.isAuthDone) {
-    this.props.history.push("/employers/profile");
     // }
+
   };
 
   render() {
@@ -261,7 +269,7 @@ class EmployersSignUp extends Component {
                     type="tel"
                     onChange={this.handleChange}
                     value={this.state.profileDescription}
-                    // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                  // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -300,6 +308,7 @@ class EmployersSignUp extends Component {
                   <Link href="/employers/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
+                  <p>{this.state.msg}</p>
                 </Grid>
               </Grid>
             </form>
