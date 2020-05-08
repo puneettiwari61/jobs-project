@@ -95,7 +95,7 @@ var candidateSchema = new Schema(
         designation: String,
         location: String,
         joiningDate: String,
-        leavigDate: String,
+        leavingDate: String,
         description: String
       }
     ],

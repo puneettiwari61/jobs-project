@@ -27,6 +27,7 @@
     "http-errors": "~1.7.3",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
+    "material-table": "^1.57.2",
     "mongoose": "^5.9.11",
     "mongoose-lean-getters": "^0.1.2",
     "mongoose-lean-virtuals": "^0.6.2",
