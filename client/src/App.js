@@ -21,7 +21,6 @@ import "./App.css";
 import AwesomeComponent from "./components/Loader/Lodaer";
 import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile";
 
-
 function PublicRoutes(props) {
   return (
     <>

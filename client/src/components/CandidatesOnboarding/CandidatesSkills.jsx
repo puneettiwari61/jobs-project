@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
-import Skills from "./skillsData.json";
 import { Button, Chip } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import FaceIcon from "@material-ui/icons/Face";
-import { addCandidatesSkills } from "../../store/actions.js";
+import {
+  addCandidatesSkills,
+  deleteCandidatesSkills
+} from "../../store/actions.js";
 import Axios from "axios";
 
 const styles = theme => ({
@@ -47,6 +49,10 @@ class CandidatesSkills extends Component {
   handleAdd = e => {
     let skillsArray = this.state.skills.map(a => a.value);
     this.props.dispatch(addCandidatesSkills({ skills: skillsArray }));
+  };
+
+  handledelete = e => {
+    this.props.dispatch(deleteCandidatesSkills(e));
   };
 
   render() {
@@ -90,7 +96,7 @@ class CandidatesSkills extends Component {
               icon={<FaceIcon />}
               onClick=""
               className={classes.chip}
-              onDelete="Function"
+              onDelete={() => this.handledelete(a._id)}
               label={a.name}
             />
           );

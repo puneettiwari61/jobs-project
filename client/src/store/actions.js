@@ -9,7 +9,8 @@ import {
   UPDATE_LOGGED_CANDIDATE,
   CANDIDATE_AUTH_IN_PROGRESS,
   EMPLOYER_AUTH_IN_PROGRESS,
-  CANDIDATE_SKILLS_UPDATE
+  CANDIDATE_SKILLS_UPDATE,
+  UPDATE_LOGGED_EMPLOYER
 } from "./types";
 
 import { store } from "./index";
@@ -52,6 +53,10 @@ export let employerAuthProgress = payload => {
 
 export let updateCandidateSkills = payload => {
   return { type: CANDIDATE_SKILLS_UPDATE, payload };
+};
+
+export let updateLoggedEmployer = payload => {
+  return { type: UPDATE_LOGGED_EMPLOYER, payload };
 };
 
 export let identifyLoggedUser = () => {
@@ -296,6 +301,25 @@ export let deleteCandidatesExperience = payload => {
   };
 };
 
+export let deleteCandidatesSkills = payload => {
+  return function() {
+    Axios.put(
+      "/api/v1/candidates/skills/delete",
+      { _id: payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "skills deleted successful");
+        store.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
+      })
+      .catch(err => console.log(err, "skills deleted failed"));
+  };
+};
+
 export let addCandidatesSkills = payload => {
   return function() {
     Axios.post(
@@ -314,5 +338,43 @@ export let addCandidatesSkills = payload => {
         }
       })
       .catch(err => console.log(err, "skills failed"));
+  };
+};
+
+export let saveCompanyDetails = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/employers/companyDetails",
+      { ...payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "company details updated successful");
+        store.dispatch(
+          updateLoggedEmployer({ currentEmployer: res.data.employer })
+        );
+      })
+      .catch(err => console.log(err, "company details updated failed"));
+  };
+};
+
+export let deleteCandidatesEducation = payload => {
+  return function() {
+    Axios.post(
+      "/api/v1/candidates/education/delete",
+      { _id: payload },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "education deleted successful");
+        store.dispatch(
+          updateLoggedCandidate({ currentCandidate: res.data.candidate })
+        );
+      })
+      .catch(err => console.log(err, "education delete failed"));
   };
 };
