@@ -25,7 +25,6 @@ module.exports = {
         success: true,
         employer: {
           email,
-          password,
           firstName,
           lastName,
           contactNumber,
@@ -77,11 +76,11 @@ module.exports = {
     try {
       var employer = await Employer.findByIdAndUpdate(
         req.user.userId,
-        { $push: { company: req.body } },
+        { company: req.body },
         {
           new: true
         }
-      );
+      ).select("-password");
       console.log(employer, "from update profile");
       res.json({ success: true, employer });
     } catch (err) {

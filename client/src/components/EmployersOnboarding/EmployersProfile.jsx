@@ -88,6 +88,7 @@ function Checkout(props) {
 
   return (
     <React.Fragment>
+      {console.log(props, "from cpanmy")}
       <CssBaseline />
       <main className={classes.layout}>
         <h1>Welcome{" " + props.employer.currentEmployer.firstName}</h1>
@@ -118,14 +119,18 @@ function Checkout(props) {
                       Back
                     </Button>
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>
+                  {props.employer.currentEmployer.company ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : (
+                    console.log(props, "from cpanmy")
+                  )}
                 </div>
               </React.Fragment>
             )}

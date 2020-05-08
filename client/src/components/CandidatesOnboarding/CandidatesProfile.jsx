@@ -97,10 +97,6 @@ function Checkout(props) {
   };
   return (
     <React.Fragment>
-      {console.log(
-        props,
-        "frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrlllllllllllllllllllllllllllllllllll"
-      )}
       <CssBaseline />
       <main className={classes.layout}>
         <h1>Welcome{" " + props.candidate.currentCandidate.firstName}</h1>

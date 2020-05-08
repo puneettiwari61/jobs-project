@@ -11,7 +11,10 @@ import { withStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import FaceIcon from "@material-ui/icons/Face";
 
-import { addCandidatesEducation } from "../../store/actions";
+import {
+  addCandidatesEducation,
+  deleteCandidatesEducation
+} from "../../store/actions";
 
 const styles = theme => ({
   root: {
@@ -56,6 +59,10 @@ class CandidatesEducation extends Component {
       from: "",
       to: ""
     });
+  };
+
+  handledelete = e => {
+    this.props.dispatch(deleteCandidatesEducation(e));
   };
 
   render() {
@@ -150,7 +157,7 @@ class CandidatesEducation extends Component {
                   icon={<FaceIcon />}
                   onClick=""
                   className={classes.chip}
-                  onDelete="Function"
+                  onDelete={() => this.handledelete(a._id)}
                   label={a.classOrDegree}
                 />
               );

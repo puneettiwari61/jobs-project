@@ -264,7 +264,6 @@ class CandidatesSignUp extends Component {
                     <TextField
                       validators={["required"]}
                       errorMessages={["form is required"]}
-                      autoComplete="fname"
                       name="contactNumber"
                       variant="outlined"
                       required

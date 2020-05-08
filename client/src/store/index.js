@@ -9,4 +9,4 @@ const rootReducer = combineReducers({
   employer: employerReducer
 });
 
-export let store = createStore(rootReducer, applyMiddleware(logger, thunk));
+export let store = createStore(rootReducer, applyMiddleware(thunk));

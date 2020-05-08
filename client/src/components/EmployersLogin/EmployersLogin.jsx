@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import { employerAuthProgress, employersLogin } from "../../store/actions";
 
@@ -67,7 +68,7 @@ class EmployersLogin extends Component {
     this.props
       .dispatch(employersLogin(this.state))
       .then(data => {
-        if (data.success) return this.props.history.push("/");
+        if (data.success) return this.props.history.push("/employers/profile");
         this.setState({ msg: data.msg });
       })
       .catch(err => {
@@ -83,6 +84,7 @@ class EmployersLogin extends Component {
 
   render() {
     const { classes } = this.props;
+    const isAuthInProgress = this.props.employer.isAuthInProgress;
     return (
       <Container component="main" className={classes.box}>
         <Box>
@@ -97,64 +99,82 @@ class EmployersLogin extends Component {
                 <Typography component="h1" variant="h5">
                   Employer Login
                 </Typography>
-                <form className={classes.form} noValidate>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                    size="small"
-                    onChange={this.handleChange}
-                    value={this.state.email}
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    size="small"
-                    onChange={this.handleChange}
-                    value={this.state.password}
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={this.handleSubmit}
-                  >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link href="#" variant="body2">
-                        Forgot password?
-                      </Link>
-                      <p>{this.state.msg}</p>
+                <ValidatorForm
+                  ref="form"
+                  onSubmit={this.handleSubmit}
+                  onError={errors => console.log(errors)}
+                >
+                  <form className={classes.form} noValidate>
+                    <TextValidator
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                      size="small"
+                      onChange={this.handleChange}
+                      value={this.state.email}
+                      validators={["required", "isEmail"]}
+                      errorMessages={[
+                        "email is required",
+                        "email is not valid"
+                      ]}
+                    />
+                    <TextValidator
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      size="small"
+                      onChange={this.handleChange}
+                      value={this.state.password}
+                      validators={[
+                        "required",
+                        "matchRegexp:^[a-z | 0-9]{6,15}$"
+                      ]}
+                      errorMessages={[
+                        "passwword is required",
+                        "minimum length is 6"
+                      ]}
+                    />
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                    >
+                      {isAuthInProgress ? "Signing in . . ." : "Sign In"}
+                    </Button>
+                    <Grid container>
+                      <Grid item xs>
+                        <Link href="#" variant="body2">
+                          Forgot password?
+                        </Link>
+                        <p>{this.state.msg}</p>
+                      </Grid>
+                      <Grid item>
+                        <Link
+                          className={classes.link}
+                          onClick={() =>
+                            this.props.history.push("/employers/signup")
+                          }
+                        >
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <Link
-                        className={classes.link}
-                        onClick={() =>
-                          this.props.history.push("/employers/signup")
-                        }
-                      >
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </form>
+                  </form>
+                </ValidatorForm>
               </div>
             </Container>
           </Paper>
