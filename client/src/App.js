@@ -8,6 +8,7 @@ import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
 import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile"
 import CandidatesPortfolio from "./components/CandidatePortfolio/CandidatePortfolio"
+import EmployerPortfolio from "./components/EmployerPortfolio/EmployerPortfolio"
 import Loader from "./components/Loader/Lodaer";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -68,8 +69,11 @@ function PrivateRoutes(props) {
         <Route path="/candidates/profile">
           <CandidatesProfile />
         </Route>
-        <Route path="/profile">
+        <Route path="/candidateprofile">
           <CandidatesPortfolio />
+        </Route>
+        <Route path="/employerprofile">
+          <EmployerPortfolio />
         </Route>
         <Route path="/employers/profile">
           <EmployersProfile />

@@ -139,7 +139,7 @@ class EmployersLogin extends Component {
                       value={this.state.password}
                       validators={[
                         "required",
-                        "matchRegexp:^[a-z | 0-9]{6,15}$"
+                        "matchRegexp:^[a-z|A-Z | 0-9]{6,15}$"
                       ]}
                       errorMessages={[
                         "passwword is required",
