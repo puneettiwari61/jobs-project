@@ -378,3 +378,40 @@ export let deleteCandidatesEducation = payload => {
       .catch(err => console.log(err, "education delete failed"));
   };
 };
+
+export let createJob = payload => {
+  return function() {
+    let {
+      title,
+      description,
+      location,
+      skills,
+      isRemote,
+      currency,
+      salary
+    } = payload;
+    skills = skills.map(a => a.value);
+    Axios.post(
+      "/api/v1/employers/jobs",
+      {
+        title,
+        description,
+        location,
+        isRemote,
+        currency,
+        salary,
+        skills
+      },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "job created successfully");
+        store.dispatch(
+          updateLoggedEmployer({ currentEmployer: res.data.employer })
+        );
+      })
+      .catch(err => console.log(err, "job create failed"));
+  };
+};

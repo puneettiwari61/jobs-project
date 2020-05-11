@@ -187,158 +187,108 @@ class EmployersSignUp extends Component {
 										/>
 									</Grid>
 
-									<Grid item xs={12} sm={6}>
-										<TextField
-											autoComplete="fname"
-											name="city"
-											variant="outlined"
-											required
-											fullWidth
-											id="city"
-											label="City"
-											size="small"
-											type="city"
-											onChange={this.handleChange}
-											value={this.state.city}
-											validators={['required']}
-											errorMessages={['form is required']}
-										/>
-									</Grid>
-									<Grid item xs={12} sm={6}>
-										<TextField
-											name="zip"
-											variant="outlined"
-											required
-											fullWidth
-											id="zip"
-											label="Zip"
-											size="small"
-											type="zip"
-											onChange={this.handleChange}
-											value={this.state.zip}
-											validators={['required', 'matchRegexp:^[0-9]{6}$']}
-											errorMessages={['zip is required', 'use 6 digit number']}
-										/>
-									</Grid>
-									<Grid item xs={12} sm={6}>
-										<TextField
-											validators={['required']}
-											errorMessages={['form is required']}
-											name="dob"
-											variant="outlined"
-											required
-											fullWidth
-											id="dob"
-											label="DOB"
-											size="small"
-											type="date"
-											onChange={this.handleChange}
-											value={this.state.dob}
-											InputLabelProps={{
-												shrink: true,
-											}}
-										/>
-									</Grid>
-
-									<Grid item xs={12} sm={6}>
-										<TextField
-											name="contactNumber"
-											variant="outlined"
-											required
-											fullWidth
-											id="contactNumber"
-											label="Contact"
-											size="small"
-											type="tel"
-											onChange={this.handleChange}
-											value={this.state.contactNumber}
-											// pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-											validators={['required']}
-											errorMessages={['form is required']}
-										/>
-									</Grid>
-									<Grid item xs={12}>
-										<TextField
-											required
-											id="Company Logo"
-											name="profileImage"
-											label="Company Logo"
-											fullWidth
-											variant="outlined"
-											size="small"
-											placeholder="Company logo"
-											onChange={this.handleChange}
-											value={this.state.profileImage}
-											validators={['required', 'matchRegexp:^(ftp|http|https)://[^ "]+$']}
-											errorMessages={['url is required', 'enter a valid URL']}
-										/>
-									</Grid>
-									<Grid item xs={12} sm={6}>
-										<TextField
-											autoComplete="fname"
-											name="profileDescription"
-											variant="outlined"
-											required
-											fullWidth
-											id="profileDescription"
-											label="Profile Description"
-											size="small"
-											type="tel"
-											onChange={this.handleChange}
-											value={this.state.profileDescription}
-											// pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-											validators={['required']}
-											errorMessages={['form is required']}
-										/>
-									</Grid>
-									<Grid item xs={12} sm={6}>
-										<TextField
-											validators={['required']}
-											errorMessages={['form is required']}
-											size="small"
-											id="outlined-select-currency"
-											select
-											label="Gender"
-											helperText="Please select your gender"
-											variant="outlined"
-											type="radio"
-											name="gender"
-											onChange={this.handleChange}
-											value={this.state.gender}
-										>
-											{genders.map((option) => (
-												<MenuItem key={option.value} value={option.value}>
-													{option.label}
-												</MenuItem>
-											))}
-										</TextField>
-									</Grid>
-								</Grid>
-								<Button
-									type="submit"
-									fullWidth
-									variant="contained"
-									color="primary"
-									className={classes.submit}
-								>
-									{this.props.employer.isAuthInProgress ? 'Signing Up' : 'Sign up'}
-								</Button>
-								<Grid container justify="flex-end">
-									<Grid item>
-										<Link href="/employers/login" variant="body2">
-											Already have an account? Sign in
-										</Link>
-										<p>{this.state.msg}</p>
-									</Grid>
-								</Grid>
-							</form>
-						</ValidatorForm>
-					</div>
-					<Box mt={5}></Box>
-				</Paper>
-			</Container>
-		);
-	}
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="contactNumber"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="contactNumber"
+                      label="Contact"
+                      size="small"
+                      type="tel"
+                      onChange={this.handleChange}
+                      value={this.state.contactNumber}
+                      // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                      validators={["required"]}
+                      errorMessages={["form is required"]}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      name="profileImage"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="profileImage"
+                      label="Image"
+                      size="small"
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.profileImage}
+                      // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                      validators={["required"]}
+                      errorMessages={["form is required"]}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      autoComplete="fname"
+                      name="profileDescription"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="profileDescription"
+                      label="Profile Description"
+                      size="small"
+                      type="tel"
+                      onChange={this.handleChange}
+                      value={this.state.profileDescription}
+                      // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                      validators={["required"]}
+                      errorMessages={["form is required"]}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      validators={["required"]}
+                      errorMessages={["form is required"]}
+                      size="small"
+                      id="outlined-select-currency"
+                      select
+                      label="Gender"
+                      helperText="Please select your gender"
+                      variant="outlined"
+                      type="radio"
+                      name="gender"
+                      onChange={this.handleChange}
+                      value={this.state.gender}
+                    >
+                      {genders.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  {this.props.employer.isAuthInProgress
+                    ? "Signing Up"
+                    : "Sign up"}
+                </Button>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link href="/employers/login" variant="body2">
+                      Already have an account? Sign in
+                    </Link>
+                    <p>{this.state.msg}</p>
+                  </Grid>
+                </Grid>
+              </form>
+            </ValidatorForm>
+          </div>
+          <Box mt={5}></Box>
+        </Paper>
+      </Container>
+    );
+  }
 }
 
 function mapToProps({ candidate, employer }) {

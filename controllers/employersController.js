@@ -1,6 +1,7 @@
+const { check, validationResult } = require("express-validator");
+var Job = require("../models/jobs");
 var Employer = require("../models/employers");
 var auth = require("../modules/auth");
-const { check, validationResult } = require("express-validator");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -83,6 +84,33 @@ module.exports = {
       ).select("-password");
       console.log(employer, "from update profile");
       res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  postJob: async (req, res) => {
+    try {
+      console.log(req.body);
+      req.body.employer = req.user.userId;
+      var job = await Job.create(req.body);
+      var employer = await Employer.findByIdAndUpdate(
+        req.user.userId,
+        {
+          $addToSet: { jobs: job._id }
+        },
+        { new: true }
+      ).select("-password");
+      res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getJobs: async (req, res) => {
+    try {
+      var jobs = await Job.find({});
+      res.json({ success: true, jobs });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

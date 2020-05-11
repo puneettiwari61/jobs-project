@@ -17,14 +17,16 @@ router.get("/me", auth.verifyToken, employers.getCurrentUser);
 // $ Required details onboarding process $
 
 // //experience routes
-router.use(
+router.post(
   "/companyDetails",
-  middlewares.validateCompany(),
   auth.verifyToken,
+  middlewares.validateCompany(),
   employersController.updateProfile
 );
 
-// //skills route
-// router.use("/skills", auth.verifyToken, skillsRouter);
+//jobs post route
+router.post("/jobs", auth.verifyToken, employers.postJob);
+//get all jobs
+router.get("/jobs", auth.verifyToken, employers.getJobs);
 
 module.exports = router;

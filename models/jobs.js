@@ -7,10 +7,6 @@ var jobSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Employer"
     },
-    companyDetails: {
-      type: Schema.Types.ObjectId,
-      ref: "EmployerPortfolio"
-    },
     title: {
       type: String,
       required: true
@@ -20,17 +16,21 @@ var jobSchema = new Schema(
       required: true
     },
     location: {
-      type: address.schema,
-      required: true
+      type: String
     },
-    skills: {
-      type: [String],
-      required: true
-    },
+    skills: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Skill"
+      }
+    ],
     isRemote: {
       type: Boolean,
       required: true
-    }
+    },
+    salary: { type: Number },
+    currency: { type: String },
+    applicants: [{ type: Schema.Types.ObjectId, ref: "Candidate" }]
   },
   { timestamps: true }
 );

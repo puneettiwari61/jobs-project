@@ -73,10 +73,10 @@ var employerSchema = new Schema(
         type: String
       }
     },
-    skills: [
+    jobs: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Skill"
+        ref: "job"
       }
     ]
   },
