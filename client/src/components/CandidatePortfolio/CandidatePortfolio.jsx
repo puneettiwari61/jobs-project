@@ -17,8 +17,7 @@ import { Paper } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Table from './table';
 import Divider from '@material-ui/core/Divider';
-
-
+import Iframe from 'react-iframe';
 
 const styles = (theme) => ({
 	root: {
@@ -33,11 +32,16 @@ const styles = (theme) => ({
 		padding: theme.spacing(0),
 		fontSize: '1.5rem',
 	},
+	rootSm: {
+		...theme.typography.button,
+		padding: theme.spacing(0),
+		fontSize: '1rem',
+	},
 	paper: {
 		marginTop: theme.spacing(2),
 		display: 'flex',
 		flexDirection: 'column',
-    alignItems: 'center'
+		alignItems: 'center',
 	},
 	avatar: {
 		margin: theme.spacing(1),
@@ -53,13 +57,21 @@ const styles = (theme) => ({
 	paperComponent: {
 		padding: theme.spacing(2),
 		margin: 'auto',
-    display: 'flex',
+		display: 'flex',
 		flexDirection: 'column',
-    alignItems: 'center',
-    maxWidth:700
+		alignItems: 'center',
+		maxWidth: 700,
 	},
 	box: {
 		marginTop: theme.spacing(15),
+	},
+	box2: {
+		padding: theme.spacing(2),
+		margin: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		maxWidth: 700,
 	},
 	link: {
 		cursor: 'pointer',
@@ -82,21 +94,20 @@ class CandidatePortfolio extends Component {
 		};
 	}
 	componentDidMount() {
-    var url=[];
+		var url = [];
 		this.props.candidate.currentCandidate.skills.map((a) => {
 			fetch(`https://en.wikipedia.org/wiki/${a.name}`, {
-        mode: 'no-cors'
-      }).then(function (response) {
+				mode: 'no-cors',
+			}).then(function (response) {
 				var data = response.text().then(function (res) {
 					return res;
 				});
 				data.then((d) => {
 					return (data = `${d}`);
-        }).then((run) => this.setState({ url: data.split('img')[1].split('src')[1].split('"')[1] }))
-        ;
+				}).then((run) => this.setState({ url: data.split('img')[1].split('src')[1].split('"')[1] }));
 			});
-    });
-    console.log(this.state)
+		});
+		console.log(this.state);
 	}
 
 	render() {
@@ -106,15 +117,13 @@ class CandidatePortfolio extends Component {
 				<Box>
 					<Paper className={classes.paperComponent}>
 						<Container component="main" maxWidth="xs">
-							
-
 							<div className={classes.paper}>
 								<Avatar
 									alt="Remy Sharp"
 									src={this.props.candidate.currentCandidate.image}
 									className={classes.large}
 								/>
-<Divider variant="middle" />
+								<Divider variant="middle" />
 								<div className={classes.root}>
 									{this.props.candidate.currentCandidate.firstName +
 										' ' +
@@ -130,16 +139,37 @@ class CandidatePortfolio extends Component {
 					</Paper>
 					<br />
 					<Paper className={classes.paperComponent}>
-            
-          <ButtonGroup  color="secondary" aria-label="outlined secondary button group">
-            {this.props.candidate.currentCandidate.skills.map((a) => {
-              return  <Button>{a.name}</Button>
-            })}
-    </ButtonGroup>
-          </Paper>
-					<br />
+						<div className={classes.rootSm}>ABOUT</div>
+					</Paper>
+
+					{/* <br />
+
 					<Paper className={classes.paperComponent}>
 						<Table />
+					</Paper> */}
+					<br />
+					<Paper className={classes.paperComponent}>
+						<div className={classes.rootSm}>Skills</div>
+						<ButtonGroup color="secondary" aria-label="outlined secondary button group">
+							{this.props.candidate.currentCandidate.skills.map((a) => {
+								return <Button>{a.name}</Button>;
+							})}
+						</ButtonGroup>
+					</Paper>
+					<br />
+
+					<Paper className={classes.paperComponent}>
+					<div className={classes.rootSm}>Resume</div>
+						<Iframe
+							url={this.props.candidate.currentCandidate.resume}
+							width="100%"
+							height="450px"
+							id="myId"
+							className="myClassname"
+							display="initial"
+							position="relative"
+							styles={{overflow: "hidden"}}
+						/>
 					</Paper>
 				</Box>
 			</Container>

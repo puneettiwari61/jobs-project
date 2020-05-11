@@ -15,8 +15,8 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import { Paper } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import Table from './table';
 import Divider from '@material-ui/core/Divider';
+import Iframe from 'react-iframe';
 
 const styles = (theme) => ({
 	root: {
@@ -30,6 +30,11 @@ const styles = (theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		padding: theme.spacing(0),
 		fontSize: '1.5rem',
+	},
+	rootSm: {
+		...theme.typography.button,
+		padding: theme.spacing(0),
+		fontSize: '1rem',
 	},
 	paper: {
 		marginTop: theme.spacing(2),
@@ -59,6 +64,14 @@ const styles = (theme) => ({
 	box: {
 		marginTop: theme.spacing(15),
 	},
+	box2: {
+		padding: theme.spacing(2),
+		margin: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		maxWidth: 700,
+	},
 	link: {
 		cursor: 'pointer',
 	},
@@ -79,6 +92,22 @@ class EmployerPortfolio extends Component {
 			url: '',
 		};
 	}
+	componentDidMount() {
+		var url = [];
+		this.props.employer.currentEmployer.skills.map((a) => {
+			fetch(`https://en.wikipedia.org/wiki/${a.name}`, {
+				mode: 'no-cors',
+			}).then(function (response) {
+				var data = response.text().then(function (res) {
+					return res;
+				});
+				data.then((d) => {
+					return (data = `${d}`);
+				}).then((run) => this.setState({ url: data.split('img')[1].split('src')[1].split('"')[1] }));
+			});
+		});
+		console.log(this.state);
+	}
 
 	render() {
 		const { classes } = this.props;
@@ -90,35 +119,42 @@ class EmployerPortfolio extends Component {
 							<div className={classes.paper}>
 								<Avatar
 									alt="Remy Sharp"
-									src={this.props.employer.currentEmployer.profileImage}
+									src={this.props.employer.currentEmployer.image}
 									className={classes.large}
 								/>
 								<Divider variant="middle" />
 								<div className={classes.root}>
-									{this.props.employer.currentEmployer.company.companyName}
-									<Link>
-										<GitHubIcon />
-									</Link>
+									{this.props.employer.currentEmployer.firstName +
+										' ' +
+										this.props.employer.currentEmployer.lastName}
 								</div>
 
-								{/* <div className={classes.rootSmall}>{this.props.employer.currentemployer.city}</div> */}
+								<div className={classes.rootSmall}>{this.props.employer.currentEmployer.city}</div>
 							</div>
 						</Container>
 					</Paper>
 					<br />
 					<Paper className={classes.paperComponent}>
-						<ButtonGroup color="secondary" aria-label="outlined secondary button group">
-							<div className={classes.rootSmall}>
-								{this.props.employer.currentEmployer.profileDescription}
-							</div>
+						<div className={classes.rootSm}>ABOUT COMPANY</div>
 
-							{/* {this.props.employer.currentemployer.skills.map((a) => {
-              return  <Button>{a.name}</Button>
-            })} */}
-						</ButtonGroup>
+						<a href={this.props.employer.currentEmployer.company.companyWebsiteUrl} target="_blank">
+							<div className={classes.rootSmall}>
+								{this.props.employer.currentEmployer.company.companyName}
+							</div>
+						</a>
+						<Avatar
+							alt="Remy Sharp"
+							src={this.props.employer.currentEmployer.company.companyLogo}
+							className={classes.medium}
+						/>
+						<p>{this.props.employer.currentEmployer.company.aboutCompany}</p>
 					</Paper>
-					<br />
-					<Paper className={classes.paperComponent}>{/* <Table /> */}</Paper>
+
+					{/* <br />
+
+					<Paper className={classes.paperComponent}>
+						<Table />
+					</Paper> */}
 				</Box>
 			</Container>
 		);

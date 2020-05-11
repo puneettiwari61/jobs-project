@@ -37,6 +37,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-iframe": "^1.8.0",
     "react-material-ui-form-validator": "^2.0.10",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
