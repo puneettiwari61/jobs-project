@@ -25,7 +25,6 @@ exports.validateEmployersSignup = () => {
     check("lastName").notEmpty(),
     check("contactNumber").notEmpty(),
     check("gender").notEmpty(),
-    check("dob").notEmpty()
   ];
 };
 
