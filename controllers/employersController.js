@@ -64,9 +64,9 @@ module.exports = {
   },
   getCurrentUser: async (req, res) => {
     try {
-      var employer = await Employer.findById(req.user.userId).select(
-        "-password"
-      );
+      var employer = await Employer.findById(req.user.userId)
+        .populate("jobs")
+        .select("-password");
       res.json({ success: true, employer });
     } catch (err) {
       console.log(err);
@@ -100,7 +100,9 @@ module.exports = {
           $addToSet: { jobs: job._id }
         },
         { new: true }
-      ).select("-password");
+      )
+        .populate("jobs")
+        .select("-password");
       res.json({ success: true, employer });
     } catch (err) {
       console.log(err);
@@ -109,7 +111,7 @@ module.exports = {
   },
   getJobs: async (req, res) => {
     try {
-      var jobs = await Job.find({});
+      var jobs = await Job.find({}).populate("employer").populate("company")
       res.json({ success: true, jobs });
     } catch (err) {
       console.log(err);

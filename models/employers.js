@@ -76,7 +76,7 @@ var employerSchema = new Schema(
     jobs: [
       {
         type: Schema.Types.ObjectId,
-        ref: "job"
+        ref: "Job"
       }
     ]
   },
