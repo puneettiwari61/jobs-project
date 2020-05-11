@@ -15,7 +15,6 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import { Paper } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import Table from './table';
 import Divider from '@material-ui/core/Divider';
 import Iframe from 'react-iframe';
 
@@ -86,7 +85,7 @@ const styles = (theme) => ({
 	},
 });
 
-class CandidatePortfolio extends Component {
+class EmployerPortfolio extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -95,7 +94,7 @@ class CandidatePortfolio extends Component {
 	}
 	componentDidMount() {
 		var url = [];
-		this.props.candidate.currentCandidate.skills.map((a) => {
+		this.props.employer.currentEmployer.skills.map((a) => {
 			fetch(`https://en.wikipedia.org/wiki/${a.name}`, {
 				mode: 'no-cors',
 			}).then(function (response) {
@@ -120,26 +119,35 @@ class CandidatePortfolio extends Component {
 							<div className={classes.paper}>
 								<Avatar
 									alt="Remy Sharp"
-									src={this.props.candidate.currentCandidate.image}
+									src={this.props.employer.currentEmployer.image}
 									className={classes.large}
 								/>
 								<Divider variant="middle" />
 								<div className={classes.root}>
-									{this.props.candidate.currentCandidate.firstName +
+									{this.props.employer.currentEmployer.firstName +
 										' ' +
-										this.props.candidate.currentCandidate.lastName}
-									<Link>
-										<GitHubIcon />
-									</Link>
+										this.props.employer.currentEmployer.lastName}
 								</div>
 
-								<div className={classes.rootSmall}>{this.props.candidate.currentCandidate.city}</div>
+								<div className={classes.rootSmall}>{this.props.employer.currentEmployer.city}</div>
 							</div>
 						</Container>
 					</Paper>
 					<br />
 					<Paper className={classes.paperComponent}>
-						<div className={classes.rootSm}>ABOUT</div>
+						<div className={classes.rootSm}>ABOUT COMPANY</div>
+
+						<a href={this.props.employer.currentEmployer.company.companyWebsiteUrl} target="_blank">
+							<div className={classes.rootSmall}>
+								{this.props.employer.currentEmployer.company.companyName}
+							</div>
+						</a>
+						<Avatar
+							alt="Remy Sharp"
+							src={this.props.employer.currentEmployer.company.companyLogo}
+							className={classes.medium}
+						/>
+						<p>{this.props.employer.currentEmployer.company.aboutCompany}</p>
 					</Paper>
 
 					{/* <br />
@@ -147,42 +155,18 @@ class CandidatePortfolio extends Component {
 					<Paper className={classes.paperComponent}>
 						<Table />
 					</Paper> */}
-					<br />
-					<Paper className={classes.paperComponent}>
-						<div className={classes.rootSm}>Skills</div>
-						<ButtonGroup color="secondary" aria-label="outlined secondary button group">
-							{this.props.candidate.currentCandidate.skills.map((a) => {
-								return <Button>{a.name}</Button>;
-							})}
-						</ButtonGroup>
-					</Paper>
-					<br />
-
-					<Paper className={classes.paperComponent}>
-					<div className={classes.rootSm}>Resume</div>
-						<Iframe
-							url={this.props.candidate.currentCandidate.resume}
-							width="100%"
-							height="450px"
-							id="myId"
-							className="myClassname"
-							display="initial"
-							position="relative"
-							styles={{overflow: "hidden"}}
-						/>
-					</Paper>
 				</Box>
 			</Container>
 		);
 	}
 }
 
-function mapToProps({ candidate }) {
-	return { candidate };
+function mapToProps({ employer }) {
+	return { employer };
 }
 
-export default connect(mapToProps)(withRouter(withStyles(styles)(CandidatePortfolio)));
+export default connect(mapToProps)(withRouter(withStyles(styles)(EmployerPortfolio)));
 
-CandidatePortfolio.propTypes = {
+EmployerPortfolio.propTypes = {
 	classes: PropTypes.object.isRequired,
 };

@@ -78,18 +78,20 @@ function CollapsibleTable(props) {
 										History
 									</Typography>
 									<List>
-										{props.candidate.currentCandidate.education.map((a) => {
-											return (
-												<ListItem>
-													<ListItemAvatar>
-														<Avatar>
-															<EducationIcon />
-														</Avatar>
-													</ListItemAvatar>
-													<ListItemText primary="Work" secondary="Jan 7, 2014" />
-												</ListItem>
-											);
-										})}
+										{(props.candidate.currentCandidate.education[0]) ?
+											props.candidate.currentCandidate.education.map((a) => {
+											return (<ListItem>
+														<ListItemAvatar>
+															<Avatar>
+																<EducationIcon />
+															</Avatar>
+														</ListItemAvatar>
+														<ListItemText primary={a.schoolOrCollege+","+a.branch} secondary={a.grade+','+" "+a.from} />
+													</ListItem>
+												)
+											}) : (
+											<></>
+										)}
 									</List>
 								</Box>
 							</Collapse>
@@ -115,34 +117,36 @@ function CollapsibleTable(props) {
 										History
 									</Typography>
 									<List>
-										{props.candidate.currentCandidate.experience.map((a) => {
-											return (
-												<ListItem>
-													<ListItemAvatar>
-														<Avatar>
-															<WorkIcon />
-														</Avatar>
-													</ListItemAvatar>
-													<ListItemText
-														primary={a.companyName}
-														secondary={
-															Math.abs(
-																a.leavingDate.split('-')[1] -
-																	a.joiningDate.split('-')[1]
-															) > 1
-																? Math.abs(
-																		a.leavingDate.split('-')[1] -
-																			a.joiningDate.split('-')[1]
-																  ) + ' Months'
-																: Math.abs(
-																		a.leavingDate.split('-')[1] -
-																			a.joiningDate.split('-')[1]
-																  ) + ' Month'
-														}
-													/>
-												</ListItem>
-											);
-										})}
+										{(props.candidate.currentCandidate.experience[0])?props.candidate.currentCandidate.experience.map((a) => {
+												return (
+													<ListItem>
+														<ListItemAvatar>
+															<Avatar>
+																<WorkIcon />
+															</Avatar>
+														</ListItemAvatar>
+														<ListItemText
+															primary={a.companyName}
+															secondary={
+																Math.abs(
+																	a.leavingDate.split('-')[1] -
+																		a.joiningDate.split('-')[1]
+																) > 1
+																	? Math.abs(
+																			a.leavingDate.split('-')[1] -
+																				a.joiningDate.split('-')[1]
+																	  ) + ' Months'
+																	: Math.abs(
+																			a.leavingDate.split('-')[1] -
+																				a.joiningDate.split('-')[1]
+																	  ) + ' Month'
+															}
+														/>
+													</ListItem>
+												);
+											}) : (
+											<></>
+										)}
 									</List>
 								</Box>
 							</Collapse>
