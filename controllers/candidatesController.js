@@ -1,7 +1,9 @@
+const { check, validationResult } = require("express-validator");
+
 var Candidate = require("../models/candidates");
 var auth = require("../modules/auth");
 var Skill = require("../models/skills");
-const { check, validationResult } = require("express-validator");
+var Job = require("../models/jobs");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -198,6 +200,16 @@ module.exports = {
     try {
       var skills = await Skill.find({}).lean();
       res.json({ success: true, skills });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  filterJobs: async (req, res) => {
+    try {
+      console.log(req.body, "req body from filter");
+      var jobs = await Job.find({ skills: { $in: req.body.skills } });
+      res.json({ success: true, jobs });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
