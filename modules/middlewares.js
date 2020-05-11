@@ -18,16 +18,6 @@ exports.validateCandidatesSignup = () => {
 };
 
 exports.validateEmployersSignup = () => {
-<<<<<<< HEAD
-	return [
-		check('email').isEmail(),
-		check('password').isLength({ min: 6 }),
-		check('firstName').notEmpty(),
-		check('lastName').notEmpty(),
-		check('contactNumber').notEmpty(),
-		check('gender').notEmpty(),
-	];
-=======
   return [
     check("email").isEmail(),
     check("password").isLength({ min: 6 }),
@@ -36,7 +26,6 @@ exports.validateEmployersSignup = () => {
     check("contactNumber").notEmpty(),
     check("gender").notEmpty()
   ];
->>>>>>> 98bc2356c4a7698de81a219df040c850efa2b107
 };
 
 exports.validateCandidatesProfileUpdate = () => {
