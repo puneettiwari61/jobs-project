@@ -111,7 +111,7 @@ module.exports = {
   },
   getJobs: async (req, res) => {
     try {
-      var jobs = await Job.find({});
+      var jobs = await Job.find({}).populate("employer").populate("company")
       res.json({ success: true, jobs });
     } catch (err) {
       console.log(err);
