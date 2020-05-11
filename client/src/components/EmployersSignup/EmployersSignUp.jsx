@@ -263,6 +263,23 @@ class EmployersSignUp extends Component {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      name="profileImage"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="profileImage"
+                      label="Image"
+                      size="small"
+                      type="text"
+                      onChange={this.handleChange}
+                      value={this.state.profileImage}
+                      // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                      validators={["required"]}
+                      errorMessages={["form is required"]}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
                       autoComplete="fname"
                       name="profileDescription"
                       variant="outlined"

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import { Button, Chip } from "@material-ui/core";
@@ -10,7 +11,6 @@ import {
   addCandidatesSkills,
   deleteCandidatesSkills
 } from "../../store/actions.js";
-import Axios from "axios";
 
 const styles = theme => ({
   root: {

@@ -6,8 +6,8 @@ import CandidatesLogin from "./components/CandidatesLogin/CandidatesLogin";
 import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
-import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile"
-import CandidatesPortfolio from "./components/CandidatePortfolio/CandidatePortfolio"
+import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile";
+import CandidatesPortfolio from "./components/CandidatePortfolio/CandidatePortfolio";
 import Loader from "./components/Loader/Lodaer";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -20,6 +20,7 @@ import {
   identifyLoggedUser
 } from "./store/actions";
 import "./App.css";
+import PostJobs from "./components/Jobs/PostJobs";
 
 function PublicRoutes(props) {
   return (
@@ -39,7 +40,6 @@ function PublicRoutes(props) {
         <Route path="/employers/login">
           <EmployersLogin />
         </Route>
-        
         />
         <Route path="*">
           <h1
@@ -73,6 +73,9 @@ function PrivateRoutes(props) {
         </Route>
         <Route path="/employers/profile">
           <EmployersProfile />
+        </Route>
+        <Route path="/employers/postjobs">
+          <PostJobs />
         </Route>
         <Route path="*">
           <h1
