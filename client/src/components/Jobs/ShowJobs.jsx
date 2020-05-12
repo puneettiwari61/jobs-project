@@ -15,6 +15,7 @@ import { withStyles } from "@material-ui/styles";
 import Axios from "axios";
 import { Grid, Container, Box, Paper } from "@material-ui/core";
 
+
 const styles = theme => ({
   root: {
     marginTop: theme.spacing(15)
@@ -85,6 +86,7 @@ class ImgMediaCard extends React.Component {
         .catch(err => console.log(err));
     }
   };
+
 
   showAll = () => {
     this.setState({ filteredJobs: this.state.jobs });
@@ -157,7 +159,7 @@ class ImgMediaCard extends React.Component {
                             </CardContent>
                           </CardActionArea>
                           <CardActions>
-                            <Button size="small" color="primary">
+                            <Button size="small" color="primary" onClick={() =>this.props.history.push("/candidates/singlejob")}>
                               Details
                             </Button>
                             <Button size="small" color="primary">
@@ -207,7 +209,7 @@ class ImgMediaCard extends React.Component {
                             </CardContent>
                           </CardActionArea>
                           <CardActions>
-                            <Button size="small" color="primary">
+                            <Button size="small" color="primary" onClick={() =>this.props.history.push("/candidates/singlejob")}>
                               Details
                             </Button>
                             <Button size="small" color="primary">
