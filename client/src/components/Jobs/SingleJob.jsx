@@ -16,8 +16,6 @@ import { withStyles } from "@material-ui/styles";
 import Axios from 'axios';
 import { Grid } from '@material-ui/core';
 
-import SingleJob from "./SingleJob";
-
 const styles = (theme) => ({
     root: {
         marginTop: theme.spacing(15)
@@ -32,7 +30,6 @@ class ImgMediaCard extends React.Component {
             jobs: []
         };
     }
-
     componentDidMount() {
         Axios.get("/api/v1/employers/jobs", {
             headers: { authorization: JSON.parse(localStorage.jobUser).token }
@@ -44,8 +41,9 @@ class ImgMediaCard extends React.Component {
     }
 
     render() {
+
         const { classes } = this.props;
-        console.log("showjobs", this.state.jobs)
+        console.log("singlejob")
         return (
             this.state.jobs.map(job =>
                 <Grid item xs={12} >
@@ -71,11 +69,6 @@ class ImgMediaCard extends React.Component {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <Button onClick={() =>
-                                this.props.history.push("/candidates/singlejob")
-                            } size="small" color="primary">
-                                Details
-        </Button>
                             <Button size="small" color="primary">
                                 Apply
         </Button>
