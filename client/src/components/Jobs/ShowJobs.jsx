@@ -142,11 +142,7 @@ class ImgMediaCard extends React.Component {
                                 component="img"
                                 alt="Contemplative Reptile"
                                 height="40"
-                                //   image={
-                                //     job.employer.company.companyLogo
-                                //       ? job.employer.company.companyLogo
-                                //       : ""
-                                //   }
+                                image={job.employer.profileImage}
                                 title="Contemplative Reptile"
                               />
                               <Typography
@@ -165,7 +161,9 @@ class ImgMediaCard extends React.Component {
                               size="small"
                               color="primary"
                               onClick={() =>
-                                this.props.history.push(`/candidates/jobs/${job.slug}`)
+                                this.props.history.push(
+                                  `/candidates/jobs/${job.slug}`
+                                )
                               }
                             >
                               Details
@@ -198,11 +196,7 @@ class ImgMediaCard extends React.Component {
                                 component="img"
                                 alt="Contemplative Reptile"
                                 height="40"
-                                //   image={
-                                //     job.employer.company.companyLogo
-                                //       ? job.employer.company.companyLogo
-                                //       : ""
-                                //   }
+                                image={job.employer.profileImage}
                                 title="Contemplative Reptile"
                               />
                               <Typography
@@ -221,7 +215,9 @@ class ImgMediaCard extends React.Component {
                               size="small"
                               color="primary"
                               onClick={() =>
-                                this.props.history.push("/candidates/singlejob")
+                                this.props.history.push(
+                                  `/candidates/jobs/${job.slug}`
+                                )
                               }
                             >
                               Details
