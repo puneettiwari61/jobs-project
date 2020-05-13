@@ -7,9 +7,9 @@ import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
 
-import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile"
-import CandidatesPortfolio from "./components/CandidatePortfolio/main"
-import EmployerPortfolio from "./components/EmployerPortfolio/EmployerPortfolio"
+import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile";
+import CandidatesPortfolio from "./components/CandidatePortfolio/main";
+import EmployerPortfolio from "./components/EmployerPortfolio/EmployerPortfolio";
 import Loader from "./components/Loader/Lodaer";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -25,12 +25,14 @@ import "./App.css";
 import PostJobs from "./components/Jobs/PostJobs";
 import ShowJobs from "./components/Jobs/ShowJobs";
 import SingleJobs from "./components/Jobs/SingleJob";
-
+import CandidatesDashboard from "./components/CandidatesDashboard/CandidatesDashboard";
+import Header2 from "./components/Common/Header2";
 
 function PublicRoutes(props) {
   return (
     <>
       <Header />
+      {/* <Header2 {...props} /> */}
       <Switch>
         <Route path="/" exact component={LandingPage} />
         <Route path="/candidates/signup">
@@ -66,6 +68,7 @@ function PrivateRoutes(props) {
   return (
     <>
       <Header {...props} />
+      {/* <Header2 {...props} /> */}
       <Switch>
         <Route path="/" exact>
           <LandingPage />
@@ -81,6 +84,9 @@ function PrivateRoutes(props) {
         </Route>
         <Route path="/candidates/singlejob">
           <SingleJobs />
+        </Route>
+        <Route path="/candidates/dashboard">
+          <CandidatesDashboard />
         </Route>
         <Route path="/employerprofile">
           <EmployerPortfolio />
