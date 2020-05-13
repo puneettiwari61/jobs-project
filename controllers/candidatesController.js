@@ -214,5 +214,30 @@ module.exports = {
       console.log(err);
       res.json({ success: false, err });
     }
+  },
+  jobApply: async (req, res) => {
+    try {
+      var jobs = await Job.findByIdAndUpdate(
+        req.body.id,
+        {
+          $addToSet: { applicants: req.user.userId }
+        },
+        { new: true }
+      );
+
+      var candidate = await Candidate.findByIdAndUpdate(
+        req.user.userId,
+        {
+          $addToSet: { jobsApplied: req.body.id }
+        },
+        { new: true }
+      )
+        .populate("jobsApplied")
+        .select("-password");
+      res.json({ success: true, candidate });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
   }
 };

@@ -104,6 +104,12 @@ var candidateSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Skill"
       }
+    ],
+    jobsApplied: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Job"
+      }
     ]
   },
   { timestamps: true }
