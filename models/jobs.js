@@ -1,8 +1,12 @@
 var mongoose = require("mongoose");
+const slug = require('slug');
 var Schema = mongoose.Schema;
 
 var jobSchema = new Schema(
   {
+    slug: {
+      type: String
+    },
     employer: {
       type: Schema.Types.ObjectId,
       ref: "Employer"
@@ -34,5 +38,15 @@ var jobSchema = new Schema(
   },
   { timestamps: true }
 );
+
+jobSchema.pre("save", function(next) {
+  if (this.title && this.isModified("title")) {
+    var slugged = slug(this.title, { lower: true });
+    this.slug = slugged + "-" + this._id;
+    next();
+  } else {
+    next();
+  }
+});
 
 module.exports = mongoose.model("Job", jobSchema);

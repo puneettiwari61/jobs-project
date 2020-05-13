@@ -95,6 +95,7 @@ class ImgMediaCard extends React.Component {
   render() {
     const { classes } = this.props;
     console.log("showjobs", this.state.jobs);
+
     return (
       <>
         <Container component="main" className={classes.box}>
@@ -132,6 +133,7 @@ class ImgMediaCard extends React.Component {
                                 component="h2"
                               >
                                 {job.title}
+                                {/* {job.slug} */}
                               </Typography>
                               {/* <Typography gutterBottom variant="h5" component="h2">
                           {job.employer.company.companyLogo}
@@ -152,9 +154,9 @@ class ImgMediaCard extends React.Component {
                                 color="textSecondary"
                                 component="p"
                               >
-                                Lizards are a widespread group of squamate
+                                {/* Lizards are a widespread group of squamate
                                 reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
+                                across all continents except Antarctica */}
                               </Typography>
                             </CardContent>
                           </CardActionArea>
@@ -163,7 +165,7 @@ class ImgMediaCard extends React.Component {
                               size="small"
                               color="primary"
                               onClick={() =>
-                                this.props.history.push("/candidates/singlejob")
+                                this.props.history.push(`/candidates/jobs/${job.slug}`)
                               }
                             >
                               Details

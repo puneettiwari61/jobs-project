@@ -26,10 +26,11 @@ router.post(
 
 //jobs post route
 router.post("/jobs", auth.verifyToken, employers.postJob);
+//get single job
+router.get("/jobs/:slug", auth.verifyToken, employers.getSingleJob);
 //get all jobs
 router.get("/jobs", auth.verifyToken, employers.getJobs);
-
-
+// delete job
 router.delete("/jobs/:id", auth.verifyToken, employers.deleteJob);
 
 module.exports = router;
