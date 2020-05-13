@@ -13,6 +13,9 @@ import { Typography } from '@material-ui/core';
 import Select from 'react-select';
 import Axios from 'axios';
 import { createJob } from '../../store/actions';
+import Table from './table';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const styles = (theme) => ({
 	paper: {
@@ -38,7 +41,7 @@ const styles = (theme) => ({
 		maxWidth: 500,
 	},
 	box: {
-		marginTop: theme.spacing(15),
+		marginTop: theme.spacing(12),
 	},
 	link: {
 		cursor: 'pointer',
@@ -111,6 +114,7 @@ class PostJobs extends Component {
 				['required', 'matchRegexp:^[1-9][0-9]{4,10}$'],
 				['salary is required', 'minimun 10K'],
 			],
+			checked: false,
 		};
 	}
 
@@ -123,7 +127,9 @@ class PostJobs extends Component {
 			})
 			.catch((err) => console.log(err));
 	}
-
+	handleCheck = () => {
+		this.setState({ checked: !this.state.checked });
+	};
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
@@ -146,166 +152,185 @@ class PostJobs extends Component {
 		const { classes } = this.props;
 		return (
 			<React.Fragment>
-				<Container component="main" className={classes.box}>
-					<Box>
-						<Paper className={classes.paperComponent}>
-							<div className={classes.paper}>
-								<Avatar className={classes.avatar}>
-									<WorkOutlineIcon />
-								</Avatar>
-								<Typography component="h1" variant="h5" className={classes.Typography}>
-									POST A JOB
-								</Typography>
-								<ValidatorForm
-									ref="form"
-									onError={(errors) => console.log(errors)}
-									onSubmit={this.handleSubmit}
-								>
-									<Grid container spacing={3}>
-										<Grid item xs={12}>
-											<TextField
-												required
-												id="title"
-												name="title"
-												label="Title"
-												fullWidth
-												onChange={this.handleChange}
-												value={this.state.title}
-												variant="outlined"
-												autoFocus
-												placeholder="Use Complete words e.g. Junior Developer"
-												validators={['required']}
-												errorMessages={['this field is required']}
-												size="small"
-											/>
-										</Grid>
-										<Grid item xs={12}>
-											<TextField
-												required
-												multiline
-												rows={4}
-												id="description"
-												name="description"
-												label="Description"
-												fullWidth
-												onChange={this.handleChange}
-												value={this.state.description}
-												validators={['required']}
-												errorMessages={['description is required']}
-												variant="outlined"
-											/>
-										</Grid>
-										<Grid item xs={12} sm={6}>
-											<TextField
-												validators={['required']}
-												errorMessages={['form is required']}
-												size="small"
-												id="remote"
-												select
-												label="Remote"
-												helperText="Please select if remote available"
-												variant="outlined"
-												type="radio"
-												name="isRemote"
-												onChange={this.handleChange}
-												value={this.state.isRemote}
-											>
-												{remote.map((option) => (
-													<MenuItem key={option.value} value={option.value}>
-														{option.label}
-													</MenuItem>
-												))}
-											</TextField>
-										</Grid>
-										<Grid item xs={12} sm={6}>
-											<TextField
-												id="location"
-												name="location"
-												label="Location"
-												fullWidth
-												onChange={this.handleChange}
-												value={this.state.location}
-												variant="outlined"
-												size="small"
-												disabled={this.state.isRemote === false ? false : true}
-											/>
-										</Grid>
-										<Grid item xs={12} sm={6}>
-											<TextField
-												validators={['required']}
-												errorMessages={['form is required']}
-												size="small"
-												id="currency"
-												select
-												label="currency"
-												helperText="Please select currency of salary "
-												variant="outlined"
-												type="radio"
-												name="currency"
-												onChange={this.handleChange}
-												value={this.state.currency}
-											>
-												{currency.map((option) => (
-													<MenuItem key={option.value} value={option.value}>
-														{option.label}
-													</MenuItem>
-												))}
-											</TextField>
-										</Grid>
-										<Grid item xs={12} sm={6}>
-											<TextField
-												validators={
-													this.state.currency == 'rupees'
-														? [
-																'required',
-																'matchRegexp:^[6-9][0-9]{5,10}|[1-9][0-9]{6,10}$',
-														  ]
-														: this.state.dollars[0]
-												}
-												errorMessages={
-													this.state.currency == 'rupees'
-														? ['salary is required', 'minimun 6 Lakhs']
-														: this.state.dollars[1]
-												}
-												id="salary"
-												name="salary"
-												label="salary"
-												fullWidth
-												onChange={this.handleChange}
-												value={this.state.salary}
-												variant="outlined"
-												size="small"
-												placeholder="Annual Salary"
-											/>
-										</Grid>
-										<Grid item xs={12}>
-											<Select
-												isMulti
-												name="skills"
-												options={this.state.skillsData.map((a) => {
-													return {
-														value: `${a._id}`,
-														label: `${a.name}`,
-													};
-												})}
-												className="basic-multi-select"
-												classNamePrefix="select"
-												onChange={(e) => this.setState({ skills: e })}
-												validators={['required']}
-												errorMessages={['form is required']}
-											/>
-										</Grid>
-										<Grid item xs={12} sm={6}>
-											<Button variant="contained" size="medium" type="submit">
-												POST JOB
-											</Button>
-										</Grid>
-									</Grid>
-								</ValidatorForm>
-							</div>
-						</Paper>
-					</Box>
-				</Container>
+				<Grid container component="main" className={classes.root}>
+					<Grid item xs={6} component={Paper}>
+						<Container component="main" className={classes.box}>
+							<Box>
+								<Paper className={classes.paperComponent}>
+									<div className={classes.paper}>
+										<Avatar className={classes.avatar}>
+											<WorkOutlineIcon />
+										</Avatar>
+										<Typography component="h5" variant="h5" className={classes.Typography}>
+											POST JOB
+											{/* <Switch
+												checked={this.state.checked}
+												onChange={this.handleCheck}
+												color="primary"
+												name="checkedB"
+												inputProps={{ 'aria-label': 'primary checkbox' }}
+											/>{' '}
+											LIST JOB */}
+										</Typography>
+
+										<ValidatorForm
+											ref="form"
+											onError={(errors) => console.log(errors)}
+											onSubmit={this.handleSubmit}
+										>
+											<Grid container spacing={3}>
+												<Grid item xs={12}>
+													<TextField
+														required
+														id="title"
+														name="title"
+														label="Title"
+														fullWidth
+														onChange={this.handleChange}
+														value={this.state.title}
+														variant="outlined"
+														autoFocus
+														placeholder="Use Complete words e.g. Junior Developer"
+														validators={['required']}
+														errorMessages={['this field is required']}
+														size="small"
+													/>
+												</Grid>
+												<Grid item xs={12}>
+													<TextField
+														required
+														multiline
+														rows={4}
+														id="description"
+														name="description"
+														label="Description"
+														fullWidth
+														onChange={this.handleChange}
+														value={this.state.description}
+														validators={['required']}
+														errorMessages={['description is required']}
+														variant="outlined"
+													/>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														validators={['required']}
+														errorMessages={['form is required']}
+														size="small"
+														id="remote"
+														select
+														label="Remote"
+														helperText="Please select if remote available"
+														variant="outlined"
+														type="radio"
+														name="isRemote"
+														onChange={this.handleChange}
+														value={this.state.isRemote}
+													>
+														{remote.map((option) => (
+															<MenuItem key={option.value} value={option.value}>
+																{option.label}
+															</MenuItem>
+														))}
+													</TextField>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														id="location"
+														name="location"
+														label="Location"
+														fullWidth
+														onChange={this.handleChange}
+														value={this.state.location}
+														variant="outlined"
+														size="small"
+														disabled={this.state.isRemote === false ? false : true}
+													/>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														validators={['required']}
+														errorMessages={['form is required']}
+														size="small"
+														id="currency"
+														select
+														label="currency"
+														helperText="Please select currency of salary "
+														variant="outlined"
+														type="radio"
+														name="currency"
+														onChange={this.handleChange}
+														value={this.state.currency}
+													>
+														{currency.map((option) => (
+															<MenuItem key={option.value} value={option.value}>
+																{option.label}
+															</MenuItem>
+														))}
+													</TextField>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<TextField
+														validators={
+															this.state.currency == 'rupees'
+																? [
+																		'required',
+																		'matchRegexp:^[6-9][0-9]{5,10}|[1-9][0-9]{6,10}$',
+																  ]
+																: this.state.dollars[0]
+														}
+														errorMessages={
+															this.state.currency == 'rupees'
+																? ['salary is required', 'minimun 6 Lakhs']
+																: this.state.dollars[1]
+														}
+														id="salary"
+														name="salary"
+														label="salary"
+														fullWidth
+														onChange={this.handleChange}
+														value={this.state.salary}
+														variant="outlined"
+														size="small"
+														placeholder="Annual Salary"
+													/>
+												</Grid>
+												<Grid item xs={12}>
+													<Select
+														isMulti
+														name="skills"
+														options={this.state.skillsData.map((a) => {
+															return {
+																value: `${a._id}`,
+																label: `${a.name}`,
+															};
+														})}
+														className="basic-multi-select"
+														classNamePrefix="select"
+														onChange={(e) => this.setState({ skills: e })}
+														validators={['required']}
+														errorMessages={['form is required']}
+													/>
+												</Grid>
+												<Grid item xs={12} sm={6}>
+													<Button variant="contained" size="medium" type="submit">
+														POST JOB
+													</Button>
+												</Grid>
+											</Grid>
+										</ValidatorForm>
+									</div>
+								</Paper>
+							</Box>
+						</Container>
+					</Grid>
+					<Grid item xs={6} className={classes.right}>
+						<div className={classes.box}>
+						<Table />
+
+						</div>
+					</Grid>
+				</Grid>
 			</React.Fragment>
 		);
 	}

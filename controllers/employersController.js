@@ -117,5 +117,16 @@ module.exports = {
       console.log(err);
       res.json({ success: false, err });
     }
+  },
+  deleteJob: async(req,res) => {
+    try {
+      var job = await Job.findByIdAndRemove(req.params.id)
+      console.log(job,req,"from delee")
+      var jobs = await Job.find({}).populate("employer").populate("company")
+      res.json({ success: true,jobs })
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
   }
 };
