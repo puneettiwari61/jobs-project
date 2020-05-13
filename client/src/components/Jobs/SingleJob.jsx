@@ -27,15 +27,18 @@ class ImgMediaCard extends React.Component {
     constructor() {
         super();
         this.state = {
-            jobs: []
+            job: null
         };
     }
     componentDidMount() {
-        Axios.get("/api/v1/employers/jobs", {
+        let { slug } = this.props.match.params || "";
+        Axios.get(`/api/v1/employers/jobs/${slug}`, {
             headers: { authorization: JSON.parse(localStorage.jobUser).token }
         })
             .then(res => {
-                this.setState({ jobs: res.data.jobs });
+                console.log("from single job",res)
+                this.setState({ job: res.data.job });
+
             })
             .catch(err => console.log(err));
     }
@@ -43,23 +46,23 @@ class ImgMediaCard extends React.Component {
     render() {
 
         const { classes } = this.props;
-        console.log("singlejob")
-        return (
-            this.state.jobs.map(job =>
-                <Grid item xs={12} >
+        console.log("singlejob",this.state)
+        let job = this.state.job
+        return (this.state.job ? 
+                (<Grid item xs={12} >
                     <Card className={classes.root}>
                         <CardActionArea>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {job.title}
+                                    { job.title}
                                 </Typography>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {job.employer.company.companyLogo}
+                                    { job.employer.company.companyName}
                                 </Typography><CardMedia
                                     component="img"
                                     alt="Contemplative Reptile"
                                     height="140"
-                                    image={job.employer.company.companyLogo}
+                                    image={ job.employer.company.companyLogo}
                                     title="Contemplative Reptile"
                                 />
                                 <Typography variant="body2" color="textSecondary" component="p">
@@ -74,9 +77,10 @@ class ImgMediaCard extends React.Component {
         </Button>
                         </CardActions>
                     </Card>
-                </Grid>));
+                </Grid>):'')
     };
 }
+
 
 
 function mapToProps({ candidate, employer }) {

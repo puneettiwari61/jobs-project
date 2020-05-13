@@ -24,7 +24,7 @@ import {
 import "./App.css";
 import PostJobs from "./components/Jobs/PostJobs";
 import ShowJobs from "./components/Jobs/ShowJobs";
-import SingleJobs from "./components/Jobs/SingleJob";
+import SingleJob from "./components/Jobs/SingleJob";
 import CandidatesDashboard from "./components/CandidatesDashboard/CandidatesDashboard";
 import Header2 from "./components/Common/Header2";
 
@@ -79,11 +79,11 @@ function PrivateRoutes(props) {
         <Route path="/candidateprofile">
           <CandidatesPortfolio />
         </Route>
-        <Route path="/candidates/jobs">
-          <ShowJobs />
+        <Route path="/candidates/jobs/:slug">
+          <SingleJob />
         </Route>
-        <Route path="/candidates/singlejob">
-          <SingleJobs />
+        <Route path="/candidates/jobs" exact>
+          <ShowJobs />
         </Route>
         <Route path="/candidates/dashboard">
           <CandidatesDashboard />

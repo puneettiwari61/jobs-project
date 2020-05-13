@@ -120,6 +120,18 @@ module.exports = {
       res.json({ success: false, err });
     }
   },
+  getSingleJob: async (req, res) => {
+    try {
+      var job = await Job.findOne({slug:req.params.slug})
+        .populate("employer")
+        .populate("company");
+      res.json({ success: true, job });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+
   deleteJob: async (req, res) => {
     try {
       var job = await Job.findByIdAndRemove(req.params.id);
