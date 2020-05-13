@@ -15,19 +15,20 @@ import { withStyles } from "@material-ui/styles";
 import Axios from "axios";
 import { Grid, Container, Box, Paper } from "@material-ui/core";
 
-
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing(15)
+    padding: "0.8rem"
   },
   paper: {
     marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
+    // padding: "0.8rem"
   },
   box: {
-    maxWidth: 800
+    maxWidth: 800,
+    marginTop: theme.spacing(15)
   },
   card: {
     margin: "1rem"
@@ -86,7 +87,6 @@ class ImgMediaCard extends React.Component {
         .catch(err => console.log(err));
     }
   };
-
 
   showAll = () => {
     this.setState({ filteredJobs: this.state.jobs });
@@ -159,7 +159,13 @@ class ImgMediaCard extends React.Component {
                             </CardContent>
                           </CardActionArea>
                           <CardActions>
-                            <Button size="small" color="primary" onClick={() =>this.props.history.push("/candidates/singlejob")}>
+                            <Button
+                              size="small"
+                              color="primary"
+                              onClick={() =>
+                                this.props.history.push("/candidates/singlejob")
+                              }
+                            >
                               Details
                             </Button>
                             <Button size="small" color="primary">
@@ -173,7 +179,7 @@ class ImgMediaCard extends React.Component {
                     )
                   : this.state.filteredJobs.map(job =>
                       job ? (
-                        <Card>
+                        <Card className={classes.card}>
                           <CardActionArea>
                             <CardContent>
                               <Typography
@@ -189,7 +195,7 @@ class ImgMediaCard extends React.Component {
                               <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
-                                height="140"
+                                height="40"
                                 //   image={
                                 //     job.employer.company.companyLogo
                                 //       ? job.employer.company.companyLogo
@@ -209,7 +215,13 @@ class ImgMediaCard extends React.Component {
                             </CardContent>
                           </CardActionArea>
                           <CardActions>
-                            <Button size="small" color="primary" onClick={() =>this.props.history.push("/candidates/singlejob")}>
+                            <Button
+                              size="small"
+                              color="primary"
+                              onClick={() =>
+                                this.props.history.push("/candidates/singlejob")
+                              }
+                            >
                               Details
                             </Button>
                             <Button size="small" color="primary">
