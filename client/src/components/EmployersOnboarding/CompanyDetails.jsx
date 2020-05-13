@@ -35,7 +35,7 @@ class CompanyDetails extends Component {
       establishmentDate: "",
       companyName: "",
       companyWebsiteUrl: "",
-      profileImage: "",
+      companyLogo: "",
       founder: "",
       foundersView: "",
       aboutCompany: ""
@@ -100,23 +100,23 @@ class CompanyDetails extends Component {
                 value={this.state.companyWebsiteUrl}
               />
             </Grid>
-            {/* <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 required
                 id="Company Logo"
-                name="profileImage"
+                name="companyLogo"
                 label="Company Logo"
                 fullWidth
                 placeholder="Company logo"
                 onChange={this.handleChange}
-                value={this.state.profileImage}
+                value={this.state.companyLogo}
                 validators={[
                   "required",
                   'matchRegexp:^(ftp|http|https)://[^ "]+$'
                 ]}
                 errorMessages={["url is required", "enter a valid URL"]}
               />
-            </Grid> */}
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 required
