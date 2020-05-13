@@ -65,7 +65,8 @@ class CandidatesLogin extends Component {
     this.props
       .dispatch(candidatesLogin(this.state))
       .then(data => {
-        if (data.success) return this.props.history.push("/candidates/profile");
+        if (data.success)
+          return this.props.history.push("/candidates/dashboard");
         this.setState({ msg: data.msg });
       })
       .catch(err => {
@@ -138,10 +139,13 @@ class CandidatesLogin extends Component {
                       onChange={this.handleChange}
                       value={this.state.password}
                       validators={[
-												'required',
-												'matchRegexp:^[A-Z | a-z | 0-9 | !,@,#,$,$,^,&,*,(,),_,+]{6,15}$',
-											]}
-											errorMessages={['passwword is required', 'minimum length is 6']}
+                        "required",
+                        "matchRegexp:^[A-Z | a-z | 0-9 | !,@,#,$,$,^,&,*,(,),_,+]{6,15}$"
+                      ]}
+                      errorMessages={[
+                        "passwword is required",
+                        "minimum length is 6"
+                      ]}
                     />
                     <Link href="/recover" variant="caption" color="primary">
                       {this.state.msg == "incorrect password"
