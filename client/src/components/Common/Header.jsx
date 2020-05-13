@@ -9,6 +9,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { withRouter } from 'react-router-dom';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import "./Header.scss"
 
 const styles = (theme) => ({
 	grow: {
@@ -98,7 +99,7 @@ class Header extends React.Component {
 			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar>
 					<Typography variant="h6" color="inherit" noWrap>
-						STEVE'S JOBS
+						<img className="logo_job" src="https://lh3.googleusercontent.com/pw/ACtC-3ewkA_FaRzGusIEIH6ra-9KVBIjNOvaH_qVaxcOAuppSEWKvhw6WwOQXii595yi06hnBrCN6fbzKHUox-j5AgvaH9M577VK5PggX0C8h-zT6iaeq7bdt1S7Vq2jMjniaH8GgUhGrtMBVuMN0SFA44-b=w659-h609-no?authuser=0"/>
 					</Typography>
 					<div className={classes.grow} />
 					{/* <div className={classes.search}>
