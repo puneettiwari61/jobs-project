@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0
+    // zIndex: "-2"
   },
   drawerPaper: {
     width: drawerWidth,
@@ -42,7 +43,8 @@ const useStyles = makeStyles(theme => ({
     background: "#1E1E1E"
   },
   drawerContainer: {
-    overflow: "auto"
+    overflow: "auto",
+    padding: theme.spacing(4)
   },
   content: {
     flexGrow: 1,
