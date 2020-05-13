@@ -10,11 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from "prop-types";
 
 
+
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import Axios from 'axios';
 import { Grid } from '@material-ui/core';
+import FormDialog from './popup';
 
 const styles = (theme) => ({
     root: {
@@ -72,9 +74,7 @@ class ImgMediaCard extends React.Component {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <Button size="small" color="primary">
-                                Apply
-        </Button>
+                 <FormDialog id={job._id} />
                         </CardActions>
                     </Card>
                 </Grid>):'')
