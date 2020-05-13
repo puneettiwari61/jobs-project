@@ -228,12 +228,14 @@ module.exports = {
       var candidate = await Candidate.findByIdAndUpdate(
         req.user.userId,
         {
-          $addToSet: { jobsApplied: req.body.id }
+          $addToSet: { jobsApplied: req.body._id }
         },
         { new: true }
       )
         .populate("jobsApplied")
         .select("-password");
+
+        console.log(req.body,"from aply jobs ")
       res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);
