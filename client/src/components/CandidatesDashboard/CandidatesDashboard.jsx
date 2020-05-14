@@ -123,7 +123,7 @@ function CandidatesDashoard(props) {
       </Drawer>
       <main className={classes.content}>
         {/* <Toolbar /> */}
-        <h1>Welcome to dashboard</h1>
+        {/* <h1>Welcome to dashboard</h1> */}
         <Switch>
           <Route path="/candidates/dashboard/profile" component={Profile} />
           <Route path="/candidates/dashboard/jobs" component={Jobs} />
