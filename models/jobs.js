@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-const slug = require('slug');
+const slug = require("slug");
 var Schema = mongoose.Schema;
 
 var jobSchema = new Schema(
