@@ -132,6 +132,22 @@ module.exports = {
       res.json({ success: false });
     }
   },
+  addAbout: async (req, res) => {
+    try {
+      var candidate = await Candidate.findByIdAndUpdate(
+        req.user.userId,
+        { about: req.body.about },
+        { new: true }
+      )
+        .populate("skills", "name")
+        .select("-password");
+      console.log(candidate);
+      res.json({ success: true, candidate });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false });
+    }
+  },
   deleteExperience: async (req, res) => {
     try {
       var candidate = await Candidate.findByIdAndUpdate(

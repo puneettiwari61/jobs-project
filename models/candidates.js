@@ -110,7 +110,11 @@ var candidateSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Job"
       }
-    ]
+    ],
+    about: {
+      type: String,
+      default: ""
+    }
   },
   { timestamps: true }
 );
