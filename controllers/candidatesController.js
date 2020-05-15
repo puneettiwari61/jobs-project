@@ -70,6 +70,12 @@ module.exports = {
     try {
       var candidate = await Candidate.findById(req.user.userId)
         .populate("skills", "name")
+        .populate("jobsApplied")
+        .populate({
+          path: "jobsApplied",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "employer" }
+        })
         .select("-password");
       res.json({ success: true, candidate });
     } catch (err) {
@@ -218,13 +224,13 @@ module.exports = {
   jobApply: async (req, res) => {
     try {
       var jobs = await Job.findByIdAndUpdate(
-        req.body.id,
+        req.body._id,
         {
           $addToSet: { applicants: req.user.userId }
         },
         { new: true }
       );
-
+      console.log(jobs, "from check");
       var candidate = await Candidate.findByIdAndUpdate(
         req.user.userId,
         {
@@ -235,7 +241,7 @@ module.exports = {
         .populate("jobsApplied")
         .select("-password");
 
-        console.log(req.body,"from aply jobs ")
+      console.log(req.body, "from aply jobs ");
       res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);
