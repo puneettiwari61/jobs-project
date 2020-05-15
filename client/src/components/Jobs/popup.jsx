@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,30 +11,38 @@ import { connect } from "react-redux";
 import { updateLoggedCandidate } from "../../store/actions";
 
 function FormDialog(props) {
-  const [open, setOpen] = React.useState(false);
 
+  const [open, setOpen] = React.useState(false);
+  const [comment, setComment] = React.useState("");
+  const [errmsg, setErrmsg] = React.useState("");
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    console.log(props, "hello from");
-    Axios.post(
-      `/api/v1/candidates/jobs`,
-      { _id: props.id },
-      {
-        headers: { authorization: JSON.parse(localStorage.jobUser).token }
-      }
-    )
-      .then(res => {
-        props.dispatch(
-          updateLoggedCandidate({ currentCandidate: res.data.candidate })
-        );
-        console.log("from candidate job apply", res);
-      })
-      .catch(err => console.log(err));
-    setOpen(false);
-  };
+    console.log(comment, "hello from hi");
+    if (comment) {
+      Axios.post(
+        `/api/v1/candidates/jobs`,
+        { _id: props.id, comment: comment },
+        {
+          headers: { authorization: JSON.parse(localStorage.jobUser).token }
+        }
+      )
+        .then(res => {
+          props.dispatch(
+            updateLoggedCandidate({ currentCandidate: res.data.candidate })
+          );
+          console.log("from candidate job apply", res);
+        })
+        .catch(err => console.log(err));
+      setOpen(false);
+    } else {
+      setErrmsg("cannot be left blank");
+    }
+  }
+
+
 
   return (
     <div>
@@ -46,24 +54,25 @@ function FormDialog(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Explain in a few words, why you are the perfect fit for this job?
+</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
+            *please note that once updated this field cannot be changed
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            type="text"
+            onChange={(e) => setComment(e.target.value)}
             fullWidth
           />
+          <p>{errmsg}</p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Apply
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
