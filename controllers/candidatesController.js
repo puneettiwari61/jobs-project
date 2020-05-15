@@ -4,6 +4,7 @@ var Candidate = require("../models/candidates");
 var auth = require("../modules/auth");
 var Skill = require("../models/skills");
 var Job = require("../models/jobs");
+var Applicant = require("../models/applicants");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -239,14 +240,14 @@ module.exports = {
   },
   jobApply: async (req, res) => {
     try {
-      var jobs = await Job.findByIdAndUpdate(
-        req.body._id,
-        {
-          $addToSet: { applicants: req.user.userId }
-        },
-        { new: true }
-      );
-      console.log(jobs, "from check");
+      // var job = await Job.findByIdAndUpdate(
+      //   req.body._id,
+      //   {
+      //     $addToSet: { applicants: req.user.userId }
+      //   },
+      //   { new: true }
+      // );
+      // console.log(job, "from check");
       var candidate = await Candidate.findByIdAndUpdate(
         req.user.userId,
         {
@@ -257,8 +258,26 @@ module.exports = {
         .populate("jobsApplied")
         .select("-password");
 
-      console.log(req.body, "from aply jobs ");
-      res.json({ success: true, candidate });
+        console.log(req.body, "from apply jobs ");
+
+        var applicant = Applicant.findById({candidate:req.user.userId}) 
+        if(!applicant){
+          await Applicant.create({
+            comment: req.body.comment, candidate: req.user.userId
+          })
+        }else if(applicant){
+         return res.json({ success: false, msg:"already applied!" });
+        }
+        
+      var job = await Job.findByIdAndUpdate(
+          req.body._id,
+          {
+            $addToSet: { applicants: applicant.id }
+          },
+          { new: true }
+        );
+        res.json({ success: true, candidate });
+
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
