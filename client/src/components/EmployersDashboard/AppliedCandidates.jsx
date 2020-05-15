@@ -61,10 +61,10 @@ class AppliedCandidates extends React.Component {
               <List className={classes.root}>
                 <ListItem alignItems="flex-start">
                   <ListItemAvatar>
-                    <Avatar src={c.image} />
+                    <Avatar src={c.candidate.image} />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={c.firstName + c.lastName}
+                    primary={c.candidate.firstName + c.candidate.lastName}
                     secondary={
                       <React.Fragment>
                         <Typography
@@ -76,7 +76,7 @@ class AppliedCandidates extends React.Component {
                           {c.gender}
                         </Typography>
                         <br />
-                        {c.skills.map(a => {
+                        {c.candidate.skills ? c.candidate.skills.map(a => {
                           return (
                             <span style={{ padding: 5 }}>
                               <Chip
@@ -89,7 +89,7 @@ class AppliedCandidates extends React.Component {
                               />
                             </span>
                           );
-                        })}
+                        }): ""}
                       </React.Fragment>
                     }
                   />

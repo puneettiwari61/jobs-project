@@ -138,8 +138,8 @@ module.exports = {
         .populate({
           path: "applicants",
           // Get friends of friends - populate the 'friends' array for every friend
-          populate: { path: "skills" }
-        });
+          populate: { path: "candidate"}
+        })
       res.json({ success: true, job });
     } catch (err) {
       console.log(err);
