@@ -5,6 +5,12 @@ import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from "./table"
+import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import TextField from '@material-ui/core/TextField';
+import EditIcon from '@material-ui/icons/Edit';
+import DoneIcon from '@material-ui/icons/Done';
 
 const StyledBadge = withStyles((theme) => ({
 	badge: {
@@ -47,13 +53,37 @@ const SmallAvatar = withStyles((theme) => ({
 }))(Avatar);
 
 const useStyles = makeStyles((theme) => ({
-	h1: {
+  fab: {
+    position:"absolute",
+    right:'0',
+    top:"6.7rem"
+  },
+  h1: {
 		// ...theme.typography.button,
     fontSize: '2rem',
     paddingTop:'6rem',
     font:"200",
     color:'white'
 
+  },
+  h1_input: {
+		// ...theme.typography.button,
+    paddingTop:'6rem',
+    color:"white",
+    background:'transparent',
+    border:0,
+    outline:"0",
+    fontSize:'2rem'
+  },
+  h2_input: {
+		// ...theme.typography.button,
+    border:0,
+    outline:"0",
+    borderBottom:"1px solid white",
+    fontSize:'1.3rem',
+    width:"100%",
+    textDecoration:'underline',
+    wordBreak:"break-all"
   },
   h2: {
 		// ...theme.typography.button,
@@ -72,12 +102,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
 		'& > *': {
 			margin: theme.spacing(1),
-		},
+    },
+  },
+  root1: {
+    display: 'flex',
+    color:'white',
+    '& > *': {
+      border:0,
+    },
 	},
 }));
 
 function Profile(props) {
-	const classes = useStyles();
+  const classes = useStyles();
+const [open, setOpen] = React.useState(true);
+  
 
 	return (<div>
 		<div className={classes.box}>
@@ -106,9 +145,23 @@ function Profile(props) {
       >
         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
       </Badge> */}
-			<div className={classes.h1}>{props.candidate.currentCandidate.firstName+' '+props.candidate.currentCandidate.lastName}</div>
+      {open ? <div className={classes.h1}>{props.candidate.currentCandidate.firstName+' '+props.candidate.currentCandidate.lastName}</div> :<div>
+      <form className={classes.root1} noValidate autoComplete="off">
+      <input className={classes.h1_input} placeholder={props.candidate.currentCandidate.firstName+' '+props.candidate.currentCandidate.lastName }/>
+    </form></div>
+    }
+			
+      {open?<Tooltip title="Edit" aria-label="add" className={classes.fab}  onClick={() => setOpen(!open)}>
+        <Fab color="primary" >
+          <EditIcon/>
+        </Fab>
+        </Tooltip>:<Tooltip title="Save" aria-label="add" className={classes.fab}  onClick={() => setOpen(!open)}>
+        <Fab color="primary" >
+          <DoneIcon/>
+        </Fab>
+        </Tooltip>}
 			</div>
-			<div className={classes.h2}>Recent Computer Science graduate seeking to use my backend development experience in an entry-level position at Any Software Industry</div>
+			{open?<div className={classes.h2}>Recent Computer Science graduate seeking to use my backend development experience in an entry-level position at Any Software Industry</div>:<textarea autofocus className={classes.h2_input} value={"Recent Computer Science graduate seeking to use my backend development experience in an entry-level position at Any Software Industry"} />}
 
 		</div><br/>
     <div className={classes.box}>
