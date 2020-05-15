@@ -21,6 +21,7 @@ import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import Notifications from "./Notifications";
 import Messages from "./Messages";
 import { connect } from "react-redux";
+import AppliedCandidates from "./AppliedCandidates";
 
 const drawerWidth = 240;
 
@@ -126,11 +127,15 @@ function EmployersDashoard(props) {
         <h1>Welcome to dashboard</h1>
         <Switch>
           <Route path="/employers/dashboard/profile" component={Profile} />
+          <Route path="/employers/dashboard/jobs/:slug/appliedcandidates">
+            <AppliedCandidates />
+          </Route>
           <Route path="/employers/dashboard/jobs" component={Jobs} />
           <Route
             path="/employers/dashboard/notifications"
             component={Notifications}
           />
+
           <Route path="/employers/dashboard/messages" component={Messages} />
         </Switch>
       </main>

@@ -16,7 +16,6 @@ import { withStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { candidateAuthProgress, candidatesLogin } from "../../store/actions";
-import AwesomeComponent from "../Loader/Lodaer";
 
 const styles = theme => ({
   paper: {

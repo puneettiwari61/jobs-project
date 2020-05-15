@@ -57,6 +57,13 @@ router.post(
   candidatesController.addEducation
 );
 
+router.post(
+  "/about",
+  auth.verifyToken,
+  middlewares.validateCandidatesEducation(),
+  candidatesController.addAbout
+);
+
 //apply for jobs
 
 router.post("/jobs", auth.verifyToken, candidatesController.jobApply);

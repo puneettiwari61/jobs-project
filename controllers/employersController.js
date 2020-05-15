@@ -46,9 +46,15 @@ module.exports = {
       if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
       }
-      var employer = await Employer.findOne({ email: req.body.email }).lean({
-        virtuals: true
-      });
+      var employer = await Employer.findOne({ email: req.body.email })
+        .populate({
+          path: "jobs",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "applicants" }
+        })
+        .lean({
+          virtuals: true
+        });
       if (!employer)
         return res.json({ success: false, msg: "incorrect credentials" });
       if (!employer.verifyPassword(req.body.password)) {
@@ -65,7 +71,11 @@ module.exports = {
   getCurrentUser: async (req, res) => {
     try {
       var employer = await Employer.findById(req.user.userId)
-        .populate("jobs")
+        .populate({
+          path: "jobs",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "applicants" }
+        })
         .select("-password");
       res.json({ success: true, employer });
     } catch (err) {
@@ -122,9 +132,14 @@ module.exports = {
   },
   getSingleJob: async (req, res) => {
     try {
-      var job = await Job.findOne({slug:req.params.slug})
+      var job = await Job.findOne({ slug: req.params.slug })
         .populate("employer")
-        .populate("company");
+        .populate("company")
+        .populate({
+          path: "applicants",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "skills" }
+        });
       res.json({ success: true, job });
     } catch (err) {
       console.log(err);

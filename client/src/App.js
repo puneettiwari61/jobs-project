@@ -28,6 +28,7 @@ import SingleJob from "./components/Jobs/SingleJob";
 import CandidatesDashboard from "./components/CandidatesDashboard/CandidatesDashboard";
 import Header2 from "./components/Common/Header2";
 import EmployersDashboard from "./components/EmployersDashboard/EmployersDashboard";
+import AppliedCandidates from "./components/EmployersDashboard/AppliedCandidates";
 
 function PublicRoutes(props) {
   return (
@@ -99,6 +100,7 @@ function PrivateRoutes(props) {
         <Route path="/employers/dashboard">
           <EmployersDashboard />
         </Route>
+
         <Route path="*">
           <h1
             style={{
