@@ -134,12 +134,10 @@ module.exports = {
     try {
       var job = await Job.findOne({ slug: req.params.slug })
         .populate("employer")
-        .populate("company")
         .populate({
           path: "applicants",
-          // Get friends of friends - populate the 'friends' array for every friend
-          populate: { path: "candidate"}
-        })
+          populate: { path: "candidate", populate: { path: "skills" } }
+        });
       res.json({ success: true, job });
     } catch (err) {
       console.log(err);
