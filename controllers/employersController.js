@@ -212,7 +212,16 @@ module.exports = {
           $push: { messages: message.id }
         },
         { new: true, upsert: true }
-      ).populate("messages");
+      )
+        .populate({
+          path: "messages",
+          populate: { path: "candidateId" }
+        })
+        .populate({
+          path: "messages",
+          populate: { path: "employerId" },
+          options: { sort: { createdAt: 1 } }
+        });
       console.log(conversation, "from employer convo");
       res.json({ success: true, conversation });
     } catch (err) {
@@ -225,7 +234,16 @@ module.exports = {
       var conversation = await Conversation.findOne({
         employerId: req.params.senderid,
         candidateId: req.params.receiverid
-      }).populate("messages");
+      })
+        .populate({
+          path: "messages",
+          populate: { path: "candidateId" }
+        })
+        .populate({
+          path: "messages",
+          populate: { path: "employerId" },
+          options: { sort: { createdAt: 1 } }
+        });
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
