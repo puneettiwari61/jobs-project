@@ -8,6 +8,8 @@ var Job = require("../models/jobs");
 var Applicant = require("../models/applicants");
 const GlobalSocket = require("../globalSocket");
 var Employer = require("../models/employers");
+var Conversation = require("../models/conversations");
+var Message = require("../models/messages");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -300,6 +302,44 @@ module.exports = {
       } else if (isAlreadyApplied == true) {
         return res.json({ success: false, msg: "already applied!" });
       }
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  saveChat: async (req, res) => {
+    try {
+      var message = await Message.create({
+        candidateId: req.params.senderid,
+        employerId: req.params.receiverid,
+        senderType: "candidate",
+        senderId: req.params.senderid,
+        receiverId: req.params.receiverId,
+        message: req.body.message
+      });
+      var conversaton = await Conversaton.findOneAndUpdate(
+        { candidateId: req.params.senderid, employerId: req.params.receiverid },
+        {
+          candidateId: req.params.senderid,
+          employerId: req.params.receiverid,
+          $push: { messages: message.id }
+        },
+        { new: true, upsert: true }
+      ).populate("messages");
+      console.log(conversaton, "from candidate convo");
+      res.json({ success: true, conversaton });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getChat: async (req, res) => {
+    try {
+      var conversation = await Conversation.findOne({
+        candidateId: req.params.senderid,
+        employerId: req.params.receiverid
+      }).populate("messages");
+      res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

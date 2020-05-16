@@ -4,6 +4,9 @@ var Employer = require("../models/employers");
 var auth = require("../modules/auth");
 const GlobalSocket = require("../globalSocket");
 var Notification = require("../models/notifications");
+var Conversation = require("../models/conversations");
+var Message = require("../models/messages");
+
 module.exports = {
   signUp: async (req, res) => {
     try {
@@ -186,6 +189,44 @@ module.exports = {
         { hasRead: true }
       );
       res.json({ success: true, notification });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  saveChat: async (req, res) => {
+    try {
+      var message = await Message.create({
+        employerId: req.params.senderid,
+        candidateId: req.params.receiverid,
+        senderType: "employer",
+        senderId: req.params.senderid,
+        receiverId: req.params.receiverId,
+        message: req.body.message
+      });
+      var conversation = await Conversation.findOneAndUpdate(
+        { employerId: req.params.senderid, candidateId: req.params.receiverid },
+        {
+          employerId: req.params.senderid,
+          candidateId: req.params.receiverid,
+          $push: { messages: message.id }
+        },
+        { new: true, upsert: true }
+      ).populate("messages");
+      console.log(conversation, "from employer convo");
+      res.json({ success: true, conversation });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getChat: async (req, res) => {
+    try {
+      var conversation = await Conversation.findOne({
+        employerId: req.params.senderid,
+        candidateId: req.params.receiverid
+      }).populate("messages");
+      res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

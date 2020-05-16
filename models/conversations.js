@@ -1,20 +1,24 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-var conversationSchema = new Schema({
+var conversationSchema = new Schema(
+  {
     employerId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Employer'
+      type: Schema.Types.ObjectId,
+      ref: "Employer"
     },
     candidateId: {
-        type: Schema.Types.ObjectId;
-        ref: 'Candidate'
+      type: Schema.Types.ObjectId,
+      ref: "Candidate"
     },
-    message: {
+    messages: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'Message'
-    },
+        ref: "Message"
+      }
+    ]
+  },
+  { timestamps: true }
+);
 
-}, { timestamps: true })
-
-module.exports = mongoose.model("Conversation",conversationSchema);
+module.exports = mongoose.model("Conversation", conversationSchema);
