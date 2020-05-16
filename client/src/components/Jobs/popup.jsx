@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 import { updateLoggedCandidate } from "../../store/actions";
 
 function FormDialog(props) {
-
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const [errmsg, setErrmsg] = React.useState("");
@@ -30,9 +29,11 @@ function FormDialog(props) {
         }
       )
         .then(res => {
-          props.dispatch(
-            updateLoggedCandidate({ currentCandidate: res.data.candidate })
-          );
+          if (res.data.success) {
+            props.dispatch(
+              updateLoggedCandidate({ currentCandidate: res.data.candidate })
+            );
+          }
           console.log("from candidate job apply", res);
         })
         .catch(err => console.log(err));
@@ -40,9 +41,7 @@ function FormDialog(props) {
     } else {
       setErrmsg("cannot be left blank");
     }
-  }
-
-
+  };
 
   return (
     <div>
@@ -54,8 +53,9 @@ function FormDialog(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Explain in a few words, why you are the perfect fit for this job?
-</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          Explain in a few words, why you are the perfect fit for this job?
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             *please note that once updated this field cannot be changed
@@ -65,7 +65,7 @@ function FormDialog(props) {
             margin="dense"
             id="name"
             type="text"
-            onChange={(e) => setComment(e.target.value)}
+            onChange={e => setComment(e.target.value)}
             fullWidth
           />
           <p>{errmsg}</p>
@@ -74,7 +74,7 @@ function FormDialog(props) {
           <Button onClick={handleClose} color="primary">
             Confirm
           </Button>
-          <Button onClick={()=>setOpen(false)} color="primary">
+          <Button onClick={() => setOpen(false)} color="primary">
             Close
           </Button>
         </DialogActions>

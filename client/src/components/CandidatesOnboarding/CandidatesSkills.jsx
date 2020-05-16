@@ -40,7 +40,7 @@ class CandidatesSkills extends Component {
       headers: { authorization: JSON.parse(localStorage.jobUser).token }
     })
       .then(res => {
-        console.log(res);
+        console.log(res, "from skills cdm");
         this.setState({ skillsData: res.data.skills });
       })
       .catch(err => console.log(err));

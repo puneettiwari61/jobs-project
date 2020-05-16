@@ -248,28 +248,29 @@ module.exports = {
       //   { new: true }
       // );
       // console.log(job, "from check");
-      var candidate = await Candidate.findByIdAndUpdate(
-        req.user.userId,
-        {
-          $addToSet: { jobsApplied: req.body._id }
-        },
-        { new: true }
-      )
-        .populate("jobsApplied")
-        .select("-password");
+      var isAlreadyApplied = await Candidate.findById(req.user.userId);
+      isAlreadyApplied = isAlreadyApplied.jobsApplied.includes(req.body._id);
+      console.log(isAlreadyApplied, "from true false applied jbs");
+
+      if (isAlreadyApplied == false) {
+        var candidate = await Candidate.findByIdAndUpdate(
+          req.user.userId,
+          {
+            $addToSet: { jobsApplied: req.body._id }
+          },
+          { new: true }
+        )
+          .populate("jobsApplied")
+          .select("-password");
 
         console.log(req.body, "from apply jobs ");
 
-        var applicant = Applicant.findById({candidate:req.user.userId}) 
-        if(!applicant){
-          await Applicant.create({
-            comment: req.body.comment, candidate: req.user.userId
-          })
-        }else if(applicant){
-         return res.json({ success: false, msg:"already applied!" });
-        }
-        
-      var job = await Job.findByIdAndUpdate(
+        var applicant = await Applicant.create({
+          comment: req.body.comment,
+          candidate: req.user.userId
+        });
+
+        var job = await Job.findByIdAndUpdate(
           req.body._id,
           {
             $addToSet: { applicants: applicant.id }
@@ -277,7 +278,9 @@ module.exports = {
           { new: true }
         );
         res.json({ success: true, candidate });
-
+      } else if (isAlreadyApplied == true) {
+        return res.json({ success: false, msg: "already applied!" });
+      }
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
