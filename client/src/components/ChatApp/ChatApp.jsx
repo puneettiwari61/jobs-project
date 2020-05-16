@@ -76,6 +76,7 @@ class ChatApp extends Component {
 			</div>
 		);
 	}
+
 }
 
 function mapToProps({ candidate, employer }) {

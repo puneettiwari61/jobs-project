@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import Chip from "@material-ui/core/Chip";
 import FaceIcon from "@material-ui/icons/Face";
+import { Button } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -97,6 +98,15 @@ class AppliedCandidates extends React.Component {
                   />
                 </ListItem>
                 <Divider variant="inset" component="li" />
+                <Button
+                  href={`/employers/dashboard/messages/${c.candidate._id}`}
+                  // onClick={() =>
+                  //   this.props.history.push("/employers/dashboard/messages")
+                  // }
+                  variant="outlined"
+                >
+                  Message
+                </Button>
               </List>
             );
           })}

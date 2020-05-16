@@ -317,7 +317,7 @@ module.exports = {
         receiverId: req.params.receiverId,
         message: req.body.message
       });
-      var conversaton = await Conversaton.findOneAndUpdate(
+      var conversation = await Conversation.findOneAndUpdate(
         { candidateId: req.params.senderid, employerId: req.params.receiverid },
         {
           candidateId: req.params.senderid,
@@ -325,9 +325,18 @@ module.exports = {
           $push: { messages: message.id }
         },
         { new: true, upsert: true }
-      ).populate("messages");
-      console.log(conversaton, "from candidate convo");
-      res.json({ success: true, conversaton });
+      )
+        .populate({
+          path: "messages",
+          populate: { path: "candidateId" }
+        })
+        .populate({
+          path: "messages",
+          populate: { path: "employerId" },
+          options: { sort: { createdAt: 1 } }
+        });
+      console.log(conversation, "from candidate convo");
+      res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
@@ -338,7 +347,16 @@ module.exports = {
       var conversation = await Conversation.findOne({
         candidateId: req.params.senderid,
         employerId: req.params.receiverid
-      }).populate("messages");
+      })
+        .populate({
+          path: "messages",
+          populate: { path: "candidateId" }
+        })
+        .populate({
+          path: "messages",
+          populate: { path: "employerId" },
+          options: { sort: { createdAt: 1 } }
+        });
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
