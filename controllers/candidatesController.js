@@ -1,11 +1,13 @@
 const { check, validationResult } = require("express-validator");
 
+const Notification = require("../models/notifications");
 var Candidate = require("../models/candidates");
 var auth = require("../modules/auth");
 var Skill = require("../models/skills");
 var Job = require("../models/jobs");
 var Applicant = require("../models/applicants");
 const GlobalSocket = require("../globalSocket");
+var Employer = require("../models/employers");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -282,7 +284,17 @@ module.exports = {
           employerId: job.employer
         };
         GlobalSocket.io.emit("message", msg);
-
+        var notification = await Notification.create({
+          notification: msg.message,
+          userType: "employer",
+          employer: job.employer
+        });
+        var employer = await Employer.findByIdAndUpdate(
+          job.employer,
+          { $push: { notifications: notification._id } },
+          { new: true }
+        );
+        console.log(notification, employer, "from disneyworld");
         res.json({ success: true, candidate });
       } else if (isAlreadyApplied == true) {
         return res.json({ success: false, msg: "already applied!" });
