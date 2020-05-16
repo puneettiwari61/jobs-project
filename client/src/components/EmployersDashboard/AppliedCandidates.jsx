@@ -76,20 +76,22 @@ class AppliedCandidates extends React.Component {
                           {c.gender}
                         </Typography>
                         <br />
-                        {c.candidate.skills ? c.candidate.skills.map(a => {
-                          return (
-                            <span style={{ padding: 5 }}>
-                              <Chip
-                                clickable
-                                // icon={<FaceIcon />}
-                                onClick=""
-                                className={classes.chip}
-                                // onDelete={() => this.handledelete(a)}
-                                label={a.name}
-                              />
-                            </span>
-                          );
-                        }): ""}
+                        {c.candidate.skills
+                          ? c.candidate.skills.map(a => {
+                              return (
+                                <span style={{ padding: 5 }}>
+                                  <Chip
+                                    clickable
+                                    // icon={<FaceIcon />}
+                                    onClick=""
+                                    className={classes.chip}
+                                    // onDelete={() => this.handledelete(a)}
+                                    label={a.name}
+                                  />
+                                </span>
+                              );
+                            })
+                          : ""}
                       </React.Fragment>
                     }
                   />
