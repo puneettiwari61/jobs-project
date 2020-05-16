@@ -74,6 +74,9 @@ function FormDialog(props) {
           <Button onClick={handleClose} color="primary">
             Confirm
           </Button>
+          <Button onClick={()=>setOpen(false)} color="primary">
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
