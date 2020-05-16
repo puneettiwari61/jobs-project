@@ -2,6 +2,7 @@ const { check, validationResult } = require("express-validator");
 var Job = require("../models/jobs");
 var Employer = require("../models/employers");
 var auth = require("../modules/auth");
+const GlobalSocket = require("../globalSocket");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -138,6 +139,10 @@ module.exports = {
           path: "applicants",
           populate: { path: "candidate", populate: { path: "skills" } }
         });
+      // var msg = {
+      //   message: "hello sent from node from client"
+      // };
+      // GlobalSocket.io.emit("message", msg);
       res.json({ success: true, job });
     } catch (err) {
       console.log(err);

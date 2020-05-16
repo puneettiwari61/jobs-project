@@ -5,6 +5,7 @@ var auth = require("../modules/auth");
 var Skill = require("../models/skills");
 var Job = require("../models/jobs");
 var Applicant = require("../models/applicants");
+const GlobalSocket = require("../globalSocket");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -240,14 +241,6 @@ module.exports = {
   },
   jobApply: async (req, res) => {
     try {
-      // var job = await Job.findByIdAndUpdate(
-      //   req.body._id,
-      //   {
-      //     $addToSet: { applicants: req.user.userId }
-      //   },
-      //   { new: true }
-      // );
-      // console.log(job, "from check");
       var isAlreadyApplied = await Candidate.findById(req.user.userId);
       isAlreadyApplied = isAlreadyApplied.jobsApplied.includes(req.body._id);
       console.log(isAlreadyApplied, "from true false applied jbs");
@@ -277,6 +270,19 @@ module.exports = {
           },
           { new: true }
         );
+
+        var msg = {
+          message:
+            candidate.firstName +
+            " " +
+            candidate.lastName +
+            " applied for " +
+            job.title +
+            " job",
+          employerId: job.employer
+        };
+        GlobalSocket.io.emit("message", msg);
+
         res.json({ success: true, candidate });
       } else if (isAlreadyApplied == true) {
         return res.json({ success: false, msg: "already applied!" });
