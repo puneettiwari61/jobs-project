@@ -289,6 +289,7 @@ module.exports = {
           userType: "employer",
           employer: job.employer
         });
+        console.log(GlobalSocket.io, "from socket id");
         var employer = await Employer.findByIdAndUpdate(
           job.employer,
           { $push: { notifications: notification._id } },

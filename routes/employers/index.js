@@ -33,4 +33,7 @@ router.get("/jobs", auth.verifyToken, employers.getJobs);
 // delete job
 router.delete("/jobs/:id", auth.verifyToken, employers.deleteJob);
 
+// notifications
+router.put("/notifications", auth.verifyToken, employers.updateNotifications);
+
 module.exports = router;
