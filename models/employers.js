@@ -78,6 +78,12 @@ var employerSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Job"
       }
+    ],
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Notification"
+      }
     ]
   },
   { timestamps: true }

@@ -53,6 +53,10 @@ module.exports = {
           // Get friends of friends - populate the 'friends' array for every friend
           populate: { path: "applicants" }
         })
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
         .lean({
           virtuals: true
         });
@@ -77,6 +81,10 @@ module.exports = {
           // Get friends of friends - populate the 'friends' array for every friend
           populate: { path: "applicants" }
         })
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
         .select("-password");
       res.json({ success: true, employer });
     } catch (err) {
@@ -92,7 +100,9 @@ module.exports = {
         {
           new: true
         }
-      ).select("-password");
+      )
+        .populate("notifications")
+        .select("-password");
       console.log(employer, "from update profile");
       res.json({ success: true, employer });
     } catch (err) {
@@ -113,6 +123,10 @@ module.exports = {
         { new: true }
       )
         .populate("jobs")
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
         .select("-password");
       res.json({ success: true, employer });
     } catch (err) {

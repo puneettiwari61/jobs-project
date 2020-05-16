@@ -29,6 +29,15 @@ class Notifications extends Component {
       <>
         <h1>Notifications</h1>
         <p>{this.state.notification}</p>
+        {this.props.employer.currentEmployer.notifications.map(n => (
+          <p>
+            {n.notification}
+            <span>
+              -
+              {n.createdAt.substring(5, 10) + "-" + n.createdAt.substring(0, 4)}
+            </span>
+          </p>
+        ))}
       </>
     );
   }
