@@ -124,7 +124,7 @@ function EmployersDashoard(props) {
       </Drawer>
       <main className={classes.content}>
         {/* <Toolbar /> */}
-        <h1>Welcome to dashboard</h1>
+        {/* <h1>Welcome to dashboard</h1> */}
         <Switch>
           <Route path="/employers/dashboard/profile" component={Profile} />
           <Route path="/employers/dashboard/jobs/:slug/appliedcandidates">
@@ -136,7 +136,10 @@ function EmployersDashoard(props) {
             component={Notifications}
           />
 
-          <Route path="/employers/dashboard/messages" component={Messages} />
+          <Route
+            path="/employers/dashboard/messages/:receiverId"
+            component={Messages}
+          />
         </Switch>
       </main>
     </div>
