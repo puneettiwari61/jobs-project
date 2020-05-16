@@ -3,7 +3,7 @@ var Job = require("../models/jobs");
 var Employer = require("../models/employers");
 var auth = require("../modules/auth");
 const GlobalSocket = require("../globalSocket");
-
+var Notification = require("../models/notifications");
 module.exports = {
   signUp: async (req, res) => {
     try {
@@ -174,6 +174,18 @@ module.exports = {
         .populate("jobs")
         .select("-password");
       res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  updateNotifications: async (req, res) => {
+    try {
+      var notification = await Notification.updateMany(
+        { _id: { $in: req.body.notifications } },
+        { hasRead: true }
+      );
+      res.json({ success: true, notification });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import Axios from "axios";
+import Alert from "@material-ui/lab/Alert";
+import warning from "warning";
 
 const socket = io();
 
@@ -23,21 +26,56 @@ class Notifications extends Component {
     });
   }
 
+  updateHasRead = () => {
+    var notifications = this.props.employer.currentEmployer.notifications.map(
+      n => n._id
+    );
+    Axios.put(
+      "/api/v1/employers/notifications",
+      { notifications },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        console.log(res, "notifications read");
+      })
+      .catch(err => console.log(err, "notifications read failed"));
+  };
+
   render() {
     console.log(this.props, "from employer notifications");
     return (
       <>
         <h1>Notifications</h1>
-        <p>{this.state.notification}</p>
-        {this.props.employer.currentEmployer.notifications.map(n => (
-          <p>
-            {n.notification}
-            <span>
-              -
-              {n.createdAt.substring(5, 10) + "-" + n.createdAt.substring(0, 4)}
-            </span>
-          </p>
-        ))}
+        {this.state.notification ? (
+          <>
+            <Alert severity="success" color="warning">
+              {this.state.notification}
+            </Alert>
+            <br />
+          </>
+        ) : (
+          " "
+        )}
+        {this.props.employer.currentEmployer.notifications.map(n =>
+          n.hasRead == true ? (
+            <>
+              <Alert severity="success" color="info">
+                {n.notification}
+              </Alert>
+              <br />
+            </>
+          ) : (
+            <>
+              <Alert severity="success" color="warning">
+                {n.notification}
+              </Alert>
+              <br />
+            </>
+          )
+        )}
+        {this.updateHasRead()}
       </>
     );
   }
