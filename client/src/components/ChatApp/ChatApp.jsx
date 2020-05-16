@@ -14,16 +14,11 @@ class ChatApp extends Component {
     return (
       <>
     <div class="main-container">
-      <div class="head-container">
+      <div class="head-container" style={{cursor:'pointer'}} onClick={()=>this.setState({active:!this.state.active})}>
         <h1>• Mark Zuckerberg</h1>
-        <a href="#" class="btn"
-          ><img src="https://svgshare.com/i/Knn.svg" alt="close" class="delete"
-        /></a>
       </div>
-      <div>
-          
-      </div>
-      <div class="message-container">
+    <div className={this.state.active?"block":"none"}>
+    <div class="message-container">
         <h3><span class="date">Today</span></h3>
         <div class="sent">
           <h5 class="hour">10:53</h5>
@@ -52,6 +47,8 @@ class ChatApp extends Component {
         <a href="#" class="btn">Send</a>
       </div>
     </div>
+    </div>
+      
       </>
     );
   }
