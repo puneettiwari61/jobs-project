@@ -39,7 +39,8 @@
 	align-items: center;
 	justify-content: center;
 	margin: 0px 0 0 0;
-	width: 25rem;
+	width: 18rem;
+	max-height:60vh;
 }
 
 .head-container {
@@ -72,6 +73,11 @@
 	flex-direction: column;
 	overflow-y: auto;
 	padding: 25px 25px 0 25px;
+	overflow: scroll;
+	margin-bottom: 9rem;
+}
+.message-container {
+	width:18rem;
 }
 
 .message-container h3 {
@@ -204,7 +210,7 @@
 .chat_box div {
 	display: flex;
 	flex-direction: row;
-	width: 25rem;
+	width: 18rem;
 }
 .chat_box div:hover {
 	background-color: honeydew;

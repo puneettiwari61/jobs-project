@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-var hash = "bundle.1d65d2f76b041c598746";
+var hash = 'bundle.1d65d2f76b041c598746';
 
 /* GET home page. */
 router.get("*", function (req, res, next) {
