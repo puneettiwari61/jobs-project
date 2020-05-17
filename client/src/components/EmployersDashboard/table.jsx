@@ -88,7 +88,7 @@ function CollapsibleTable(props) {
 									<List>
 									{employer.company.companyLogo}<br/>
 									Company Name : {employer.company.companyName}<br/>
-									Establishment Date : {employer.company.establishmentDate}<br/>
+									Establishment Date : {employer.company.establishmentDate.substring(0,10)}<br/>
 									Website URL :{employer.company.companyWebsiteUrl}<br/>
 									founder : {employer.company.founder}<br />
 									founders view : {employer.company.foundersView}<br/>
