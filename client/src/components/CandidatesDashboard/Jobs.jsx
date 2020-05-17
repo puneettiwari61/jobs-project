@@ -58,6 +58,12 @@ class Jobs extends Component {
               </CardContent>
               <CardActions>
                 <Button size="small">Details</Button>
+                <Button
+                  href={`/candidates/dashboard/messages/${job.employer._id}`}
+                  variant="outlined"
+                >
+                  Message
+                </Button>
               </CardActions>
             </Card>
           );

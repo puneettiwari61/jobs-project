@@ -131,7 +131,10 @@ function CandidatesDashoard(props) {
             path="/candidates/dashboard/notifications"
             component={Notifications}
           />
-          <Route path="/candidates/dashboard/messages" component={Messages} />
+          <Route
+            path="/candidates/dashboard/messages/:receiverId"
+            component={Messages}
+          />
         </Switch>
       </main>
     </div>

@@ -10,6 +10,7 @@ const GlobalSocket = require("../globalSocket");
 var Employer = require("../models/employers");
 var Conversation = require("../models/conversations");
 var Message = require("../models/messages");
+var socketId = require("./../socketId.json");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -339,12 +340,19 @@ module.exports = {
       var msg = {
         conversation
       };
-      GlobalSocket.io.emit("chat", msg);
-      GlobalSocket.io.on("received", receivedMsg =>
-        console.log(receivedMsg, "from back socket ")
-      );
+
+      GlobalSocket.io.to(socketId[req.params.receiverid]).emit("chat", msg);
+
+      // GlobalSocket.io.emit("chat", msg);
+      // GlobalSocket.io.on("received", receivedMsg =>
+      //   console.log(receivedMsg, "from back socket ")
+      // );
 
       // console.log(conversation, "from candidate convo");
+      // GlobalSocket.io.on("connection", socket => {
+      //   console.log(socket.id, "from socket id object");
+      // });
+
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
@@ -366,6 +374,15 @@ module.exports = {
           populate: { path: "employerId" },
           options: { sort: { createdAt: 1 } }
         });
+
+      GlobalSocket.io.on("connection", function(socket) {
+        socket.on("join", function(data) {
+          // socket.join(data.email);
+          socketId[data.id] = socket.id;
+          console.log(socket.id, socketId, "from socket connection");
+        });
+      });
+
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
