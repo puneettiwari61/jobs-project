@@ -3,6 +3,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Axios from "axios";
 import { TextField, Button } from "@material-ui/core";
+import io from "socket.io-client";
+
+let socket = io();
 
 class Messages extends Component {
   constructor() {
@@ -11,6 +14,10 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    socket.on("chat", msg => {
+      console.log(msg, "from socket cdm");
+      this.setState({ messages: msg.conversation.messages });
+    });
     Axios.get(
       "/api/v1/candidates/chats/5ebfcafb69108871bd5d1b64/messages/5ebf8420e14e5a332b457f64"
     )
