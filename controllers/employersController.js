@@ -1,6 +1,11 @@
+const { check, validationResult } = require("express-validator");
+var Job = require("../models/jobs");
 var Employer = require("../models/employers");
 var auth = require("../modules/auth");
-const { check, validationResult } = require("express-validator");
+const GlobalSocket = require("../globalSocket");
+var Notification = require("../models/notifications");
+var Conversation = require("../models/conversations");
+var Message = require("../models/messages");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -25,7 +30,6 @@ module.exports = {
         success: true,
         employer: {
           email,
-          password,
           firstName,
           lastName,
           contactNumber,
@@ -46,9 +50,19 @@ module.exports = {
       if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
       }
-      var employer = await Employer.findOne({ email: req.body.email }).lean({
-        virtuals: true
-      });
+      var employer = await Employer.findOne({ email: req.body.email })
+        .populate({
+          path: "jobs",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "applicants" }
+        })
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
+        .lean({
+          virtuals: true
+        });
       if (!employer)
         return res.json({ success: false, msg: "incorrect credentials" });
       if (!employer.verifyPassword(req.body.password)) {
@@ -64,9 +78,17 @@ module.exports = {
   },
   getCurrentUser: async (req, res) => {
     try {
-      var employer = await Employer.findById(req.user.userId).select(
-        "-password"
-      );
+      var employer = await Employer.findById(req.user.userId)
+        .populate({
+          path: "jobs",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "applicants" }
+        })
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
+        .select("-password");
       res.json({ success: true, employer });
     } catch (err) {
       console.log(err);
@@ -77,13 +99,160 @@ module.exports = {
     try {
       var employer = await Employer.findByIdAndUpdate(
         req.user.userId,
-        { $push: { company: req.body } },
+        { company: req.body },
         {
           new: true
         }
-      );
+      )
+        .populate("notifications")
+        .select("-password");
       console.log(employer, "from update profile");
       res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  postJob: async (req, res) => {
+    try {
+      console.log(req.body);
+      req.body.employer = req.user.userId;
+      var job = await Job.create(req.body);
+      var employer = await Employer.findByIdAndUpdate(
+        req.user.userId,
+        {
+          $addToSet: { jobs: job._id }
+        },
+        { new: true }
+      )
+        .populate("jobs")
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
+        .select("-password");
+      res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getJobs: async (req, res) => {
+    try {
+      var jobs = await Job.find({})
+        .populate("employer")
+        .populate("company");
+      res.json({ success: true, jobs });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getSingleJob: async (req, res) => {
+    try {
+      var job = await Job.findOne({ slug: req.params.slug })
+        .populate("employer")
+        .populate({
+          path: "applicants",
+          populate: { path: "candidate", populate: { path: "skills" } }
+        });
+      // var msg = {
+      //   message: "hello sent from node from client"
+      // };
+      // GlobalSocket.io.emit("message", msg);
+      res.json({ success: true, job });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+
+  deleteJob: async (req, res) => {
+    try {
+      var job = await Job.findByIdAndRemove(req.params.id);
+      // var jobs = await Job.find({})
+      //   .populate("employer")
+      //   .populate("company");
+      var employer = await Employer.findById(req.user.userId)
+        .populate("jobs")
+        .select("-password");
+      res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  updateNotifications: async (req, res) => {
+    try {
+      var notification = await Notification.updateMany(
+        { _id: { $in: req.body.notifications } },
+        { hasRead: true }
+      );
+      res.json({ success: true, notification });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  saveChat: async (req, res) => {
+    try {
+      var message = await Message.create({
+        employerId: req.params.senderid,
+        candidateId: req.params.receiverid,
+        senderType: "employer",
+        senderId: req.params.senderid,
+        receiverId: req.params.receiverId,
+        message: req.body.message
+      });
+      var conversation = await Conversation.findOneAndUpdate(
+        { employerId: req.params.senderid, candidateId: req.params.receiverid },
+        {
+          employerId: req.params.senderid,
+          candidateId: req.params.receiverid,
+          $push: { messages: message.id }
+        },
+        { new: true, upsert: true }
+      )
+        .populate({
+          path: "messages",
+          populate: { path: "candidateId" }
+        })
+        .populate({
+          path: "messages",
+          populate: { path: "employerId" },
+          options: { sort: { createdAt: 1 } }
+        });
+
+      var msg = {
+        conversation
+      };
+      GlobalSocket.io.emit("chat", msg);
+      GlobalSocket.io.on("received", receivedMsg =>
+        console.log(receivedMsg, "from back socket ")
+      );
+      // console.log(conversation, "from employer convo");
+      res.json({ success: true, conversation });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getChat: async (req, res) => {
+    try {
+      var conversation = await Conversation.findOne({
+        employerId: req.params.senderid,
+        candidateId: req.params.receiverid
+      })
+        .populate({
+          path: "messages",
+          populate: { path: "candidateId" }
+        })
+        .populate({
+          path: "messages",
+          populate: { path: "employerId" },
+          options: { sort: { createdAt: 1 } }
+        });
+      res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

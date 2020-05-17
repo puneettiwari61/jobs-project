@@ -7,8 +7,13 @@ import EmployersLogin from "./components/EmployersLogin/EmployersLogin";
 import EmployersSignUp from "./components/EmployersSignup/EmployersSignUp";
 import CandidatesProfile from "./components/CandidatesOnboarding/CandidatesProfile";
 
+import EmployersProfile from "./components/EmployersOnboarding/EmployersProfile";
+import CandidatesPortfolio from "./components/CandidatePortfolio/main";
+import EmployerPortfolio from "./components/EmployerPortfolio/EmployerPortfolio";
+import Loader from "./components/Loader/Lodaer";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+
 import {
   logoutCandidate,
   loginCandidate,
@@ -17,7 +22,13 @@ import {
   identifyLoggedUser
 } from "./store/actions";
 import "./App.css";
-import AwesomeComponent from "./components/Loader/Lodaer";
+import PostJobs from "./components/Jobs/PostJobs";
+import ShowJobs from "./components/Jobs/ShowJobs";
+import SingleJob from "./components/Jobs/SingleJob";
+import CandidatesDashboard from "./components/CandidatesDashboard/CandidatesDashboard";
+import Header2 from "./components/Common/Header2";
+import EmployersDashboard from "./components/EmployersDashboard/EmployersDashboard";
+import AppliedCandidates from "./components/EmployersDashboard/AppliedCandidates";
 
 function PublicRoutes(props) {
   return (
@@ -65,6 +76,31 @@ function PrivateRoutes(props) {
         <Route path="/candidates/profile">
           <CandidatesProfile />
         </Route>
+        <Route path="/candidateprofile">
+          <CandidatesPortfolio />
+        </Route>
+        <Route path="/candidates/jobs/:slug">
+          <SingleJob />
+        </Route>
+        <Route path="/candidates/jobs" exact>
+          <ShowJobs />
+        </Route>
+        <Route path="/candidates/dashboard">
+          <CandidatesDashboard />
+        </Route>
+        <Route path="/employerprofile">
+          <EmployerPortfolio />
+        </Route>
+        <Route path="/employers/profile">
+          <EmployersProfile />
+        </Route>
+        <Route path="/employers/postjobs">
+          <PostJobs />
+        </Route>
+        <Route path="/employers/dashboard">
+          <EmployersDashboard />
+        </Route>
+
         <Route path="*">
           <h1
             style={{
@@ -125,11 +161,15 @@ class App extends React.Component {
     let employer = this.props.employer;
     let candidate = this.props.candidate;
 
+    let jobUser = JSON.parse(localStorage.getItem("jobUser"));
+    let token = jobUser && jobUser.token;
+
     return (
       <>
-        {this.props.candidate.isAuthInProgress ||
-        this.props.employer.isAuthInProgress ? (
-          <AwesomeComponent />
+        {token &&
+        (this.props.candidate.isAuthInProgress ||
+          this.props.employer.isAuthInProgress) ? (
+          <Loader />
         ) : candidate.currentCandidate || employer.currentEmployer ? (
           <PrivateRoutes
             currentCandidate={candidate.currentCandidate}

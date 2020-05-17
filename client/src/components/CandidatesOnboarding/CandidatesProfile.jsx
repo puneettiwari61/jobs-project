@@ -19,7 +19,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://jobs.altcampus.xyz/">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -95,7 +95,6 @@ function Checkout(props) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -131,14 +130,49 @@ function Checkout(props) {
                       Back
                     </Button>
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>
+                  {activeStep === steps.length - 4 &&
+                  props.candidate.currentCandidate.github ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : activeStep === steps.length - 3 &&
+                    props.candidate.currentCandidate.education[0] ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : activeStep === steps.length - 2 &&
+                    props.candidate.currentCandidate.experience[0] ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : activeStep === steps.length - 1 &&
+                    props.candidate.currentCandidate.skills[0] ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Submit" : "Next"}
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </React.Fragment>
             )}

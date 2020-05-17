@@ -48,37 +48,41 @@ var employerSchema = new Schema(
       type: Number
       // required: true
     },
-    company: [
-      {
-        establishmentDate: {
-          type: Date
-          // required: false
-        },
-        companyName: {
-          type: String
-        },
-        companyWebsiteUrl: {
-          type: String
-        },
-        companyLogo: {
-          type: String
-          // required: true
-        },
-        founder: {
-          type: String
-        },
-        foundersView: {
-          type: String
-        },
-        aboutCompany: {
-          type: String
-        }
+    company: {
+      establishmentDate: {
+        type: Date
+        // required: false
+      },
+      companyName: {
+        type: String
+      },
+      companyWebsiteUrl: {
+        type: String
+      },
+      companyLogo: {
+        type: String
+        // required: true
+      },
+      founder: {
+        type: String
+      },
+      foundersView: {
+        type: String
+      },
+      aboutCompany: {
+        type: String
       }
-    ],
-    skills: [
+    },
+    jobs: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Skill"
+        ref: "Job"
+      }
+    ],
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Notification"
       }
     ]
   },

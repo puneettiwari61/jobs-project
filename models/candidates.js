@@ -95,7 +95,7 @@ var candidateSchema = new Schema(
         designation: String,
         location: String,
         joiningDate: String,
-        leavigDate: String,
+        leavingDate: String,
         description: String
       }
     ],
@@ -104,7 +104,17 @@ var candidateSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Skill"
       }
-    ]
+    ],
+    jobsApplied: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Job"
+      }
+    ],
+    about: {
+      type: String,
+      default: ""
+    }
   },
   { timestamps: true }
 );
