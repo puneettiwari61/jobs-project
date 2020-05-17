@@ -2,10 +2,16 @@ import React, { Component, createRef } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Axios from "axios";
-import { TextField, Button } from "@material-ui/core";
 import io from "socket.io-client";
+import { css } from "glamor";
+import ScrollToBottom from "react-scroll-to-bottom";
+import ChatApp from "../ChatApp/ChatApp";
 
 let socket = io();
+const ROOT_CSS = css({
+  // height: 600,
+  // width: 400
+});
 
 class Messages extends Component {
   constructor() {
@@ -17,11 +23,9 @@ class Messages extends Component {
       text: "",
       conversations: [],
       receiverId: "",
-      count: 100000
+      name: ""
     };
   }
-
-  mc = createRef();
 
   componentDidMount() {
     // socket.connect();
@@ -56,7 +60,7 @@ class Messages extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.mc.current.scrollBy(0, this.state.count);
+    console.log(this.state.receiverId, "receiver id employer side");
     var receiverId =
       this.state.receiverId || this.props.match.params.receiverId;
     if (this.state.text) {
@@ -73,10 +77,13 @@ class Messages extends Component {
     }
   };
 
-  handleConversation = id => {
-    this.setState({ activeChat: !this.state.activeChat, receiverId: id });
-    this.mc.current.scrollBy(0, this.state.count);
-    // this.setState({ count: this.state.count + 100000 });
+  handleConversation = (id, f, l) => {
+    this.setState({
+      activeChat: !this.state.activeChat,
+      receiverId: id,
+      name: f + " " + l
+    });
+
     Axios.get(
       `/api/v1/employers/chats/${this.props.employer.currentEmployer._id}/messages/${id}`
     )
@@ -97,7 +104,7 @@ class Messages extends Component {
               style={{ cursor: "pointer" }}
               onClick={() => this.setState({ active: !this.state.active })}
             >
-              <h1>Messages</h1>
+              <h1>{this.state.name ? this.state.name : "Messages"}</h1>
             </div>
             {this.state.activeChat ? (
               <div className={this.state.active ? "chat_box" : "none"}>
@@ -105,7 +112,13 @@ class Messages extends Component {
                 {this.state.conversations.map(c => {
                   return (
                     <div
-                      onClick={() => this.handleConversation(c.candidateId._id)}
+                      onClick={() =>
+                        this.handleConversation(
+                          c.candidateId._id,
+                          c.candidateId.firstName,
+                          c.candidateId.lastName
+                        )
+                      }
                     >
                       <img src={c.candidateId.image} alt="" />
                       <p>
@@ -121,12 +134,20 @@ class Messages extends Component {
               <div className={this.state.active ? "block" : "none"}>
                 <span
                   onClick={() =>
-                    this.setState({ activeChat: !this.state.activeChat })
+                    this.setState({
+                      activeChat: !this.state.activeChat,
+                      name: ""
+                    })
                   }
                 >
                   back
                 </span>
-                <div class="message-container" ref={this.mc}>
+                <ScrollToBottom
+                  className={ROOT_CSS}
+                  mode="bottom"
+                  scrollViewClassName="message-container"
+                >
+                  {/* <div class="message-container"> */}
                   <h3>
                     <span class="date">Today</span>
                   </h3>
@@ -163,7 +184,8 @@ class Messages extends Component {
                       />
                     </form>
                   </div>
-                </div>
+                  {/* </div> */}
+                </ScrollToBottom>
               </div>
             )}
           </div>
