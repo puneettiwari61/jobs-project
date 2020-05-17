@@ -387,5 +387,16 @@ module.exports = {
       console.log(err);
       res.json({ success: false, err });
     }
+  },
+  getConversations: async (req, res) => {
+    try {
+      var conversation = await Conversation.find({
+        candidateId: req.user.userId
+      }).populate("employerId");
+      res.json({ success: true, conversation });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
   }
 };
