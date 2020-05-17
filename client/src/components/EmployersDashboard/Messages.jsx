@@ -14,7 +14,7 @@ class Messages extends Component {
   }
 
   componentDidMount() {
-    socket.connect();
+    // socket.connect();
 
     // socket.on("connection", function() {
     socket.emit("join", { id: this.props.employer.currentEmployer._id });

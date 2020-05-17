@@ -84,6 +84,13 @@ module.exports = {
           populate: { path: "employer" }
         })
         .select("-password");
+      GlobalSocket.io.on("connection", function(socket) {
+        socket.on("join", function(data) {
+          // socket.join(data.email);
+          socketId[data.id] = socket.id;
+          console.log(socket.id, socketId, "from socket connection");
+        });
+      });
       res.json({ success: true, candidate });
     } catch (err) {
       console.log(err);
@@ -298,7 +305,7 @@ module.exports = {
           { $push: { notifications: notification._id } },
           { new: true }
         );
-        console.log(notification, employer, "from disneyworld");
+        // console.log(notification, employer, "from disneyworld");
         res.json({ success: true, candidate });
       } else if (isAlreadyApplied == true) {
         return res.json({ success: false, msg: "already applied!" });
@@ -374,14 +381,6 @@ module.exports = {
           populate: { path: "employerId" },
           options: { sort: { createdAt: 1 } }
         });
-
-      GlobalSocket.io.on("connection", function(socket) {
-        socket.on("join", function(data) {
-          // socket.join(data.email);
-          socketId[data.id] = socket.id;
-          console.log(socket.id, socketId, "from socket connection");
-        });
-      });
 
       res.json({ success: true, conversation });
     } catch (err) {
