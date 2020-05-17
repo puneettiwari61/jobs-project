@@ -46,7 +46,7 @@ function FormDialog(props) {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
+        Apply
       </Button>
       <Dialog
         open={open}

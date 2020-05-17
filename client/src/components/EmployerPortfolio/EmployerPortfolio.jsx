@@ -92,22 +92,22 @@ class EmployerPortfolio extends Component {
 			url: '',
 		};
 	}
-	componentDidMount() {
-		var url = [];
-		this.props.employer.currentEmployer.skills.map((a) => {
-			fetch(`https://en.wikipedia.org/wiki/${a.name}`, {
-				mode: 'no-cors',
-			}).then(function (response) {
-				var data = response.text().then(function (res) {
-					return res;
-				});
-				data.then((d) => {
-					return (data = `${d}`);
-				}).then((run) => this.setState({ url: data.split('img')[1].split('src')[1].split('"')[1] }));
-			});
-		});
-		console.log(this.state);
-	}
+	// componentDidMount() {
+	// 	var url = [];
+	// 	this.props.employer.currentEmployer.skills.map((a) => {
+	// 		fetch(`https://en.wikipedia.org/wiki/${a.name}`, {
+	// 			mode: 'no-cors',
+	// 		}).then(function (response) {
+	// 			var data = response.text().then(function (res) {
+	// 				return res;
+	// 			});
+	// 			data.then((d) => {
+	// 				return (data = `${d}`);
+	// 				skill		}).then((run) => this.setState({ url: data.split('img')[1].split('src')[1].split('"')[1] }));
+	// 		});
+	// 	});
+	// 	console.log(this.state);
+	// }
 
 	render() {
 		const { classes } = this.props;
