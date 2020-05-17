@@ -56,6 +56,12 @@ class ImgMediaCard extends React.Component {
               <Typography gutterBottom variant="h5" component="h2">
                 {job.employer.company.companyName}
               </Typography>
+              <Typography gutterBottom variant="h5" component="h2">
+                {job.salary}
+              </Typography>
+              <Typography gutterBottom variant="h5" component="h2">
+                {job.isRemote}
+              </Typography>
               <CardMedia
                 component="img"
                 alt="Contemplative Reptile"
@@ -64,8 +70,7 @@ class ImgMediaCard extends React.Component {
                 title="Contemplative Reptile"
               />
               <Typography variant="body2" color="textSecondary" component="p">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                {job.description}
               </Typography>
             </CardContent>
           </CardActionArea>
