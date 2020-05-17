@@ -335,7 +335,16 @@ module.exports = {
           populate: { path: "employerId" },
           options: { sort: { createdAt: 1 } }
         });
-      console.log(conversation, "from candidate convo");
+
+      var msg = {
+        conversation
+      };
+      GlobalSocket.io.emit("chat", msg);
+      GlobalSocket.io.on("received", receivedMsg =>
+        console.log(receivedMsg, "from back socket ")
+      );
+
+      // console.log(conversation, "from candidate convo");
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);

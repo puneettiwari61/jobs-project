@@ -3,6 +3,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Axios from "axios";
 import { TextField, Button } from "@material-ui/core";
+import io from "socket.io-client";
+
+let socket = io();
 
 class Messages extends Component {
   constructor() {
@@ -11,6 +14,11 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    socket.connect();
+    socket.on("chat", msg => {
+      console.log(msg, "from socket cdm");
+      this.setState({ messages: msg.conversation.messages });
+    });
     Axios.get(
       `/api/v1/employers/chats/${this.props.employer.currentEmployer._id}/messages/${this.props.match.params.receiverId}`
     )
@@ -26,7 +34,6 @@ class Messages extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.state.text) {
-      console.log(this.props.match.params, "params");
       Axios.post(
         `/api/v1/employers/chats/${this.props.employer.currentEmployer._id}/messages/${this.props.match.params.receiverId}`,
         { message: this.state.text }
@@ -34,13 +41,13 @@ class Messages extends Component {
         .then(res => {
           console.log(res, "message created success");
           this.setState({ messages: res.data.conversation.messages, text: "" });
+          // socket.emit("received", this.state.text);
         })
         .catch(err => console.log(err, "message created failed"));
     }
   };
 
   render() {
-    console.log(this.props, "from messages clinet");
     return (
       <>
         {this.state.messages
