@@ -4,9 +4,15 @@ import { connect } from "react-redux";
 import Axios from "axios";
 import { TextField, Button } from "@material-ui/core";
 import io from "socket.io-client";
+import { css } from "glamor";
+import ScrollToBottom from "react-scroll-to-bottom";
 import ChatApp from "../ChatApp/ChatApp";
 
 let socket = io();
+const ROOT_CSS = css({
+  // height: 600,
+  // width: 400
+});
 
 class Messages extends Component {
   constructor() {
@@ -18,11 +24,9 @@ class Messages extends Component {
       text: "",
       conversations: [],
       receiverId: "",
-      count: 100000
+      name: ""
     };
   }
-
-  mc = createRef();
 
   componentDidMount() {
     // socket.on("connection", function() {
@@ -62,10 +66,14 @@ class Messages extends Component {
       .catch(err => console.log(err));
   }
 
-  handleConversation = id => {
-    this.setState({ activeChat: !this.state.activeChat, receiverId: id });
-    this.mc.current.scrollBy(0, this.state.count);
-    // this.setState({ count: this.state.count + 100000 });
+  handleConversation = (id, f, l) => {
+    this.setState({
+      activeChat: !this.state.activeChat,
+      receiverId: id,
+      name: f + " " + l
+    });
+
+    console.log("clicked on convo");
     Axios.get(
       `/api/v1/candidates/chats/${this.props.candidate.currentCandidate._id}/messages/${id}`
     )
@@ -78,8 +86,7 @@ class Messages extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.mc.current.scrollBy(0, this.state.count);
-    // this.setState({ count: this.state.count + 100000 });
+    console.log(this.state.receiverId, "receiver id candidate side");
 
     var receiverId =
       this.state.receiverId || this.props.match.params.receiverId;
@@ -97,10 +104,8 @@ class Messages extends Component {
   };
 
   render() {
-    console.log(this.mc);
     return (
       <>
-        {console.log(this.state.conversations)}
         <div class="chat_group">
           <div class="main-container">
             <div
@@ -108,7 +113,7 @@ class Messages extends Component {
               style={{ cursor: "pointer" }}
               onClick={() => this.setState({ active: !this.state.active })}
             >
-              <h1>Messages</h1>
+              <h1>{this.state.name ? this.state.name : "Messages"}</h1>
             </div>
             {this.state.activeChat ? (
               <div className={this.state.active ? "chat_box" : "none"}>
@@ -116,7 +121,13 @@ class Messages extends Component {
                 {this.state.conversations.map(c => {
                   return (
                     <div
-                      onClick={() => this.handleConversation(c.employerId._id)}
+                      onClick={() =>
+                        this.handleConversation(
+                          c.employerId._id,
+                          c.employerId.firstName,
+                          c.employerId.lastName
+                        )
+                      }
                     >
                       <img src={c.employerId.profileImage} alt="" />
                       <p>
@@ -132,12 +143,20 @@ class Messages extends Component {
               <div className={this.state.active ? "block" : "none"}>
                 <span
                   onClick={() =>
-                    this.setState({ activeChat: !this.state.activeChat })
+                    this.setState({
+                      activeChat: !this.state.activeChat,
+                      name: ""
+                    })
                   }
                 >
                   back
                 </span>
-                <div class="message-container" ref={this.mc}>
+                <ScrollToBottom
+                  className={ROOT_CSS}
+                  mode="bottom"
+                  scrollViewClassName="message-container"
+                >
+                  {/* <div class="message-container"> */}
                   <h3>
                     <span class="date">Today</span>
                   </h3>
@@ -174,7 +193,8 @@ class Messages extends Component {
                       />
                     </form>
                   </div>
-                </div>
+                  {/* </div> */}
+                </ScrollToBottom>
               </div>
             )}
           </div>
