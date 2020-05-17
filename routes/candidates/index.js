@@ -67,6 +67,13 @@ router.post(
 //apply for jobs
 router.post("/jobs", auth.verifyToken, candidatesController.jobApply);
 
+//get all conversations
+router.get(
+  "/chats/conversations",
+  auth.verifyToken,
+  candidatesController.getConversations
+);
+
 //chat routes
 router.post(
   "/chats/:senderid/messages/:receiverid",
@@ -76,6 +83,7 @@ router.get(
   "/chats/:senderid/messages/:receiverid",
   candidatesController.getChat
 );
+
 //skills route
 router.use("/skills", auth.verifyToken, skillsRouter);
 

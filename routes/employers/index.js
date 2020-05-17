@@ -44,6 +44,13 @@ router.put(
   employersController.updateNotifications
 );
 
+//get all conversations
+router.get(
+  "/chats/conversations",
+  auth.verifyToken,
+  employersController.getConversations
+);
+
 //chat routes
 router.post(
   "/chats/:senderid/messages/:receiverid",
