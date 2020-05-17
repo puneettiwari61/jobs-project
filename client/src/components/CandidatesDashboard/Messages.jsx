@@ -14,12 +14,26 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    // socket.on("connection", function() {
+    //   socket.emit("join", {
+    //     email: this.props.candidate.currentCandidate.email
+    //   });
+    // });
+    socket.connect();
+    socket.emit("join", {
+      id: this.props.candidate.currentCandidate._id
+    });
+
     socket.on("chat", msg => {
       console.log(msg, "from socket cdm");
       this.setState({ messages: msg.conversation.messages });
     });
+    // socket.on("chat", msg => {
+    //   console.log(msg, "from socket cdm");
+    //   this.setState({ messages: msg.conversation.messages });
+    // });
     Axios.get(
-      "/api/v1/candidates/chats/5ebfcafb69108871bd5d1b64/messages/5ebf8420e14e5a332b457f64"
+      `/api/v1/candidates/chats/${this.props.candidate.currentCandidate._id}/messages/${this.props.match.params.receiverId}`
     )
       .then(res => {
         console.log(res, "from client candidate messages");
@@ -30,9 +44,10 @@ class Messages extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     if (this.state.text) {
       Axios.post(
-        "/api/v1/candidates/chats/5ebfcafb69108871bd5d1b64/messages/5ebf8420e14e5a332b457f64",
+        `/api/v1/candidates/chats/${this.props.candidate.currentCandidate._id}/messages/${this.props.match.params.receiverId}`,
         { message: this.state.text }
       )
         .then(res => {

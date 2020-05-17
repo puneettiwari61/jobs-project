@@ -15,6 +15,10 @@ class Messages extends Component {
 
   componentDidMount() {
     socket.connect();
+
+    // socket.on("connection", function() {
+    socket.emit("join", { id: this.props.employer.currentEmployer._id });
+    // });
     socket.on("chat", msg => {
       console.log(msg, "from socket cdm");
       this.setState({ messages: msg.conversation.messages });
