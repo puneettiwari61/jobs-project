@@ -90,6 +90,12 @@ module.exports = {
           options: { sort: { createdAt: -1 } }
         })
         .select("-password");
+      GlobalSocket.io.on("connection", function(socket) {
+        socket.on("join", function(data) {
+          socketId[data.id] = socket.id;
+          console.log(socket.id, socketId, data, "from socket connection");
+        });
+      });
       res.json({ success: true, employer });
     } catch (err) {
       console.log(err);
@@ -228,7 +234,9 @@ module.exports = {
         conversation
       };
 
-      GlobalSocket.io.to(socketId[req.params.receiverid]).emit("chat", msg);
+      await GlobalSocket.io
+        .to(socketId[req.params.receiverid])
+        .emit("chat", msg);
 
       // GlobalSocket.io.emit("chat", msg);
 
@@ -258,13 +266,6 @@ module.exports = {
           populate: { path: "employerId" },
           options: { sort: { createdAt: 1 } }
         });
-      GlobalSocket.io.on("connection", function(socket) {
-        socket.on("join", function(data) {
-          //   socket.join(data.email);
-          socketId[data.id] = socket.id;
-          console.log(socket.id, socketId, data, "from socket connection");
-        });
-      });
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);

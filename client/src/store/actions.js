@@ -1,4 +1,7 @@
 import Axios from "axios";
+import io from "socket.io-client";
+
+let socket = io();
 import {
   IDENTIFY_CANDIDATE,
   IDENTIFY_EMPLOYER,
@@ -72,23 +75,26 @@ export let identifyLoggedUser = () => {
         headers: { authorization: JSON.parse(localStorage.jobUser).token }
       })
         .then(res => {
-          console.log(res.data[userType], "user identified");
-          if (userType === "candidate") {
-            store.dispatch(
-              fetchLoggedCandidate({
-                currentCandidate: res.data[userType],
-                isAuthInProgress: false,
-                isAuthDone: true
-              })
-            );
-          } else if (userType === "employer") {
-            store.dispatch(
-              fetchLoggedEmployer({
-                currentEmployer: res.data[userType],
-                isAuthInProgress: false,
-                isAuthDone: true
-              })
-            );
+          if (res.data.success) {
+            socket.connect();
+            console.log(res.data[userType], "user identified");
+            if (userType === "candidate") {
+              store.dispatch(
+                fetchLoggedCandidate({
+                  currentCandidate: res.data[userType],
+                  isAuthInProgress: false,
+                  isAuthDone: true
+                })
+              );
+            } else if (userType === "employer") {
+              store.dispatch(
+                fetchLoggedEmployer({
+                  currentEmployer: res.data[userType],
+                  isAuthInProgress: false,
+                  isAuthDone: true
+                })
+              );
+            }
           }
         })
         .catch(err => console.log(err, "invalid user"));
