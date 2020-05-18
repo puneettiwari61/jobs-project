@@ -65,7 +65,7 @@ class CandidatesLogin extends Component {
       .dispatch(candidatesLogin(this.state))
       .then(data => {
         if (data.success)
-          return this.props.history.push("/candidates/dashboard");
+          return this.props.history.push("/candidates/dashboard/profile");
         this.setState({ msg: data.msg });
       })
       .catch(err => {

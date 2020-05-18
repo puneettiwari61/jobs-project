@@ -77,7 +77,6 @@ module.exports = {
     try {
       var candidate = await Candidate.findById(req.user.userId)
         .populate("skills", "name")
-        .populate("jobsApplied")
         .populate({
           path: "jobsApplied",
           // Get friends of friends - populate the 'friends' array for every friend
@@ -154,6 +153,11 @@ module.exports = {
         { new: true }
       )
         .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          // Get friends of friends - populate the 'friends' array for every friend
+          populate: { path: "employer" }
+        })
         .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
@@ -168,7 +172,8 @@ module.exports = {
         req.user.userId,
         { $pull: { experience: req.body } },
         { new: true }
-      ).select("-password");
+      ).populate("skills", "name");
+      select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
     } catch (err) {
@@ -182,7 +187,9 @@ module.exports = {
         req.user.userId,
         { $pull: { education: req.body } },
         { new: true }
-      ).select("-password");
+      )
+        .populate("skills", "name")
+        .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
     } catch (err) {
@@ -201,7 +208,9 @@ module.exports = {
         req.user.userId,
         { $pull: { skills: req.body._id } },
         { new: true }
-      ).select("-password");
+      )
+        .populate("skills", "name")
+        .select("-password");
       console.log(candidate, skills);
       res.json({ success: true, candidate });
     } catch (err) {

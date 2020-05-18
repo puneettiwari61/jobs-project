@@ -126,7 +126,13 @@ class ImgMediaCard extends React.Component {
                       job ? (
                         <Card className={classes.card}>
                           <CardActionArea>
-                            <CardContent>
+                            <CardContent
+                              onClick={() =>
+                                this.props.history.push(
+                                  `/candidates/jobs/${job.slug}`
+                                )
+                              }
+                            >
                               <Typography
                                 gutterBottom
                                 variant="h5"
@@ -168,9 +174,9 @@ class ImgMediaCard extends React.Component {
                             >
                               Details
                             </Button>
-                            <Button size="small" color="primary">
+                            {/* <Button size="small" color="primary">
                               Apply
-                            </Button>
+                            </Button> */}
                           </CardActions>
                         </Card>
                       ) : (
@@ -181,7 +187,13 @@ class ImgMediaCard extends React.Component {
                       job ? (
                         <Card className={classes.card}>
                           <CardActionArea>
-                            <CardContent>
+                            <CardContent
+                              onClick={() =>
+                                this.props.history.push(
+                                  `/candidates/jobs/${job.slug}`
+                                )
+                              }
+                            >
                               <Typography
                                 gutterBottom
                                 variant="h5"
@@ -222,9 +234,9 @@ class ImgMediaCard extends React.Component {
                             >
                               Details
                             </Button>
-                            <Button size="small" color="primary">
+                            {/* <Button size="small" color="primary">
                               Apply
-                            </Button>
+                            </Button> */}
                           </CardActions>
                         </Card>
                       ) : (

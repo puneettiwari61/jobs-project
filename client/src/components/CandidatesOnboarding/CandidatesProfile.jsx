@@ -120,6 +120,21 @@ function Checkout(props) {
                 <Button onClick={handleBack} className={classes.button}>
                   Back
                 </Button>
+                <Button
+                  href="/candidates/jobs"
+                  className={classes.button}
+                  variant="outlined"
+                >
+                  Browse Jobs
+                </Button>
+                <Button
+                  href="/candidates/dashboard/profile"
+                  className={classes.button}
+                  color="primary"
+                  variant="outlined"
+                >
+                  Go to Dashboard
+                </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -150,8 +165,7 @@ function Checkout(props) {
                     >
                       {activeStep === steps.length - 1 ? "Submit" : "Next"}
                     </Button>
-                  ) : activeStep === steps.length - 2 &&
-                    props.candidate.currentCandidate.experience[0] ? (
+                  ) : activeStep === steps.length - 2 ? (
                     <Button
                       variant="contained"
                       color="primary"

@@ -13,6 +13,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneIcon from "@material-ui/icons/Done";
 import { updateLoggedCandidate } from "../../store/actions";
 import Axios from "axios";
+import { Button } from "@material-ui/core";
 
 const StyledBadge = withStyles(theme => ({
   badge: {
@@ -96,7 +97,7 @@ const useStyles = makeStyles(theme => ({
   box: {
     padding: ".1rem",
     // width:'35rem',
-    background: "#231e39"
+    background: "grey"
   },
   root: {
     display: "flex",
@@ -110,6 +111,10 @@ const useStyles = makeStyles(theme => ({
     "& > *": {
       border: 0
     }
+  },
+  white: {
+    color: "white",
+    marginLeft: "1rem"
   }
 }));
 
@@ -168,26 +173,20 @@ function Profile(props) {
       >
         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
       </Badge> */}
-          {open ? (
-            <div className={classes.h1}>
-              {props.candidate.currentCandidate.firstName +
-                " " +
-                props.candidate.currentCandidate.lastName}
-            </div>
-          ) : (
-            <div>
-              <form className={classes.root1} noValidate autoComplete="off">
-                <input
-                  className={classes.h1_input}
-                  placeholder={
-                    props.candidate.currentCandidate.firstName +
-                    " " +
-                    props.candidate.currentCandidate.lastName
-                  }
-                />
-              </form>
-            </div>
-          )}
+
+          <div className={classes.h1}>
+            {props.candidate.currentCandidate.firstName +
+              " " +
+              props.candidate.currentCandidate.lastName}
+            <Button
+              href="/candidates/profile"
+              color="inherit"
+              variant="outlined"
+              className={classes.white}
+            >
+              Update Profile
+            </Button>
+          </div>
 
           {open ? (
             <Tooltip
