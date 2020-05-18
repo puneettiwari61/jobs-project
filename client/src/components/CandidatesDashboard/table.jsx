@@ -38,11 +38,11 @@ function CollapsibleTable(props) {
       "& > *": {
         borderBottom: "unset"
       }
-	},
-	box:{
-		background:"#231e39",
-		color:"white"
-	}
+    },
+    box: {
+      background: "grey",
+      color: "white"
+    }
   });
 
   const [open, setOpen] = React.useState(true);
@@ -52,8 +52,7 @@ function CollapsibleTable(props) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>	
-        </TableHead>
+        <TableHead></TableHead>
         <TableBody>
           <TableRow>
             {/* <TableCell>
@@ -71,86 +70,89 @@ function CollapsibleTable(props) {
 
             {/* <TableCell align="right">abc</TableCell>
 						<TableCell align="right">xyz</TableCell> */}
-
-					</TableRow>
-					<TableRow>
-						<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-							<Collapse in={open} timeout="auto" unmountOnExit>
-								<Box margin={1}>
-									
-									<List>
-										{(props.candidate.currentCandidate.education[0]) ?
-											props.candidate.currentCandidate.education.map((a) => {
-											return (<ListItem>
-														<ListItemAvatar>
-															<Avatar>
-																<EducationIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary={a.schoolOrCollege+","+a.branch} secondary={a.grade+','+" "+a.from} />
-													</ListItem>
-												)
-											}) : (
-											<></>
-										)}
-									</List>
-								</Box>
-							</Collapse>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						
-						<TableCell component="th" scope="row" className={classes.box}>
-							Experience
-						</TableCell>
-						{/* <TableCell align="right">abc</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <Box margin={1}>
+                  <List>
+                    {props.candidate.currentCandidate.education[0] ? (
+                      props.candidate.currentCandidate.education.map(a => {
+                        return (
+                          <ListItem>
+                            <ListItemAvatar>
+                              <Avatar>
+                                <EducationIcon />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={a.schoolOrCollege + "," + a.branch}
+                              secondary={a.grade + "," + " " + a.from}
+                            />
+                          </ListItem>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </List>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell component="th" scope="row" className={classes.box}>
+              Experience
+            </TableCell>
+            {/* <TableCell align="right">abc</TableCell>
 						<TableCell align="right">xyz</TableCell> */}
-					</TableRow>
-					<TableRow>
-						<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-							<Collapse in={open1} timeout="auto" unmountOnExit>
-								<Box margin={1}>
-									
-									<List>
-										{(props.candidate.currentCandidate.experience[0])?props.candidate.currentCandidate.experience.map((a) => {
-												return (
-													<ListItem>
-														<ListItemAvatar>
-															<Avatar>
-																<WorkIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText
-															primary={a.companyName}
-															secondary={
-																Math.abs(
-																	a.leavingDate.split('-')[1] -
-																		a.joiningDate.split('-')[1]
-																) > 1
-																	? Math.abs(
-																			a.leavingDate.split('-')[1] -
-																				a.joiningDate.split('-')[1]
-																	  ) + ' Months'
-																	: Math.abs(
-																			a.leavingDate.split('-')[1] -
-																				a.joiningDate.split('-')[1]
-																	  ) + ' Month'
-															}
-														/>
-													</ListItem>
-												);
-											}) : (
-											<></>
-										)}
-									</List>
-								</Box>
-							</Collapse>
-						</TableCell>
-					</TableRow>
-				</TableBody>
-			</Table>
-		</TableContainer>
-	);
+          </TableRow>
+          <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+              <Collapse in={open1} timeout="auto" unmountOnExit>
+                <Box margin={1}>
+                  <List>
+                    {props.candidate.currentCandidate.experience[0] ? (
+                      props.candidate.currentCandidate.experience.map(a => {
+                        return (
+                          <ListItem>
+                            <ListItemAvatar>
+                              <Avatar>
+                                <WorkIcon />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={a.companyName}
+                              secondary={
+                                Math.abs(
+                                  a.leavingDate.split("-")[1] -
+                                    a.joiningDate.split("-")[1]
+                                ) > 1
+                                  ? Math.abs(
+                                      a.leavingDate.split("-")[1] -
+                                        a.joiningDate.split("-")[1]
+                                    ) + " Months"
+                                  : Math.abs(
+                                      a.leavingDate.split("-")[1] -
+                                        a.joiningDate.split("-")[1]
+                                    ) + " Month"
+                              }
+                            />
+                          </ListItem>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </List>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 function mapToProps({ candidate }) {
   return { candidate };

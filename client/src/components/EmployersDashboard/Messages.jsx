@@ -10,7 +10,7 @@ import ChatApp from "../ChatApp/ChatApp";
 let socket = io();
 const ROOT_CSS = css({
   // height: 600,
-  // width: 400
+  width: 288
 });
 
 class Messages extends Component {
@@ -172,20 +172,20 @@ class Messages extends Component {
                   ) : (
                     <></>
                   )}
-                  <div class="input-container">
-                    <form onSubmit={this.handleSubmit}>
-                      <input
-                        onChange={e => {
-                          this.setState({ text: e.target.value });
-                        }}
-                        value={this.state.text}
-                        type="text"
-                        placeholder="Enter your message"
-                      />
-                    </form>
-                  </div>
                   {/* </div> */}
                 </ScrollToBottom>
+                <div class="input-container">
+                  <form onSubmit={this.handleSubmit}>
+                    <input
+                      onChange={e => {
+                        this.setState({ text: e.target.value });
+                      }}
+                      value={this.state.text}
+                      type="text"
+                      placeholder="Enter your message"
+                    />
+                  </form>
+                </div>
               </div>
             )}
           </div>

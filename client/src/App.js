@@ -26,9 +26,7 @@ import PostJobs from "./components/Jobs/PostJobs";
 import ShowJobs from "./components/Jobs/ShowJobs";
 import SingleJob from "./components/Jobs/SingleJob";
 import CandidatesDashboard from "./components/CandidatesDashboard/CandidatesDashboard";
-import Header2 from "./components/Common/Header2";
 import EmployersDashboard from "./components/EmployersDashboard/EmployersDashboard";
-import AppliedCandidates from "./components/EmployersDashboard/AppliedCandidates";
 
 function PublicRoutes(props) {
   return (
@@ -69,50 +67,69 @@ function PrivateRoutes(props) {
   return (
     <>
       <Header {...props} />
-      <Switch>
-        <Route path="/" exact>
-          <LandingPage />
-        </Route>
-        <Route path="/candidates/profile">
-          <CandidatesProfile />
-        </Route>
-        <Route path="/candidateprofile">
-          <CandidatesPortfolio />
-        </Route>
-        <Route path="/candidates/jobs/:slug">
-          <SingleJob />
-        </Route>
-        <Route path="/candidates/jobs" exact>
-          <ShowJobs />
-        </Route>
-        <Route path="/candidates/dashboard">
-          <CandidatesDashboard />
-        </Route>
-        <Route path="/employerprofile">
-          <EmployerPortfolio />
-        </Route>
-        <Route path="/employers/profile">
-          <EmployersProfile />
-        </Route>
-        <Route path="/employers/postjobs">
-          <PostJobs />
-        </Route>
-        <Route path="/employers/dashboard">
-          <EmployersDashboard />
-        </Route>
+      {props.currentCandidate ? (
+        <Switch>
+          <Route path="/" exact>
+            <LandingPage />
+          </Route>
+          <Route path="/candidates/profile">
+            <CandidatesProfile />
+          </Route>
+          <Route path="/candidateprofile">
+            <CandidatesPortfolio />
+          </Route>
+          <Route path="/candidates/jobs/:slug">
+            <SingleJob />
+          </Route>
+          <Route path="/candidates/jobs" exact>
+            <ShowJobs />
+          </Route>
+          <Route path="/candidates/dashboard">
+            <CandidatesDashboard />
+          </Route>
+          <Route path="*">
+            <h1
+              style={{
+                margin: "200px auto",
+                textAlign: "center",
+                color: "red"
+              }}
+            >
+              Page Not found
+            </h1>
+          </Route>
+        </Switch>
+      ) : (
+        <Switch>
+          <Route path="/" exact>
+            <LandingPage />
+          </Route>
+          <Route path="/employerprofile">
+            <EmployerPortfolio />
+          </Route>
+          <Route path="/employers/profile">
+            <EmployersProfile />
+          </Route>
+          <Route path="/employers/postjobs">
+            <PostJobs />
+          </Route>
+          <Route path="/employers/dashboard">
+            <EmployersDashboard />
+          </Route>
 
-        <Route path="*">
-          <h1
-            style={{
-              margin: "200px auto",
-              textAlign: "center",
-              color: "red"
-            }}
-          >
-            Page Not found
-          </h1>
-        </Route>
-      </Switch>
+          <Route path="*">
+            <h1
+              style={{
+                margin: "200px auto",
+                textAlign: "center",
+                color: "red"
+              }}
+            >
+              Page Not found
+            </h1>
+          </Route>
+        </Switch>
+      )}
     </>
   );
 }
