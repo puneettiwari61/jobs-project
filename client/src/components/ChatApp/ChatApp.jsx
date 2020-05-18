@@ -2,52 +2,15 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import './chatApp.scss';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
-
-let socket = io();
 
 class ChatApp extends Component {
 	constructor() {
 		super();
-		this.state = { active: true, activeChat: true, messages: null, text: '' };
+		this.state = { active: true, activeChat: true };
 	}
-	componentDidMount() {
-		socket.connect();
-		socket.emit('join', {
-			id: this.props.candidate.currentCandidate._id,
-		});
-
-		socket.on('chat', (msg) => {
-			console.log(msg, 'from socket cdm');
-			this.setState({ messages: msg.conversation.messages });
-		});
-		Axios.get(
-			`/api/v1/candidates/chats/${this.props.candidate.currentCandidate._id}/messages/${this.props.match.params.receiverId}`
-		)
-			.then((res) => {
-				console.log(res, 'from client candidate messages');
-				this.setState({ messages: res.data.conversation.messages });
-			})
-			.catch((err) => console.log(err));
-	}
-
-	handleSubmit = (e) => {
-		e.preventDefault();
-
-		if (this.state.text) {
-			Axios.post(
-				`/api/v1/candidates/chats/${this.props.candidate.currentCandidate._id}/messages/${this.props.match.params.receiverId}`,
-				{ message: this.state.text }
-			)
-				.then((res) => {
-					console.log(res, 'message created success');
-					this.setState({ messages: res.data.conversation.messages, text: '' });
-				})
-				.catch((err) => console.log(err, 'message created failed'));
-		}
-	};
-
 	render() {
+		let employer = this.props.employer;
+		let candidate = this.props.candidate;
 		return (
 			<div class="chat_group">
 				<div class="main-container">
@@ -76,12 +39,11 @@ class ChatApp extends Component {
 						</div>
 					) : (
 						<div className={this.state.active ? 'block' : 'none'}>
-							<span onClick={() => this.setState({ activeChat: !this.state.activeChat })}>back</span>
+                            <span onClick={() => this.setState({ activeChat: !this.state.activeChat })}>back</span>
 							<div class="message-container">
 								<h3>
 									<span class="date">Today</span>
 								</h3>
-								{console.log(this.state.messages)}
 								<div class="sent">
 									<h5 class="hour">10:53</h5>
 									<p class="sent-bubble">Hi, Mark! I made a new design for Messenger App.</p>
@@ -114,6 +76,7 @@ class ChatApp extends Component {
 			</div>
 		);
 	}
+
 }
 
 function mapToProps({ candidate, employer }) {

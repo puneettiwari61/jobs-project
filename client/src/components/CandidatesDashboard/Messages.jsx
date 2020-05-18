@@ -11,7 +11,7 @@ import ChatApp from "../ChatApp/ChatApp";
 let socket = io();
 const ROOT_CSS = css({
   // height: 600,
-  // width: 400
+  width: 288
 });
 
 class Messages extends Component {
@@ -165,14 +165,14 @@ class Messages extends Component {
                       if (a.senderType == "candidate") {
                         return (
                           <div class="received">
-                            <h5 class="hour">10:53</h5>
+                            <h5 class="hour">{a.createdAt.substr(11,5)+" "+((a.createdAt.substr(11,2)<13)?"AM":"PM")}</h5>
                             <p class="received-bubble">{a.message}</p>
                           </div>
                         );
                       } else {
                         return (
                           <div class="sent">
-                            <h5 class="hour">10:57</h5>
+                            <h5 class="hour">{a.createdAt.substr(11,5)+" "+((a.createdAt.substr(11,2)<13)?"AM":"PM")}</h5>
                             <p class="sent-bubble">{a.message}</p>
                           </div>
                         );
@@ -181,7 +181,10 @@ class Messages extends Component {
                   ) : (
                     <></>
                   )}
-                  <div class="input-container">
+                 
+                  {/* </div> */}
+                </ScrollToBottom>
+                <div class="input-container">
                     <form onSubmit={this.handleSubmit}>
                       <input
                         onChange={e => {
@@ -193,8 +196,6 @@ class Messages extends Component {
                       />
                     </form>
                   </div>
-                  {/* </div> */}
-                </ScrollToBottom>
               </div>
             )}
           </div>

@@ -68,16 +68,17 @@
 }
 
 .message-container {
-	max-height: 600px;
+	max-height: 50vh;
 	display: flex;
 	flex-direction: column;
-	overflow-y: auto;
 	padding: 25px 25px 0 25px;
-	overflow: scroll;
-	margin-bottom: 9rem;
-}
-.message-container {
+	overflow-y: scroll;
 	width:18rem;
+}
+
+
+.message-container::-webkit-scrollbar {
+	display: none;
 }
 
 .message-container h3 {
@@ -160,10 +161,12 @@
 .sent-bubble,
 .received-bubble,
 .blocked-bubble {
-	max-width: 70%;
+	max-width: 90%;
 	padding: 10px;
 	margin: 10px 0 20px;
 	text-align: left;
+	word-wrap: break-word;
+	scroll-behavior: smooth;
 }
 
 .sent-bubble {
@@ -188,6 +191,7 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 25px;
+	margin-bottom: 2rem;
 }
 
 .input-container input {
