@@ -98,7 +98,7 @@ class ImgMediaCard extends React.Component {
 
     return (
       <>
-        <Container component="main" className={classes.box} >
+        <Container component="main" className={classes.box}>
           <Box>
             <Paper className={classes.paperComponent}>
               <Grid item xs={12} className={classes.root}>
@@ -174,6 +174,14 @@ class ImgMediaCard extends React.Component {
                             >
                               Details
                             </Button>
+                            {job.hiredCandidates.includes(
+                              this.props.candidate.currentCandidate._id
+                            ) ? (
+                              <span>Already Applied</span>
+                            ) : (
+                              ""
+                            )}
+
                             {/* <Button size="small" color="primary">
                               Apply
                             </Button> */}

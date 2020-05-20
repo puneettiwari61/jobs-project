@@ -114,7 +114,13 @@ var candidateSchema = new Schema(
     about: {
       type: String,
       default: ""
-    }
+    },
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Notification"
+      }
+    ]
   },
   { timestamps: true }
 );

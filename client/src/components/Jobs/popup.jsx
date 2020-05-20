@@ -42,12 +42,16 @@ function FormDialog(props) {
       setErrmsg("cannot be left blank");
     }
   };
-
+  console.log(props.hired, props.id, "helooooooooooooo  form jobs");
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Apply
-      </Button>
+      {props.hired.includes(props.candidate.currentCandidate._id) ? (
+        <span>Already Applied</span>
+      ) : (
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+          Apply
+        </Button>
+      )}
       <Dialog
         open={open}
         onClose={handleClose}

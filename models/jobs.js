@@ -40,6 +40,12 @@ var jobSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "Applicant"
       }
+    ],
+    hiredCandidates: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Candidate"
+      }
     ]
   },
   { timestamps: true }

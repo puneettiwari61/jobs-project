@@ -20,10 +20,17 @@ const styles = theme => ({
   root: {
     width: "100%",
     minWidth: "36ch",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    padding: "1rem"
   },
   inline: {
     display: "inline"
+  },
+  hireButton: {
+    marginLeft: "2rem"
+  },
+  div: {
+    padding: "1rem"
   }
 });
 
@@ -88,6 +95,28 @@ class AppliedCandidates extends React.Component {
     // }
   };
 
+  handleHire = _id => {
+    Axios.post(
+      "/api/v1/employers/hired/jobs/candidates",
+      {
+        _id,
+        jobId: this.state.job._id
+      },
+      {
+        headers: { authorization: JSON.parse(localStorage.jobUser).token }
+      }
+    )
+      .then(res => {
+        // this.setState({
+        //   filteredJobs: res.data.jobs.length === "0" ? [] : res.data.candidates
+        // });
+
+        // this.setState({ filteredCanidates: res.data.candidates });
+        console.log("hred", this.state, res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
   showAll = () => {
     this.setState({ filteredCanidates: null });
   };
@@ -99,6 +128,9 @@ class AppliedCandidates extends React.Component {
       <>
         <Typography variant="h5" component="h3">
           Candidates who have applied for -
+        </Typography>
+        <Typography variant="h4" component="h2" color="primary">
+          {this.state.job && this.state.job.title} Job
         </Typography>
         <Select
           isMulti
@@ -119,20 +151,19 @@ class AppliedCandidates extends React.Component {
         <Button variant="outlined" onClick={this.showAll}>
           Show All
         </Button>
-        <Typography variant="h4" component="h2" color="primary">
-          {this.state.job && this.state.job.title} Job
-        </Typography>
+
         {!this.state.filteredCanidates
           ? this.state.job &&
             this.state.job.applicants.map(c => {
               return (
                 <List className={classes.root}>
-                  <ListItem alignItems="flex-start">
+                  <ListItem alignItems="flex-start" className={classes.div}>
                     <ListItemAvatar>
                       <Avatar src={c.candidate.image} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={c.candidate.firstName + c.candidate.lastName}
+                      // className={classes.div}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -165,18 +196,42 @@ class AppliedCandidates extends React.Component {
                     />
                   </ListItem>
                   <Divider variant="inset" component="li" />
-                  <Button
-                    href={`/employers/dashboard/messages/${c.candidate._id}`}
-                    // onClick={() =>
-                    //   this.props.history.push("/employers/dashboard/messages")
-                    // }
-                    variant="outlined"
-                  >
-                    Message
-                  </Button>
-                  <Button href={`/profile/candidates/${c.candidate._id}`}>
-                    View Profile
-                  </Button>
+                  <div className={classes.div}>
+                    <Button
+                      href={`/employers/dashboard/messages/${c.candidate._id}`}
+                      // onClick={() =>
+                      //   this.props.history.push("/employers/dashboard/messages")
+                      // }
+                      variant="outlined"
+                    >
+                      Message
+                    </Button>
+                    <Button href={`/profile/candidates/${c.candidate._id}`}>
+                      View Profile
+                    </Button>
+                    {this.state.job.hiredCandidates.includes(
+                      c.candidate._id
+                    ) ? (
+                      <span
+                        style={{
+                          color: "#53d4e9",
+                          fontSize: "1.2rem",
+                          marginLeft: "2rem"
+                        }}
+                      >
+                        Already Hired
+                      </span>
+                    ) : (
+                      <Button
+                        onClick={() => this.handleHire(c.candidate._id)}
+                        variant="contained"
+                        size="medium"
+                        className={classes.hireButton}
+                      >
+                        Hire {c.candidate.firstName}
+                      </Button>
+                    )}
+                  </div>
                 </List>
               );
             })
@@ -221,18 +276,40 @@ class AppliedCandidates extends React.Component {
                     />
                   </ListItem>
                   <Divider variant="inset" component="li" />
-                  <Button
-                    href={`/employers/dashboard/messages/${c._id}`}
-                    // onClick={() =>
-                    //   this.props.history.push("/employers/dashboard/messages")
-                    // }
-                    variant="outlined"
-                  >
-                    Message
-                  </Button>
-                  <Button href={`/profile/candidates/${c._id}`}>
-                    View Profile
-                  </Button>
+                  <div className={classes.div}>
+                    <Button
+                      href={`/employers/dashboard/messages/${c._id}`}
+                      // onClick={() =>
+                      //   this.props.history.push("/employers/dashboard/messages")
+                      // }
+                      variant="outlined"
+                    >
+                      Message
+                    </Button>
+                    <Button href={`/profile/candidates/${c._id}`}>
+                      View Profile
+                    </Button>
+                    {this.state.job.hiredCandidates.includes(c._id) ? (
+                      <span
+                        style={{
+                          color: "yellow",
+                          fontSize: "1.2rem",
+                          marginLeft: "2rem"
+                        }}
+                      >
+                        Already Hired
+                      </span>
+                    ) : (
+                      <Button
+                        onClick={() => this.handleHire(c.candidate._id)}
+                        variant="contained"
+                        size="medium"
+                        className={classes.hireButton}
+                      >
+                        Hire {c.firstName}
+                      </Button>
+                    )}
+                  </div>
                 </List>
               );
             })}
