@@ -62,4 +62,12 @@ router.get(
   "/chats/:senderid/messages/:receiverid",
   employersController.getChat
 );
+
+// filter candidates
+router.post(
+  "/skills/jobs/candidates",
+  auth.verifyToken,
+  employersController.filterCandidates
+);
+
 module.exports = router;

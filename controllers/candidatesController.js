@@ -57,9 +57,15 @@ module.exports = {
       if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
       }
-      var candidate = await Candidate.findOne({ email: req.body.email }).lean({
-        virtuals: true
-      });
+      var candidate = await Candidate.findOne({ email: req.body.email })
+        .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
+        .lean({
+          virtuals: true
+        });
       if (!candidate)
         return res.json({ success: false, msg: "incorrect credentials" });
       if (!candidate.verifyPassword(req.body.password)) {
@@ -84,6 +90,9 @@ module.exports = {
         })
         .select("-password");
       GlobalSocket.io.on("connection", function(socket) {
+        socket.on("disconnect", function() {
+          console.log("client has disconnected from the chat." + socket.id);
+        });
         socket.on("join", function(data) {
           // socket.join(data.email);
           socketId[data.id] = socket.id;
@@ -105,7 +114,13 @@ module.exports = {
         {
           new: true
         }
-      ).select("-password");
+      )
+        .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
+        .select("-password");
       console.log(candidate, "from update profile");
       res.json({ success: true, candidate });
     } catch (err) {
@@ -121,6 +136,10 @@ module.exports = {
         { new: true }
       )
         .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
         .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
@@ -137,6 +156,10 @@ module.exports = {
         { new: true }
       )
         .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
         .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
@@ -172,7 +195,12 @@ module.exports = {
         req.user.userId,
         { $pull: { experience: req.body } },
         { new: true }
-      ).populate("skills", "name");
+      )
+        .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        });
       select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
@@ -189,6 +217,10 @@ module.exports = {
         { new: true }
       )
         .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
         .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });
@@ -210,6 +242,10 @@ module.exports = {
         { new: true }
       )
         .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
         .select("-password");
       console.log(candidate, skills);
       res.json({ success: true, candidate });
@@ -233,6 +269,10 @@ module.exports = {
         { new: true }
       )
         .populate("skills", "name")
+        .populate({
+          path: "jobsApplied",
+          populate: { path: "employer" }
+        })
         .select("-password");
       console.log(candidate);
       res.json({ success: true, candidate });

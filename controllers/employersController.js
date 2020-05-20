@@ -7,6 +7,7 @@ var Notification = require("../models/notifications");
 var Conversation = require("../models/conversations");
 var Message = require("../models/messages");
 var socketId = require("./../socketId.json");
+var Candidate = require("../models/candidates");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -91,6 +92,9 @@ module.exports = {
         })
         .select("-password");
       GlobalSocket.io.on("connection", function(socket) {
+        socket.on("disconnect", function() {
+          console.log("client has disconnected from the chat." + socket.id);
+        });
         socket.on("join", function(data) {
           socketId[data.id] = socket.id;
           console.log(socket.id, socketId, data, "from socket connection");
@@ -278,6 +282,19 @@ module.exports = {
         employerId: req.user.userId
       }).populate("candidateId");
       res.json({ success: true, conversation });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  filterCandidates: async (req, res) => {
+    try {
+      console.log(req.body, "req body from candidates filter");
+      var candidates = await Candidate.find({
+        _id: req.body.ids,
+        skills: { $in: req.body.skills }
+      }).populate("skills", "name");
+      res.json({ success: true, candidates });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
