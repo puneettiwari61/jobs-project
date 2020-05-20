@@ -34,16 +34,18 @@ var jobSchema = new Schema(
     },
     salary: { type: Number },
     currency: { type: String },
-    
-    applicants: [{
-      type: Schema.Types.ObjectId,
-      ref: "Applicant"
-    }]
+
+    applicants: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Applicant"
+      }
+    ]
   },
   { timestamps: true }
 );
 
-jobSchema.pre("save", function (next) {
+jobSchema.pre("save", function(next) {
   if (this.title && this.isModified("title")) {
     var slugged = slug(this.title, { lower: true });
     this.slug = slugged + "-" + this._id;

@@ -17,7 +17,7 @@ class Notifications extends Component {
   }
   componentDidMount() {
     //socket
-    socket.connect();
+    // socket.connect();
     socket.on("message", msg => {
       console.log(msg);
       if (this.props.employer.currentEmployer._id === msg.employerId) {

@@ -77,6 +77,9 @@ export let identifyLoggedUser = () => {
         .then(res => {
           if (res.data.success) {
             socket.connect();
+            socket.on("disconnect", function() {
+              console.log("client disconnected from server");
+            });
             console.log(res.data[userType], "user identified");
             if (userType === "candidate") {
               store.dispatch(
