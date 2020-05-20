@@ -17,6 +17,7 @@ import { Paper } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import Divider from "@material-ui/core/Divider";
 import Iframe from "react-iframe";
+import Axios from "axios";
 
 const styles = theme => ({
   root: {
@@ -86,32 +87,25 @@ const styles = theme => ({
 });
 
 class EmployerPortfolio extends Component {
-	constructor() {
-		super();
-		this.state = {
-			url: '',
-		};
-	}
-	// componentDidMount() {
-	// 	var url = [];
-	// 	this.props.employer.currentEmployer.skills.map((a) => {
-	// 		fetch(`https://en.wikipedia.org/wiki/${a.name}`, {
-	// 			mode: 'no-cors',
-	// 		}).then(function (response) {
-	// 			var data = response.text().then(function (res) {
-	// 				return res;
-	// 			});
-	// 			data.then((d) => {
-	// 				return (data = `${d}`);
-	// 				skill		}).then((run) => this.setState({ url: data.split('img')[1].split('src')[1].split('"')[1] }));
-	// 		});
-	// 	});
-	// 	console.log(this.state);
-	// }
+  constructor() {
+    super();
+    this.state = {
+      url: "",
+      employer: null
+    };
+  }
+  componentDidMount() {
+    Axios.get(`/api/v1/employers/${this.props.match.params.id}/profile`)
+      .then(res => {
+        console.log(res.data, "employer profile");
+        this.setState({ employer: res.data.employer });
+      })
+      .catch(err => console.log(err));
+  }
 
   render() {
     const { classes } = this.props;
-    return (
+    return this.state.employer ? (
       <Container component="main" className={classes.box}>
         <Box>
           <Paper className={classes.paperComponent}>
@@ -119,18 +113,18 @@ class EmployerPortfolio extends Component {
               <div className={classes.paper}>
                 <Avatar
                   alt="Remy Sharp"
-                  src={this.props.employer.currentEmployer.image}
+                  src={this.state.employer.profileImage}
                   className={classes.large}
                 />
                 <Divider variant="middle" />
                 <div className={classes.root}>
-                  {this.props.employer.currentEmployer.firstName +
+                  {this.state.employer.firstName +
                     " " +
-                    this.props.employer.currentEmployer.lastName}
+                    this.state.employer.lastName}
                 </div>
 
                 <div className={classes.rootSmall}>
-                  {this.props.employer.currentEmployer.city}
+                  {this.state.employer.city}
                 </div>
               </div>
             </Container>
@@ -140,21 +134,19 @@ class EmployerPortfolio extends Component {
             <div className={classes.rootSm}>ABOUT COMPANY</div>
 
             <a
-              href={
-                this.props.employer.currentEmployer.company.companyWebsiteUrl
-              }
+              href={this.state.employer.company.companyWebsiteUrl}
               target="_blank"
             >
               <div className={classes.rootSmall}>
-                {this.props.employer.currentEmployer.company.companyName}
+                {this.state.employer.company.companyName}
               </div>
             </a>
             <Avatar
               alt="Remy Sharp"
-              src={this.props.employer.currentEmployer.company.companyLogo}
+              src={this.state.employer.company.companyLogo}
               className={classes.medium}
             />
-            <p>{this.props.employer.currentEmployer.company.aboutCompany}</p>
+            <p>{this.state.employer.company.aboutCompany}</p>
           </Paper>
 
           {/* <br />
@@ -164,6 +156,8 @@ class EmployerPortfolio extends Component {
 					</Paper> */}
         </Box>
       </Container>
+    ) : (
+      ""
     );
   }
 }

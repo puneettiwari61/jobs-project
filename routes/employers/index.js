@@ -70,4 +70,7 @@ router.post(
   employersController.filterCandidates
 );
 
+// employer public profile
+router.get("/:id/profile", employersController.getEmployerProfile);
+
 module.exports = router;

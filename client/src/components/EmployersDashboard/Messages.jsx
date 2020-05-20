@@ -42,6 +42,10 @@ class Messages extends Component {
       this.setState({ messages: msg.conversation.messages });
     });
 
+    // socket.on("offline", msg => {
+    //   console.log(msg);
+    // });
+
     Axios.get(
       `/api/v1/employers/chats/${this.props.employer.currentEmployer._id}/messages/${this.props.match.params.receiverId}`
     )

@@ -46,6 +46,10 @@ class Messages extends Component {
         messages: msg.conversation.messages
       });
     });
+
+    // socket.on("offline", msg => {
+    //   console.log(msg);
+    // });
     // socket.on("chat", msg => {
     //   console.log(msg, "from socket cdm");
     //   this.setState({ messages: msg.conversation.messages });
