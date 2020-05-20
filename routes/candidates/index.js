@@ -19,6 +19,9 @@ router.post("/login", middlewares.validateLogin(), candidatesController.login);
 // Details of current logged in user
 router.get("/me", auth.verifyToken, candidatesController.getCurrentUser);
 
+// candidate public profile
+router.get("/:id/profile", candidatesController.getCandidatesProfile);
+
 // Required details onboarding process
 router.post(
   "/profile",

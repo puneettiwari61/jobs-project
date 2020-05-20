@@ -174,6 +174,9 @@ class AppliedCandidates extends React.Component {
                   >
                     Message
                   </Button>
+                  <Button href={`/profile/candidates/${c.candidate._id}`}>
+                    View Profile
+                  </Button>
                 </List>
               );
             })
@@ -226,6 +229,9 @@ class AppliedCandidates extends React.Component {
                     variant="outlined"
                   >
                     Message
+                  </Button>
+                  <Button href={`/profile/candidates/${c._id}`}>
+                    View Profile
                   </Button>
                 </List>
               );

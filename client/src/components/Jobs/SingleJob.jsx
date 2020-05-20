@@ -76,6 +76,9 @@ class ImgMediaCard extends React.Component {
           </CardActionArea>
           <CardActions>
             <FormDialog id={job._id} />
+            <Button href={`/profile/employers/${job.employer._id}`}>
+              View Employer's Profile
+            </Button>
           </CardActions>
         </Card>
       </Grid>

@@ -46,7 +46,13 @@ function PublicRoutes(props) {
         <Route path="/employers/login">
           <EmployersLogin />
         </Route>
-        />
+        <Route path="/profile/candidates/:id">
+          <CandidatesPortfolio />
+        </Route>
+        <Route path="/profile/employers/:id">
+          <EmployerPortfolio />
+        </Route>
+
         <Route path="*">
           <h1
             style={{
@@ -75,17 +81,20 @@ function PrivateRoutes(props) {
           <Route path="/candidates/profile">
             <CandidatesProfile />
           </Route>
-          <Route path="/candidateprofile">
-            <CandidatesPortfolio />
-          </Route>
           <Route path="/candidates/jobs/:slug">
             <SingleJob />
           </Route>
-          <Route path="/candidates/jobs" exact>
+          <Route path="/candidates/jobs">
             <ShowJobs />
           </Route>
           <Route path="/candidates/dashboard">
             <CandidatesDashboard />
+          </Route>
+          <Route path="/profile/candidates/:id">
+            <CandidatesPortfolio />
+          </Route>
+          <Route path="/profile/employers/:id">
+            <EmployerPortfolio />
           </Route>
           <Route path="*">
             <h1
@@ -104,9 +113,6 @@ function PrivateRoutes(props) {
           <Route path="/" exact>
             <LandingPage />
           </Route>
-          <Route path="/employerprofile">
-            <EmployerPortfolio />
-          </Route>
           <Route path="/employers/profile">
             <EmployersProfile />
           </Route>
@@ -115,6 +121,12 @@ function PrivateRoutes(props) {
           </Route>
           <Route path="/employers/dashboard">
             <EmployersDashboard />
+          </Route>
+          <Route path="/profile/candidates/:id">
+            <CandidatesPortfolio />
+          </Route>
+          <Route path="/profile/employers/:id">
+            <EmployerPortfolio />
           </Route>
 
           <Route path="*">
