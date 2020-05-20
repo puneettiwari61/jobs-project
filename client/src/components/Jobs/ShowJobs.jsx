@@ -98,7 +98,7 @@ class ImgMediaCard extends React.Component {
 
     return (
       <>
-        <Container component="main" className={classes.box}>
+        <Container component="main" className={classes.box} >
           <Box>
             <Paper className={classes.paperComponent}>
               <Grid item xs={12} className={classes.root}>
@@ -147,8 +147,8 @@ class ImgMediaCard extends React.Component {
                               <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
-                                height="40"
-                                image={job.employer.profileImage}
+                                height="100"
+                                image="https://cdn.pixabay.com/photo/2015/04/20/13/17/work-731198__340.jpg"
                                 title="Contemplative Reptile"
                               />
                               <Typography
@@ -207,8 +207,8 @@ class ImgMediaCard extends React.Component {
                               <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
-                                height="40"
-                                image={job.employer.profileImage}
+                                height="100"
+                                image="https://cdn.pixabay.com/photo/2015/04/20/13/17/work-731198__340.jpg"
                                 title="Contemplative Reptile"
                               />
                               <Typography
