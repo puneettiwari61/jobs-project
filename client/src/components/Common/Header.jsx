@@ -175,9 +175,19 @@ input: classes.inputInput
               open={Boolean(this.state.anchorEl)}
               onClose={this.handleClose}
             >
-              {this.props.currentCandidate || this.props.currentEmployer ? (
+              {this.props.currentEmployer ? (<>
                 <MenuItem onClick={this.handleCloseAndLogout}>Logout</MenuItem>
-              ) : (
+                <MenuItem onClick={this.handleClose}>
+                    <Link href="/employers/dashboard/Profile">Dashboard</Link>
+                  </MenuItem>
+
+              </>) :this.props.currentCandidate ? (<>
+                <MenuItem onClick={this.handleCloseAndLogout}>Logout</MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                    <Link href="/candidates/dashboard/Profile">Dashboard</Link>
+                  </MenuItem>
+
+              </>):(
                 <>
                   <MenuItem onClick={this.handleClose}>
                     <Link href="/candidates/login">Candidates</Link>
@@ -185,8 +195,7 @@ input: classes.inputInput
                   <MenuItem onClick={this.handleClose}>
                     <Link href="/employers/login">Employer</Link>
                   </MenuItem>
-                </>
-              )}
+                </>)}
             </Menu>
           </div>
         </Toolbar>
