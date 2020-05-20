@@ -133,7 +133,7 @@ function CandidatesDashoard(props) {
           />
           <Route
             path="/candidates/dashboard/messages/:receiverId"
-            component={Messages}
+            render ={ () => <Messages date="createdAt" />}
           />
         </Switch>
       </main>
