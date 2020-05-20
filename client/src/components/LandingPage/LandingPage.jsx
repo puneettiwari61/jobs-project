@@ -29,10 +29,10 @@ class LandingPage extends Component {
 				<div class="page">
 					<header>
 						<main className="header">
-							<div class="logo">
+							{/* <div class="logo">
 								<img src="https://i.ibb.co/8Kc0TQC/rec.png" alt="logo" />
 								Remote
-							</div>
+							</div> */}
 							<ul>
 								<li>Jobs</li>
 								<li>Services</li>
@@ -42,12 +42,12 @@ class LandingPage extends Component {
 
 						<main className="main">
 							<div class="left_side">
-								<h1>The best solution to find Jobs</h1>
+								<h1>Are you a skilled individual looking to kick start your career?<br/>OR<br/>Are you an employer looking to hire the best?</h1>
 								<h4>
 									Do you need the coolest and the most awesome platform to manage your project?! You
 									have walked to the right place!
 								</h4>
-								<button class="main_btn">Get Started</button>
+								{/* <button class="main_btn">Get Started</button>
 								<button class="outline_btn">Learn More</button>
 								<div class="social">
 									<button class="outline_btn">
@@ -59,40 +59,36 @@ class LandingPage extends Component {
 									<button class="main_btn">
 										<LinkedInIcon />
 									</button>
-								</div>
+								</div> */}
 							</div>
 							<div class="right_side">
 								<div></div>
 							</div>
 						</main>
-						<p class="show_more">
+						{/* <p class="show_more">
 							See how we help great companies with their works <i class="fa fa-play-circle-o"></i>
-						</p>
+						</p> */}
 
 						<section className="section">
 							<div class="item">
-								<button class="main_btn">
+								<button class="main_btn"
+								onClick={()=>this.props.history.push("/employers/login")}>
 									<WorkOutlineIcon />
 								</button>
-								<h5>Employer</h5>
-								<p>
-									Suspendisse in rhoncus mauris, non auctor nisi. Etiam tincidunt lorem eget orci
-									tempus malesuada.
-								</p>
+								<h5>Employer Login</h5>
+							
 							</div>
 							<div class="item">
-								<button class="main_btn second">
+								<button class="main_btn second"
+								onClick={()=>this.props.history.push("/candidates/login")}>
 									<SchoolIcon />
 								</button>
-								<h5>Candidate</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit duis dictum augue.</p>
+								<h5>Candidate Login</h5>
 							</div>
 							<div class="text_content">
-								<h2>Why choose us!</h2>
+								<h2>About us!</h2>
 								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque convallis sapien ac
-									arcu semper iaculis. Praesent eget ante quis. Duis dictum augue sit amet enim
-									condimentum efficitur.
+									Steves Jobs is a great bridge that helps in connecting highly skilled candidates and great employers.
 								</p>
 								<button class="outline_btn">Learn More</button>
 								<button class="outline_btn">

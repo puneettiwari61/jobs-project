@@ -93,7 +93,13 @@ module.exports = {
         .select("-password");
       GlobalSocket.io.on("connection", function(socket) {
         socket.on("disconnect", function() {
+          // GlobalSocket.io.emit("offline", { email: employer.email });
           console.log("client has disconnected from the chat." + socket.id);
+          // for (let i in socketId) {
+          //   if (socketId[i] == socket.id) {
+          //     return delete socketId[i];
+          //   }
+          // }
         });
         socket.on("join", function(data) {
           socketId[data.id] = socket.id;
@@ -295,6 +301,20 @@ module.exports = {
         skills: { $in: req.body.skills }
       }).populate("skills", "name");
       res.json({ success: true, candidates });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  getEmployerProfile: async (req, res) => {
+    try {
+      var employer = await Employer.findById(req.params.id)
+        .populate({
+          path: "jobs"
+        })
+        .lean();
+      delete employer["password"];
+      res.json({ success: true, employer });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });

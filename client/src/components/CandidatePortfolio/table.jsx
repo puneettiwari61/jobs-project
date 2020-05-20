@@ -73,100 +73,107 @@ function CollapsibleTable(props) {
 
             {/* <TableCell align="right">abc</TableCell>
 						<TableCell align="right">xyz</TableCell> */}
-
-					</TableRow>
-					<TableRow>
-						<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-							<Collapse in={open} timeout="auto" unmountOnExit>
-								<Box margin={1}>
-									<Typography variant="h6" gutterBottom component="div">
-										History
-									</Typography>
-									<List>
-										{(props.candidate.currentCandidate.education[0]) ?
-											props.candidate.currentCandidate.education.map((a) => {
-											return (<ListItem>
-														<ListItemAvatar>
-															<Avatar>
-																<EducationIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary={a.schoolOrCollege+","+a.branch} secondary={a.grade+','+" "+a.from} />
-													</ListItem>
-												)
-											}) : (
-											<></>
-										)}
-									</List>
-								</Box>
-							</Collapse>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell>
-							<IconButton aria-label="expand row" size="small" onClick={() => setOpen1(!open1)}>
-								{open1 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-							</IconButton>
-						</TableCell>
-						<TableCell component="th" scope="row">
-							Experience
-						</TableCell>
-						{/* <TableCell align="right">abc</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <Box margin={1}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    History
+                  </Typography>
+                  <List>
+                    {props.currentCandidate.education[0] ? (
+                      props.currentCandidate.education.map(a => {
+                        return (
+                          <ListItem>
+                            <ListItemAvatar>
+                              <Avatar>
+                                <EducationIcon />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={a.schoolOrCollege + "," + a.branch}
+                              secondary={a.grade + "," + " " + a.from}
+                            />
+                          </ListItem>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </List>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <IconButton
+                aria-label="expand row"
+                size="small"
+                onClick={() => setOpen1(!open1)}
+              >
+                {open1 ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              </IconButton>
+            </TableCell>
+            <TableCell component="th" scope="row">
+              Experience
+            </TableCell>
+            {/* <TableCell align="right">abc</TableCell>
 						<TableCell align="right">xyz</TableCell> */}
-					</TableRow>
-					<TableRow>
-						<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-							<Collapse in={open1} timeout="auto" unmountOnExit>
-								<Box margin={1}>
-									<Typography variant="h6" gutterBottom component="div">
-										History
-									</Typography>
-									<List>
-										{(props.candidate.currentCandidate.experience[0])?props.candidate.currentCandidate.experience.map((a) => {
-												return (
-													<ListItem>
-														<ListItemAvatar>
-															<Avatar>
-																<WorkIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText
-															primary={a.companyName}
-															secondary={
-																Math.abs(
-																	a.leavingDate.split('-')[1] -
-																		a.joiningDate.split('-')[1]
-																) > 1
-																	? Math.abs(
-																			a.leavingDate.split('-')[1] -
-																				a.joiningDate.split('-')[1]
-																	  ) + ' Months'
-																	: Math.abs(
-																			a.leavingDate.split('-')[1] -
-																				a.joiningDate.split('-')[1]
-																	  ) + ' Month'
-															}
-														/>
-													</ListItem>
-												);
-											}) : (
-											<></>
-										)}
-									</List>
-								</Box>
-							</Collapse>
-						</TableCell>
-					</TableRow>
-				</TableBody>
-			</Table>
-		</TableContainer>
-	);
-}
-function mapToProps({ candidate }) {
-  return { candidate };
+          </TableRow>
+          <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+              <Collapse in={open1} timeout="auto" unmountOnExit>
+                <Box margin={1}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    History
+                  </Typography>
+                  <List>
+                    {props.currentCandidate.experience[0] ? (
+                      props.currentCandidate.experience.map(a => {
+                        return (
+                          <ListItem>
+                            <ListItemAvatar>
+                              <Avatar>
+                                <WorkIcon />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={a.companyName}
+                              secondary={
+                                Math.abs(
+                                  a.leavingDate.split("-")[1] -
+                                    a.joiningDate.split("-")[1]
+                                ) > 1
+                                  ? Math.abs(
+                                      a.leavingDate.split("-")[1] -
+                                        a.joiningDate.split("-")[1]
+                                    ) + " Months"
+                                  : Math.abs(
+                                      a.leavingDate.split("-")[1] -
+                                        a.joiningDate.split("-")[1]
+                                    ) + " Month"
+                              }
+                            />
+                          </ListItem>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </List>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
-export default connect(mapToProps)(withRouter(CollapsibleTable));
+export default withRouter(CollapsibleTable);
 
 CollapsibleTable.propTypes = {
   classes: PropTypes.object.isRequired
