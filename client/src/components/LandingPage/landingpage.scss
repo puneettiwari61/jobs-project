@@ -20,7 +20,7 @@ html{
 .header {
 	display: flex;
 	flex-direction: row;
-	margin: 30px 10%;
+	margin: 40px 10%;
 	position: relative;
 }
 .header .logo {
@@ -41,6 +41,7 @@ html{
 	justify-content: space-around;
 	font-weight: 700;
 	color: #878787;
+	margin-top: -1rem;
 }
 .header ul li {
 	margin: 0 5px;
@@ -193,6 +194,7 @@ p.show_more i {
 	width: 40%;
 	border: 2px solid #ec6953;
 	border-radius: 25px;
+	margin: .5rem;
 }
 .section .item:hover {
 	border: 0;
@@ -311,6 +313,16 @@ p.show_more i {
 @media only screen and (max-width: 725px) {
 	.section .item {
 		width: 100%;
+	}
+	body {
+		font-size: 14px;
+	}
+	.right_side div {
+		width: 100%;
+		height: 50vh;
+		background-size: cover;
+		background-repeat: no-repeat;
+		margin: 5rem 0;
 	}
 }
 
@@ -682,4 +694,5 @@ p.show_more i {
 	.header-links__anchor {
 		display: none;
 	}
+
 }
