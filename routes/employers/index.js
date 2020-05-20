@@ -44,6 +44,12 @@ router.put(
   employersController.updateNotifications
 );
 
+router.post(
+  "/hired/jobs/candidates",
+  auth.verifyToken,
+  employersController.hireCandidates
+);
+
 //get all conversations
 router.get(
   "/chats/conversations",

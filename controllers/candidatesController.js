@@ -63,6 +63,10 @@ module.exports = {
           path: "jobsApplied",
           populate: { path: "employer" }
         })
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
+        })
         .lean({
           virtuals: true
         });
@@ -87,6 +91,10 @@ module.exports = {
           path: "jobsApplied",
           // Get friends of friends - populate the 'friends' array for every friend
           populate: { path: "employer" }
+        })
+        .populate({
+          path: "notifications",
+          options: { sort: { createdAt: -1 } }
         })
         .select("-password");
       GlobalSocket.io.on("connection", function(socket) {
@@ -320,7 +328,16 @@ module.exports = {
           },
           { new: true }
         )
-          .populate("jobsApplied")
+          .populate("skills", "name")
+          .populate({
+            path: "jobsApplied",
+            // Get friends of friends - populate the 'friends' array for every friend
+            populate: { path: "employer" }
+          })
+          .populate({
+            path: "notifications",
+            options: { sort: { createdAt: -1 } }
+          })
           .select("-password");
 
         console.log(req.body, "from apply jobs ");
@@ -398,6 +415,16 @@ module.exports = {
           populate: { path: "employerId" },
           options: { sort: { createdAt: 1 } }
         });
+
+      // GlobalSocket.io.emit("message", {
+      //   message: "You have unread Messages",
+      //   employerId: req.params.receiverid
+      // });
+      // var notification = await Notification.create({
+      //   notification: "You have unread Messages",
+      //   userType: "employer",
+      //   employer: req.params.receiverid
+      // });
 
       var msg = {
         conversation

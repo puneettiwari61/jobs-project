@@ -248,13 +248,6 @@ module.exports = {
         .to(socketId[req.params.receiverid])
         .emit("chat", msg);
 
-      // GlobalSocket.io.emit("chat", msg);
-
-      // GlobalSocket.io.on("received", receivedMsg =>
-      //   console.log(receivedMsg, "from back socket ")
-      // );
-      // console.log(conversation, "from employer convo");
-
       res.json({ success: true, conversation });
     } catch (err) {
       console.log(err);
@@ -315,6 +308,42 @@ module.exports = {
         .lean();
       delete employer["password"];
       res.json({ success: true, employer });
+    } catch (err) {
+      console.log(err);
+      res.json({ success: false, err });
+    }
+  },
+  hireCandidates: async (req, res) => {
+    try {
+      var job = await Job.findByIdAndUpdate(
+        req.body.jobId,
+        {
+          $addToSet: { hiredCandidates: req.body._id }
+        },
+        { new: true }
+      )
+        .populate("employer")
+        .populate({
+          path: "applicants",
+          populate: { path: "candidate", populate: { path: "skills" } }
+        });
+
+      var msg = {
+        message: `You are selected for  ${job.title} `,
+        candidateId: req.body._id
+      };
+      GlobalSocket.io.emit("message", msg);
+      var notification = await Notification.create({
+        notification: msg.message,
+        userType: "candidate",
+        candidate: req.body._id
+      });
+      var candidate = await Candidate.findByIdAndUpdate(
+        req.body._id,
+        { $push: { notifications: notification._id } },
+        { new: true }
+      );
+      res.json({ success: true, job });
     } catch (err) {
       console.log(err);
       res.json({ success: false, err });
