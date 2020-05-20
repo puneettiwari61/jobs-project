@@ -22,6 +22,7 @@ import Notifications from "./Notifications";
 import Messages from "./Messages";
 import { connect } from "react-redux";
 import AppliedCandidates from "./AppliedCandidates";
+import MessagesInfo from "./MessagesInfo";
 
 const drawerWidth = 240;
 
@@ -135,10 +136,13 @@ function EmployersDashoard(props) {
             path="/employers/dashboard/notifications"
             component={Notifications}
           />
-
           <Route
             path="/employers/dashboard/messages/:receiverId"
             component={Messages}
+          />
+          <Route
+            path="/employers/dashboard/messages"
+            component={MessagesInfo}
           />
         </Switch>
       </main>

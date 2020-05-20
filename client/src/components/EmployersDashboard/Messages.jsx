@@ -6,6 +6,7 @@ import io from "socket.io-client";
 import { css } from "glamor";
 import ScrollToBottom from "react-scroll-to-bottom";
 import ChatApp from "../ChatApp/ChatApp";
+import { Button, Paper, Grid } from "@material-ui/core";
 
 let socket = io();
 const ROOT_CSS = css({
@@ -28,6 +29,9 @@ class Messages extends Component {
   }
 
   componentDidMount() {
+    if (this.props.match.params.receiverId) {
+      this.setState({ activeChat: false });
+    }
     // socket.connect();
 
     // socket.on("connection", function() {
@@ -37,13 +41,18 @@ class Messages extends Component {
       console.log(msg, "from socket cdm");
       this.setState({ messages: msg.conversation.messages });
     });
+
     Axios.get(
       `/api/v1/employers/chats/${this.props.employer.currentEmployer._id}/messages/${this.props.match.params.receiverId}`
     )
       .then(res => {
         console.log(res, "from client messages");
         this.setState({
-          messages: res.data.conversation && res.data.conversation.messages
+          messages: res.data.conversation && res.data.conversation.messages,
+          name:
+            res.data.conversation.messages[0].candidateId.firstName +
+            " " +
+            res.data.conversation.messages[0].candidateId.lastName
         });
       })
       .catch(err => console.log(err));
@@ -70,7 +79,14 @@ class Messages extends Component {
       )
         .then(res => {
           console.log(res, "message created success");
-          this.setState({ messages: res.data.conversation.messages, text: "" });
+          this.setState({
+            messages: res.data.conversation.messages,
+            text: "",
+            name:
+              res.data.conversation.messages[0].candidateId.firstName +
+              " " +
+              res.data.conversation.messages[0].candidateId.lastName
+          });
           // socket.emit("received", this.state.text);
         })
         .catch(err => console.log(err, "message created failed"));
@@ -97,6 +113,19 @@ class Messages extends Component {
   render() {
     return (
       <>
+        <h3>Recent Conversations</h3>
+        {this.state.conversations.map(c => {
+          return (
+            <Grid sm={6}>
+              <Button
+                href={`/employers/dashboard/messages/${c.candidateId._id}`}
+                color="secondary"
+              >
+                {c.candidateId.firstName + " " + c.candidateId.lastName}
+              </Button>
+            </Grid>
+          );
+        })}
         <div class="chat_group">
           <div class="main-container">
             <div
