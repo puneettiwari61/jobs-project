@@ -75,6 +75,23 @@ module.exports = {
       if (!candidate.verifyPassword(req.body.password)) {
         return res.json({ success: false, msg: "incorrect password" });
       }
+
+      GlobalSocket.io.on("connection", function(socket) {
+        socket.on("disconnect", function() {
+          // for (let i in socketId) {
+          //   if (socketId[i] == socket.id) {
+          //     return delete socketId[i];
+          //   }
+          // }
+          // GlobalSocket.io.emit("offline", { email: candidate.email });
+          console.log("client has disconnected from the chat." + socket.id);
+        });
+        socket.on("join", function(data) {
+          // socket.join(data.email);
+          socketId[data.id] = socket.id;
+          console.log(socket.id, socketId, "from socket connection");
+        });
+      });
       var token = await auth.generateJWT(candidate);
       delete candidate["password"];
       res.json({ success: true, candidate, token });

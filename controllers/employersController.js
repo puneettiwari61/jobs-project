@@ -65,11 +65,28 @@ module.exports = {
         .lean({
           virtuals: true
         });
+
       if (!employer)
         return res.json({ success: false, msg: "incorrect credentials" });
       if (!employer.verifyPassword(req.body.password)) {
         return res.json({ success: false, msg: "incorrect password" });
       }
+
+      GlobalSocket.io.on("connection", function(socket) {
+        socket.on("disconnect", function() {
+          // GlobalSocket.io.emit("offline", { email: employer.email });
+          console.log("client has disconnected from the chat." + socket.id);
+          // for (let i in socketId) {
+          //   if (socketId[i] == socket.id) {
+          //     return delete socketId[i];
+          //   }
+          // }
+        });
+        socket.on("join", function(data) {
+          socketId[data.id] = socket.id;
+          console.log(socket.id, socketId, data, "from socket connection");
+        });
+      });
       var token = await auth.generateJWT(employer);
       delete employer["password"];
       res.json({ success: true, employer, token });
