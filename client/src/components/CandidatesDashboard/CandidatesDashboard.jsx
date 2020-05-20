@@ -21,6 +21,7 @@ import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import Notifications from "./Notifications";
 import Messages from "./Messages";
 import { connect } from "react-redux";
+import MessagesInfo from "./MessagesInfo";
 
 const drawerWidth = 240;
 
@@ -133,7 +134,11 @@ function CandidatesDashoard(props) {
           />
           <Route
             path="/candidates/dashboard/messages/:receiverId"
-            render ={ () => <Messages date="createdAt" />}
+            render={() => <Messages date="createdAt" />}
+          />
+          <Route
+            path="/candidates/dashboard/messages"
+            component={MessagesInfo}
           />
         </Switch>
       </main>
