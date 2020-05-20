@@ -190,7 +190,7 @@ class Messages extends Component {
                     })
                   }
                 >
-                  Messages
+                  Messages ↺
                 </span>
                 <ScrollToBottom
                   className={ROOT_CSS}
