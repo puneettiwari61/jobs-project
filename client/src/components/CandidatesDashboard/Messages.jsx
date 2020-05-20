@@ -182,6 +182,7 @@ class Messages extends Component {
             ) : (
               <div className={this.state.active ? "block" : "none"}>
                 <span
+                className="messages"
                   onClick={() =>
                     this.setState({
                       activeChat: !this.state.activeChat,
@@ -189,7 +190,7 @@ class Messages extends Component {
                     })
                   }
                 >
-                  back
+                  Messages
                 </span>
                 <ScrollToBottom
                   className={ROOT_CSS}
@@ -197,7 +198,7 @@ class Messages extends Component {
                   scrollViewClassName="message-container"
                 >
                   {this.state.messages ? (
-                    this.state.messages.map(a => {
+                    this.state.messages.map((a,c,d) => {
                       if (
                         `${new Date(a.createdAt)}`.substr(4, 11) ==
                         `${new Date()}`.substr(4, 11)

@@ -113,18 +113,27 @@ p.show_more i {
 	letter-spacing: 1px;
 	border-radius: 30px;
 }
+.main_btn:hover {
+	border: 2px solid #ec6953;
+	background: none;
+	color: #ec6953;
+}
 .main_btn.second {
 	background: #e38959;
 }
 .outline_btn {
 	border: 2px solid #ec6953;
+	border-radius: 25px;
 	outline: none;
 	cursor: pointer;
 	background: none;
 	color: #ec6953;
 	position: relative;
 	letter-spacing: 1px;
-	border-radius: 25px;
+}
+.outline_btn:hover {
+	background: #ec6953;
+	color: white;
 }
 .right_side {
 	width: 55%;
@@ -177,17 +186,25 @@ p.show_more i {
 	margin: 150px 10%;
 }
 .section .item {
-	-webkit-box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.25);
-	-moz-box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.25);
-	box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.25);
 	margin-right: 25px;
 	padding: 40px 30px;
 	width: 40%;
+	border: 2px solid #ec6953;
+	border-radius: 25px;
+}
+.section .item:hover {
+	border: 0;
+	border-radius: 25px;
+	-webkit-box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.25);
+	box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.25);
 }
 .section .item button {
 	padding: 20px;
 	border-radius: 40px;
 	font-size: 20px;
+}
+.section .item button:hover {
 	-webkit-box-shadow: 0px 0px 30px 0px rgba(236, 105, 83, 0.9);
 	-moz-box-shadow: 0px 0px 30px 0px rgba(236, 105, 83, 0.9);
 	box-shadow: 0px 0px 30px 0px rgba(236, 105, 83, 0.9);
