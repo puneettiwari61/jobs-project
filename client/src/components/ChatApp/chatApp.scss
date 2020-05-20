@@ -40,7 +40,7 @@
 	justify-content: center;
 	margin: 0px 0 0 0;
 	width: 18rem;
-	max-height:60vh;
+	max-height: 60vh;
 }
 
 .head-container {
@@ -73,9 +73,8 @@
 	flex-direction: column;
 	padding: 25px 25px 0 25px;
 	overflow-y: scroll;
-	width:18rem;
+	width: 18rem;
 }
-
 
 .message-container::-webkit-scrollbar {
 	display: none;
@@ -229,6 +228,14 @@
 	border-radius: 50%;
 	height: 3rem;
 	width: 3rem;
+}
+.css-1qyrjaz {
+	background-image: url('https://png2.cleanpng.com/sh/2146169e4da32176c2029c45ada06509/L0KzQYm3VMAzN6R1j5H0aYP2gLBuTfNwdaF6jNd7LXnmf7B6TfRzd6EyfNHCbj3vecT7TgRzcZJzf95uLXTyh7A0ggJzd6gyTdNsMnO6RbXoWfQ4PGYzSKQCNke8QoO4VcIzP2I5TKg6Nkm4R3B3jvc=/kisspng-computer-icons-drop-down-list-triangle-down-arrow-5ac2c75da9d745.0276792215227144616957.png');
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-attachment: initial;
+	margin-right: 40%;
 }
 .none {
 	display: none;
