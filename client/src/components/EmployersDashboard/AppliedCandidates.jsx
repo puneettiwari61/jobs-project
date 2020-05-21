@@ -41,7 +41,8 @@ class AppliedCandidates extends React.Component {
       job: null,
       skillsData: [],
       skills: null,
-      filteredCanidates: null
+      filteredCanidates: null,
+      hired: false
     };
   }
 
@@ -95,7 +96,10 @@ class AppliedCandidates extends React.Component {
     // }
   };
 
+  hire = React.createRef("");
+
   handleHire = _id => {
+    console.log(this.hire.current);
     Axios.post(
       "/api/v1/employers/hired/jobs/candidates",
       {
@@ -107,11 +111,8 @@ class AppliedCandidates extends React.Component {
       }
     )
       .then(res => {
-        // this.setState({
-        //   filteredJobs: res.data.jobs.length === "0" ? [] : res.data.candidates
-        // });
+        this.hire.current.innerText = "Hired";
 
-        // this.setState({ filteredCanidates: res.data.candidates });
         console.log("hred", this.state, res.data);
       })
       .catch(err => console.log(err));
@@ -227,6 +228,7 @@ class AppliedCandidates extends React.Component {
                         variant="contained"
                         size="medium"
                         className={classes.hireButton}
+                        ref={this.hire}
                       >
                         Hire {c.candidate.firstName}
                       </Button>
@@ -292,7 +294,7 @@ class AppliedCandidates extends React.Component {
                     {this.state.job.hiredCandidates.includes(c._id) ? (
                       <span
                         style={{
-                          color: "yellow",
+                          color: "#53d4e9",
                           fontSize: "1.2rem",
                           marginLeft: "2rem"
                         }}
@@ -301,7 +303,7 @@ class AppliedCandidates extends React.Component {
                       </span>
                     ) : (
                       <Button
-                        onClick={() => this.handleHire(c.candidate._id)}
+                        onClick={() => this.handleHire(c._id)}
                         variant="contained"
                         size="medium"
                         className={classes.hireButton}
