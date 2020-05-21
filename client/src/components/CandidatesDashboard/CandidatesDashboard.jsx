@@ -22,6 +22,8 @@ import Notifications from "./Notifications";
 import Messages from "./Messages";
 import { connect } from "react-redux";
 import MessagesInfo from "./MessagesInfo";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const drawerWidth = 240;
 
@@ -58,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 
 function CandidatesDashoard(props) {
   const classes = useStyles();
-
+  const [open, setOpen] = React.useState(true);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -74,7 +76,8 @@ function CandidatesDashoard(props) {
         variant="permanent"
         classes={{
           paper: classes.drawerPaper
-        }}
+        }} 
+        style={{display:open?'block':"none"}}
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
@@ -122,6 +125,7 @@ function CandidatesDashoard(props) {
           </List> */}
         </div>
       </Drawer>
+      {!open?<ArrowForwardIosIcon onClick={() => setOpen(!open)}/>:<ArrowBackIosIcon onClick={() => setOpen(!open)}/>}
       <main className={classes.content}>
         {/* <Toolbar /> */}
         {/* <h1>Welcome to dashboard</h1> */}

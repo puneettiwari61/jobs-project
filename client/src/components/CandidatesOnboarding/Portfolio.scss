@@ -5,7 +5,7 @@
 	margin-bottom: -10.5rem;
 	color: #999;
 	text-transform: uppercase;
-	font-size: 25px;
+	font-size: 20px;
 	font-weight: bold;
 	position: relative;
 	width: 100%;
@@ -68,6 +68,9 @@
 		margin-top: -270px;
 	}
 }
+#flip {
+    display: none;
+}
 @media only screen and (max-width: 725px) {
 	.MuiStepLabel-labelContainer span {
 		margin-top: 1rem !important;
@@ -76,7 +79,28 @@
 		position: absolute !important;
 		font-size: 0.6rem !important;
 	}
-	#container {
-		display: none;
+	
+	// .makeStyles-drawer-287 {
+	//     display: none !important;
+	// }
+	.makeStyles-h1-335 {
+		padding-top: 0 !important;
 	}
+	.MuiButton-label {
+		font-size: 0.5rem;
+	}
+	.MuiToolbar-gutters {
+		height: 3rem;
+	}
+	.MuiSvgIcon-root {
+		display: block !important;
+    }
+    .MuiIconButton-label{
+        display: inline !important;
+    }
+    .MuiTypography-h6{
+        font-size: .7rem !important;
+    }
+    
+    
 }

@@ -120,21 +120,9 @@ class Messages extends Component {
     }
   };
 
-  filterMessagesByDate = () => {
-    const { date } = this.props;
-    let messages = this.state.messages;
-    messages.reduce((acc, msg) => {
-      let parsedDate = new Date(msg[date]).toDateString();
-      console.log(parsedDate);
-      acc[parsedDate] = acc[parsedDate] || [];
-      acc[parsedDate].push(msg);
-      console.log(acc);
-      return acc;
-    }, {});
-  };
+  
 
   render() {
-    console.log(this.state.messages && this.filterMessagesByDate());
     return (
       <>
         <h3>Recent Conversations</h3>
