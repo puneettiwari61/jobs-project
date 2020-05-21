@@ -185,6 +185,9 @@ input: classes.inputInput
                   <MenuItem onClick={this.handleClose}>
                     <Link href="/employers/dashboard/Profile">Dashboard</Link>
                   </MenuItem>
+                  <MenuItem onClick={this.handleClose}>
+                    <Link href="/employers/postJobs">Post Jobs</Link>
+                  </MenuItem>
                 </>
               ) : this.props.currentCandidate ? (
                 <>
@@ -193,6 +196,9 @@ input: classes.inputInput
                   </MenuItem>
                   <MenuItem onClick={this.handleClose}>
                     <Link href="/candidates/dashboard/Profile">Dashboard</Link>
+                  </MenuItem>
+                  <MenuItem onClick={this.handleClose}>
+                    <Link href="/candidates/jobs">Browse Jobs</Link>
                   </MenuItem>
                 </>
               ) : (

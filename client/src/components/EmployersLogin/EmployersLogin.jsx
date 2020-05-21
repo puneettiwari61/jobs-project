@@ -69,7 +69,7 @@ class EmployersLogin extends Component {
       .dispatch(employersLogin(this.state))
       .then(data => {
         if (data.success)
-          return this.props.history.push("/employers/dashboard");
+          return this.props.history.push("/employers/dashboard/profile");
         this.setState({ msg: data.msg });
       })
       .catch(err => {
