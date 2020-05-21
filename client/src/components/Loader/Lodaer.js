@@ -23,7 +23,7 @@ export default class AwesomeComponent extends React.Component {
         <HashLoader
           css={override}
           size={90}
-          color={"#123abc"}
+          color={"#ec6953"}
           loading={this.state.loading}
         />
       </div>

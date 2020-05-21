@@ -14,6 +14,7 @@ import CandidatesEducation from "./CandidatesEducation";
 import CandidatesExperience from "./CandidatesExperience";
 import CandidatesSkills from "./CandidatesSkills";
 import CandidatesBasicInfo from "./CandidatesBasicInfo";
+import "./Portfolio.scss"
 
 function Copyright() {
   return (
@@ -98,8 +99,18 @@ function Checkout(props) {
   return (
     <React.Fragment>
       <CssBaseline />
+      <div id="container">
+  <span>Welcome  {props.candidate.currentCandidate.firstName}</span>
+
+  <div id="flip">
+    <div><div>Education</div></div>
+    <div><div>Experience</div></div>
+    <div><div>Skills</div></div>
+  </div>
+  
+</div>
       <main className={classes.layout}>
-        <h1>Welcome{" " + props.candidate.currentCandidate.firstName}</h1>
+      
         <Paper className={classes.paper}>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
