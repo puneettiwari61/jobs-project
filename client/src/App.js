@@ -27,6 +27,8 @@ import ShowJobs from "./components/Jobs/ShowJobs";
 import SingleJob from "./components/Jobs/SingleJob";
 import CandidatesDashboard from "./components/CandidatesDashboard/CandidatesDashboard";
 import EmployersDashboard from "./components/EmployersDashboard/EmployersDashboard";
+import Jobs from "./components/Common/Jobs";
+import SingleJobs from "./components/Common/SingleJobs";
 
 function PublicRoutes(props) {
   return (
@@ -34,6 +36,12 @@ function PublicRoutes(props) {
       <Header />
       <Switch>
         <Route path="/" exact component={LandingPage} />
+        <Route path="/jobs/:slug">
+          <SingleJobs />
+        </Route>
+        <Route path="/jobs">
+          <Jobs />
+        </Route>
         <Route path="/candidates/signup">
           <CandidatesSignUp />
         </Route>
@@ -78,6 +86,7 @@ function PrivateRoutes(props) {
           <Route path="/" exact>
             <LandingPage />
           </Route>
+
           <Route path="/candidates/profile">
             <CandidatesProfile />
           </Route>

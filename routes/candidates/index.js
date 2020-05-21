@@ -88,6 +88,6 @@ router.get(
 );
 
 //skills route
-router.use("/skills", auth.verifyToken, skillsRouter);
+router.use("/skills", skillsRouter);
 
 module.exports = router;
