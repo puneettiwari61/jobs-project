@@ -31,9 +31,9 @@ router.post(
 //jobs post route
 router.post("/jobs", auth.verifyToken, employersController.postJob);
 //get single job
-router.get("/jobs/:slug", auth.verifyToken, employersController.getSingleJob);
+router.get("/jobs/:slug", employersController.getSingleJob);
 //get all jobs
-router.get("/jobs", auth.verifyToken, employersController.getJobs);
+router.get("/jobs", employersController.getJobs);
 // delete job
 router.delete("/jobs/:id", auth.verifyToken, employersController.deleteJob);
 

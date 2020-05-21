@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var auth = require("../../modules/auth");
 
 var candidatesController = require("../../controllers/candidatesController");
 
@@ -7,9 +8,9 @@ var candidatesController = require("../../controllers/candidatesController");
 router.post("/jobs", candidatesController.filterJobs);
 
 //add skills
-router.post("/", candidatesController.addSkills);
+router.post("/", auth.verifyToken, candidatesController.addSkills);
 
-router.put("/delete", candidatesController.deleteSkills);
+router.put("/delete", auth.verifyToken, candidatesController.deleteSkills);
 
 // fetch all skills
 router.get("/", candidatesController.getSkills);
