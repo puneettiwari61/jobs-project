@@ -66,6 +66,11 @@ class LandingPage extends Component {
                           .split("county")[1]
                           .split(",")[0].length - 4
                       )}`
+                      // `${this.state.address.request.response
+                      //   .split("state_district")[1].substr(3).split(',')[0].substr(0,this.state.address.request.response
+                      //     .split("state_district")[1].substr(3).split(',')[0].length-1)
+                        
+                      //   }`
                   : "Location"}
               </div>
               <ul>
