@@ -98,52 +98,67 @@ class ImgMediaCard extends React.Component {
 
     return (
       <>
-        <Container component="main" className={classes.box}>
-          <Box>
-            <Paper className={classes.paperComponent}>
-              <Grid item xs={12} className={classes.root}>
-                <Select
-                  isMulti
-                  name="skills"
-                  options={this.state.skillsData.map(a => {
-                    return {
-                      value: `${a._id}`,
-                      label: `${a.name}`
-                    };
-                  })}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                  onChange={e => this.setState({ skills: e })}
-                />
-                <Button onClick={this.handleFilter} variant="outlined">
-                  Filter
-                </Button>
-                <Button onClick={this.showAll} variant="outlined">
-                  Show All
-                </Button>
+      <Container component="main" className={classes.box}>
+        <Box>
+          <Paper className={classes.paperComponent}>
+            {this.state.filteredJobs && this.state.filteredJobs.length == 0 ? (
+              <h5 style={{ textAlign: 'center' }}>No results</h5>
+            ) : this.state.filteredJobs && this.state.filteredJobs.length > 0 ? (
+              <h5 style={{ textAlign: 'center' }}>
+                {this.state.filteredJobs.length}{' '}
+                {this.state.filteredJobs.length == 1 ? 'result' : 'results'}
+              </h5>
+            ) : (
+              <h5 style={{ textAlign: 'center' }}>
+                {this.state.jobs.length} {this.state.jobs.length == 1 ? 'result' : 'results'}
+              </h5>
+            )}
+
+            <Grid item xs={12} className={classes.root}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={8}>
+                  <Select
+                    isMulti
+                    name="skills"
+                    options={this.state.skillsData.map((a) => {
+                      return {
+                        value: `${a._id}`,
+                        label: `${a.name}`,
+                      };
+                    })}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={(e) => this.setState({ skills: e })}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button onClick={this.handleFilter} variant="outlined">
+                    Search
+                  </Button>
+                  <Button onClick={this.showAll} variant="outlined">
+                    Show All
+                  </Button>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
                 {!this.state.filteredJobs
-                  ? this.state.jobs.map(job =>
+                  ? this.state.jobs.map((job) =>
                       job ? (
-                        <Card className={classes.card}>
+                        <Grid item xs={12} sm={6}>
                           <CardActionArea>
                             <CardContent
                               onClick={() =>
-                                this.props.history.push(
-                                  `/candidates/jobs/${job.slug}`
-                                )
+                                this.props.history.push(`/candidates/jobs/${job.slug}`)
                               }
                             >
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                              >
+                              <Typography gutterBottom variant="h5" component="h2">
                                 {job.title}
                                 {/* {job.slug} */}
                               </Typography>
                               {/* <Typography gutterBottom variant="h5" component="h2">
-                          {job.employer.company.companyLogo}
-                        </Typography> */}
+                        {job.employer.company.companyLogo}
+                      </Typography> */}
                               <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
@@ -157,8 +172,8 @@ class ImgMediaCard extends React.Component {
                                 component="p"
                               >
                                 {/* Lizards are a widespread group of squamate
-                                reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica */}
+                              reptiles, with over 6,000 species, ranging
+                              across all continents except Antarctica */}
                               </Typography>
                             </CardContent>
                           </CardActionArea>
@@ -167,51 +182,35 @@ class ImgMediaCard extends React.Component {
                               size="small"
                               color="primary"
                               onClick={() =>
-                                this.props.history.push(
-                                  `/candidates/jobs/${job.slug}`
-                                )
+                                this.props.history.push(`/candidates/jobs/${job.slug}`)
                               }
                             >
                               Details
                             </Button>
-                            {job.hiredCandidates.includes(
-                              this.props.candidate.currentCandidate._id
-                            ) ? (
-                              <span>Already Applied</span>
-                            ) : (
-                              ""
-                            )}
-
                             {/* <Button size="small" color="primary">
-                              Apply
-                            </Button> */}
+                            Apply
+                          </Button> */}
                           </CardActions>
-                        </Card>
+                        </Grid>
                       ) : (
-                        ""
+                        ''
                       )
                     )
-                  : this.state.filteredJobs.map(job =>
+                  : this.state.filteredJobs.map((job) =>
                       job ? (
-                        <Card className={classes.card}>
+                        <Grid item xs={12} sm={6}>
                           <CardActionArea>
                             <CardContent
                               onClick={() =>
-                                this.props.history.push(
-                                  `/candidates/jobs/${job.slug}`
-                                )
+                                this.props.history.push(`/candidates/jobs/${job.slug}`)
                               }
                             >
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                              >
+                              <Typography gutterBottom variant="h5" component="h2">
                                 {job.title}
                               </Typography>
                               {/* <Typography gutterBottom variant="h5" component="h2">
-                          {job.employer.company.companyLogo}
-                        </Typography> */}
+                        {job.employer.company.companyLogo}
+                      </Typography> */}
                               <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
@@ -224,9 +223,9 @@ class ImgMediaCard extends React.Component {
                                 color="textSecondary"
                                 component="p"
                               >
-                                Lizards are a widespread group of squamate
-                                reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
+                                Lizards are a widespread group of squamate reptiles,
+                                with over 6,000 species, ranging across all
+                                continents except Antarctica
                               </Typography>
                             </CardContent>
                           </CardActionArea>
@@ -235,27 +234,26 @@ class ImgMediaCard extends React.Component {
                               size="small"
                               color="primary"
                               onClick={() =>
-                                this.props.history.push(
-                                  `/candidates/jobs/${job.slug}`
-                                )
+                                this.props.history.push(`/candidates/jobs/${job.slug}`)
                               }
                             >
                               Details
                             </Button>
                             {/* <Button size="small" color="primary">
-                              Apply
-                            </Button> */}
+                            Apply
+                          </Button> */}
                           </CardActions>
-                        </Card>
+                        </Grid>
                       ) : (
-                        ""
+                        ''
                       )
                     )}
               </Grid>
-            </Paper>
-          </Box>
-        </Container>
-      </>
+            </Grid>
+          </Paper>
+        </Box>
+      </Container>
+    </>
     );
   }
 }
