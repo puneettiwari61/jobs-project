@@ -94,7 +94,10 @@ class Jobs extends React.Component {
         <Container component="main" className={classes.box}>
           <Box>
             <Paper className={classes.paperComponent}>
+              
               <Grid item xs={12} className={classes.root}>
+              <Grid container spacing={3}>
+              <Grid item xs={12} sm={8}>
                 <Select
                   isMulti
                   name="skills"
@@ -108,16 +111,22 @@ class Jobs extends React.Component {
                   classNamePrefix="select"
                   onChange={e => this.setState({ skills: e })}
                 />
+                </Grid>
+              <Grid item xs={12} sm={4}>
                 <Button onClick={this.handleFilter} variant="outlined">
                   Filter
                 </Button>
                 <Button onClick={this.showAll} variant="outlined">
                   Show All
                 </Button>
+                </Grid>
+                </Grid>
+                <Grid container spacing={3}>
                 {!this.state.filteredJobs
                   ? this.state.jobs.map(job =>
                       job ? (
-                        <Card className={classes.card}>
+              <Grid item xs={12} sm={6}>
+                     
                           <CardActionArea>
                             <CardContent
                               onClick={() =>
@@ -167,14 +176,15 @@ class Jobs extends React.Component {
                               Apply
                             </Button> */}
                           </CardActions>
-                        </Card>
+                       
+                        </Grid>
                       ) : (
                         ""
                       )
                     )
                   : this.state.filteredJobs.map(job =>
                       job ? (
-                        <Card className={classes.card}>
+                        <Grid item xs={12} sm={6}>
                           <CardActionArea>
                             <CardContent
                               onClick={() =>
@@ -223,11 +233,12 @@ class Jobs extends React.Component {
                               Apply
                             </Button> */}
                           </CardActions>
-                        </Card>
+                        </Grid>
                       ) : (
                         ""
                       )
                     )}
+              </Grid>
               </Grid>
             </Paper>
           </Box>
